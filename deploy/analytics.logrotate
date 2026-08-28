@@ -5,12 +5,17 @@
 # this log exists to answer: a term searched twice in six weeks is a pattern,
 # and at 14 days it reads as noise. 90 days compressed is a few megabytes.
 #
-# The size cap is the second line of defence against a scripted endpoint —
-# rate limiting is the first, and neither one should be the only one.
+# The cap is the second line of defence against a scripted endpoint — rate
+# limiting is the first, and neither should be the only one. It has to be
+# `maxsize`, not `size`: `size` REPLACES `daily` rather than adding to it, so
+# the rule would rotate on volume alone, `rotate 90` would mean ninety files
+# instead of ninety days, and a quiet month would sit in one unrotated file.
+# logrotate says so — `warning: 'size' overrides previously specified 'daily'`
+# — in the dry-run output that install-analytics.sh now reads.
 /var/log/sifter/*.log {
     daily
     rotate 90
-    size 20M
+    maxsize 20M
     missingok
     notifempty
     compress

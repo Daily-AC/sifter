@@ -295,13 +295,14 @@ localStorage.setItem('sifter:no-analytics', '1')
 ## Development
 
 ```sh
-npm test        # 24 regression tests, no network
+npm test        # 38 regression tests, no network
 ```
 
-Every test in there is a mistake this pipeline actually made against real
+Every test in there is a mistake this project actually made against real
 data, and every one of them was silent — a live site marked dead, a French
 description truncated at an apostrophe, a whole post's worth of streaming
-mirrors queued for publication.
+mirrors queued for publication, a report announcing that no search led
+anywhere while the log plainly held the click.
 
 ## License
 
