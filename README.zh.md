@@ -64,7 +64,7 @@ sifter 的每一行都是推导出来的，所以这些不会累积。
 ## 安装
 
 ```sh
-npx github:Daily-AC/sifter search "design inspiration"    # 什么都不用装
+npx @z10/sifter search "design inspiration"    # 什么都不用装
 ```
 
 这在一台干净机器上就能跑：仓库自带一份已验活的索引，所以你敲的第一条命令就有
@@ -138,7 +138,7 @@ API，没有任何要配的东西。交叉印证数、star 数和存活状态会
   "mcpServers": {
     "sifter": {
       "command": "npx",
-      "args": ["-y", "--package=github:Daily-AC/sifter", "sifter-mcp"],
+      "args": ["-y", "--package=@z10/sifter", "sifter-mcp"],
       "env": { "SIFTER_DB": "/path/to/your/resources.jsonl" }
     }
   }

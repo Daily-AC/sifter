@@ -6,7 +6,7 @@ description: Search a curated, liveness-checked index of resource websites — d
 # sifter
 
 Invoke as `sifter` if it is on PATH, otherwise `node <repo>/bin/sifter.mjs`
-or `npx -y github:Daily-AC/sifter`. All three take the same arguments.
+or `npx -y @z10/sifter`. All three take the same arguments.
 
 A local index of resource websites that has already been deduplicated,
 verified reachable, and described in each site's own words. Query it before
