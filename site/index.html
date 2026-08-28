@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>sifter — a searchable index of resource sites</title>
+<meta name="description" content="Resource posts scatter good links and then rot. sifter collapses them into one deduplicated, liveness-checked index your AI agent can search over MCP.">
+<meta property="og:title" content="sifter — a searchable index of resource sites">
+<meta property="og:description" content="Deduplicated, liveness-checked, described in each site's own words, and searchable by an agent over MCP.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07080a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23121212'/><g stroke='%23f4f4f6' stroke-width='2.2' fill='none' stroke-linecap='round'><path d='M7 10h18M9.5 16h13M12.5 22h7'/></g></svg>">
+<style>
+:root{
+  --canvas:#07080a; --surface:#0d0d0d; --elevated:#101111; --card:#121212;
+  --ink:#f4f4f6; --body:#cdcdcd; --mute:#9c9c9d; --ash:#6a6b6c; --stone:#434345;
+  --hairline:#242728; --hairline-soft:rgba(255,255,255,.08); --hairline-strong:rgba(255,255,255,.16);
+  --primary:#fff; --on-primary:#000; --primary-pressed:#e8e8e8;
+  --blue:#57c1ff; --green:#59d499; --yellow:#ffc533; --red:#ff6161;
+  --stripe-a:#ff5757; --stripe-b:#a1131a;
+  --r-sm:6px; --r:8px; --r-lg:10px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-6:24px; --sp-8:32px; --section:96px;
+  --font:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --wrap:1080px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--canvas); color:var(--body);
+  font-family:var(--font); font-feature-settings:"calt","kern","liga","ss03";
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+::selection{background:rgba(255,255,255,.18)}
+:focus-visible{outline:2px solid var(--hairline-strong); outline-offset:2px; border-radius:var(--r-sm)}
+
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 24px}
+.rule{height:1px; background:var(--hairline); border:0; margin:0}
+
+/* The one stripe. Never repeated below the hero — that restraint is the system. */
+.stripe{height:3px; background:linear-gradient(90deg,var(--stripe-b),var(--stripe-a) 42%,var(--stripe-a) 58%,var(--stripe-b))}
+
+/* ─── nav ─── */
+.nav{position:sticky; top:0; z-index:50; background:rgba(7,8,10,.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--hairline)}
+.nav-in{display:flex; align-items:center; gap:var(--sp-6); height:56px}
+.mark{display:flex; align-items:center; gap:10px; font-weight:600; color:var(--ink); text-decoration:none; letter-spacing:-.01em}
+.mark svg{display:block}
+.nav-sp{flex:1}
+.nav a.lnk{position:relative; color:var(--mute); text-decoration:none; font-size:14px; transition:color .15s; display:inline-flex; align-items:center; min-height:36px}
+.nav a.lnk:hover{color:var(--ink)}
+@media(max-width:640px){.nav a.lnk.opt{display:none}}
+
+/* ─── hero ─── */
+.hero{padding:44px 0 32px}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1.18fr) minmax(0,1fr); gap:44px; align-items:center}
+@media(max-width:1020px){.hero-grid{grid-template-columns:1fr; gap:32px} .term{display:none}}
+
+/* Product chrome at marketing scale — the same surface ladder as the palette. */
+.term{background:var(--card); border:1px solid var(--hairline); border-radius:var(--r-lg); overflow:hidden}
+.term-bar{display:flex; gap:6px; padding:11px 13px; border-bottom:1px solid var(--hairline); background:var(--elevated)}
+.term-bar span{width:9px; height:9px; border-radius:50%; background:var(--stone)}
+.term-body{margin:0; padding:16px 18px; background:transparent; border:0; border-radius:0; font-size:12.5px; line-height:1.85; white-space:pre; overflow-x:auto}
+.term-body .c{color:var(--ash)}
+.term-body .d{color:var(--ash)}
+.term-body b{font-weight:400}
+.term-body .ok{color:var(--green)}
+.term-body .warn{color:var(--yellow)}
+h1{
+  margin:0 0 var(--sp-4); color:var(--ink); font-weight:600; letter-spacing:-.022em;
+  font-size:clamp(32px,4.6vw,50px); line-height:1.1;
+}
+h1 .dim{color:var(--ash)}
+.lede.narrow{display:none}
+@media(max-width:640px){.lede.wide{display:none} .lede.narrow{display:block}}
+.lede{margin:0 0 var(--sp-6); max-width:56ch; font-size:clamp(15px,1.5vw,17px); color:var(--body); line-height:1.55}
+.hero-cta{display:flex; flex-wrap:wrap; gap:var(--sp-3); align-items:center}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; height:36px; padding:0 16px;
+  border-radius:var(--r); font-size:14px; font-weight:500; text-decoration:none;
+  border:1px solid transparent; cursor:pointer; transition:background .15s,border-color .15s,color .15s;
+}
+.btn-primary{background:var(--primary); color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-pressed)}
+.btn-ghost{background:transparent; color:var(--body); border-color:var(--hairline)}
+.btn-ghost:hover{border-color:var(--hairline-strong); color:var(--ink)}
+
+.cmd{
+  display:flex; align-items:center; gap:10px; height:36px; padding:0 12px;
+  background:var(--card); border:1px solid var(--hairline); border-radius:var(--r);
+  font-family:var(--mono); font-size:13px; color:var(--body); cursor:pointer;
+  transition:border-color .15s; max-width:100%;
+}
+.cmd:hover{border-color:var(--hairline-strong)}
+.cmd .p{color:var(--ash)}
+.cmd .t{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.cmd .c{color:var(--ash); flex-shrink:0; display:flex}
+
+/* ─── palette ─── */
+.palette{margin:8px 0 0; background:var(--surface); border:1px solid var(--hairline); border-radius:12px; overflow:hidden}
+.search{display:flex; align-items:center; gap:12px; padding:0 18px; height:56px; border-bottom:1px solid var(--hairline)}
+.search svg{flex-shrink:0; color:var(--ash)}
+.search input{
+  flex:1; min-width:0; height:100%; border:0; background:transparent; color:var(--ink);
+  font:inherit; font-size:17px; outline:none;
+}
+.search input::placeholder{color:var(--stone)}
+.kbd{
+  font-family:var(--mono); font-size:11px; color:var(--ash); padding:3px 6px; line-height:1;
+  background:linear-gradient(180deg,#121212,#0d0d0d); border:1px solid var(--hairline); border-radius:5px;
+}
+.filters{display:flex; gap:6px; padding:12px 14px; overflow-x:auto; scrollbar-width:none; border-bottom:1px solid var(--hairline)}
+.filters::-webkit-scrollbar{display:none}
+.chip{
+  position:relative; flex-shrink:0; height:26px; padding:0 10px; border-radius:999px; font-size:12.5px;
+  cursor:pointer; background:transparent; color:var(--mute); border:1px solid var(--hairline);
+  white-space:nowrap; transition:color .15s,border-color .15s,background .15s; font-family:inherit;
+}
+/* The chips read as compact 26px pills; the tappable area is extended past
+   the paint with a pseudo-element so a thumb gets 38px without the row
+   growing to match. */
+.chip::after{content:''; position:absolute; inset:-6px -2px}
+.chip:hover{color:var(--ink); border-color:var(--hairline-strong)}
+.chip[aria-pressed="true"]{background:var(--elevated); color:var(--ink); border-color:var(--hairline-strong)}
+.chip .n{color:var(--stone); margin-left:5px}
+
+.meta-row{display:flex; align-items:center; gap:10px; padding:9px 18px; font-size:12px; color:var(--ash); border-bottom:1px solid var(--hairline)}
+.meta-row .sp{flex:1}
+.sort{position:relative; background:transparent; border:0; color:var(--mute); font:inherit; font-size:12px; cursor:pointer; padding:6px 4px; min-height:26px; border-radius:4px}
+.sort::after{content:''; position:absolute; inset:-6px -4px}
+.sort:hover{color:var(--ink)}
+
+.results{max-height:min(70vh,760px); overflow-y:auto; overscroll-behavior:contain}
+.results::-webkit-scrollbar{width:10px}
+.results::-webkit-scrollbar-thumb{background:var(--stone); border-radius:99px; border:3px solid var(--surface)}
+
+.row{display:block; padding:16px 18px; border-bottom:1px solid var(--hairline); text-decoration:none; transition:background .12s}
+.row:last-child{border-bottom:0}
+.row:hover,.row:focus-visible{background:var(--elevated)}
+.row-top{display:flex; align-items:baseline; gap:10px; margin-bottom:3px}
+.dot{width:6px; height:6px; border-radius:50%; flex-shrink:0; transform:translateY(-2px)}
+.dot.alive{background:var(--green)}
+.dot.blocked{background:var(--yellow)}
+.dot.unknown{background:var(--stone)}
+.dot.dead{background:var(--red)}
+.name{color:var(--ink); font-weight:500; font-size:15.5px; letter-spacing:-.005em}
+.host{color:var(--ash); font-size:12.5px; font-family:var(--mono); margin-left:auto; flex-shrink:0}
+@media(max-width:560px){.host{display:none}}
+.desc{margin:0; color:var(--body); font-size:14px; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+
+/* The distinction the whole project rests on: what the site says about
+   itself is body text; what a stranger claimed about it is a quotation. */
+.claim{margin:7px 0 0; padding-left:11px; border-left:1px solid var(--stone); color:var(--mute); font-size:13px; line-height:1.5; font-style:normal}
+.claim::before{content:'“'; color:var(--stone)}
+.claim::after{content:'”'; color:var(--stone)}
+
+.tail{display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:9px; font-size:12px; color:var(--ash)}
+.tag{padding:1px 7px; border:1px solid var(--hairline); border-radius:999px; color:var(--mute); font-size:11.5px}
+.badge{color:var(--mute)}
+.badge strong{color:var(--body); font-weight:500}
+.sep{color:var(--stone)}
+.empty{padding:44px 18px; text-align:center; color:var(--ash); font-size:14px}
+.empty code{font-family:var(--mono); color:var(--mute)}
+
+/* ─── prose sections ─── */
+section{padding:var(--section) 0}
+@media(max-width:768px){section{padding:64px 0} .hero{padding:56px 0 32px}}
+@media(max-width:480px){section{padding:48px 0}}
+h2{margin:0 0 var(--sp-6); color:var(--ink); font-size:clamp(24px,3vw,30px); font-weight:500; letter-spacing:-.015em; line-height:1.25}
+h3{margin:0 0 var(--sp-2); color:var(--ink); font-size:16px; font-weight:500; letter-spacing:-.005em}
+p{margin:0 0 var(--sp-4)}
+.grid{display:grid; gap:var(--sp-3); grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+.tile{padding:20px; background:var(--card); border:1px solid var(--hairline); border-radius:var(--r-lg)}
+.tile p{margin:0; color:var(--mute); font-size:14px; line-height:1.55}
+.tile p + p{margin-top:10px}
+.tile code{font-family:var(--mono); font-size:12.5px; color:var(--body)}
+
+pre{
+  margin:0; padding:16px 18px; background:var(--card); border:1px solid var(--hairline);
+  border-radius:var(--r-lg); overflow-x:auto; font-family:var(--mono); font-size:13px;
+  line-height:1.7; color:var(--body);
+}
+pre .c{color:var(--ash)}
+pre .k{color:var(--ink)}
+/* A grid item defaults to min-width:auto, so a <pre> full of unbreakable
+   config text pushes the column past the viewport and its own overflow-x
+   never engages. Every grid child here gets min-width:0 so the code block
+   scrolls inside its column instead of the page scrolling sideways. */
+.two{display:grid; gap:var(--sp-4); grid-template-columns:1fr 1fr; align-items:start}
+.two > *{min-width:0}
+.grid > *{min-width:0}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+.lbl{font-size:12px; color:var(--ash); margin-bottom:8px; font-family:var(--mono); letter-spacing:.02em}
+
+footer{padding:40px 0; border-top:1px solid var(--hairline); color:var(--ash); font-size:13px}
+.foot{display:flex; flex-wrap:wrap; gap:var(--sp-4) var(--sp-6); align-items:center}
+footer a{color:var(--mute); text-decoration:none}
+footer a:hover{color:var(--ink)}
+.toast{
+  position:fixed; left:50%; bottom:28px; transform:translate(-50%,14px); opacity:0; pointer-events:none;
+  background:var(--elevated); border:1px solid var(--hairline-strong); color:var(--ink);
+  padding:9px 16px; border-radius:var(--r); font-size:13px; transition:opacity .18s,transform .18s; z-index:99;
+}
+.toast.on{opacity:1; transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="stripe"></div>
+
+<nav class="nav"><div class="wrap nav-in">
+  <a class="mark" href="/">
+    <svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#121212" stroke="#242728"/><g stroke="#f4f4f6" stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M7 10h18M9.5 16h13M12.5 22h7"/></g></svg>
+    sifter
+  </a>
+  <span class="nav-sp"></span>
+  <a class="lnk opt" href="#index">Index</a>
+  <a class="lnk opt" href="#use">Use it</a>
+  <a class="lnk" href="https://github.com/Daily-AC/sifter" rel="noopener">GitHub</a>
+</div></nav>
+
+<header class="hero"><div class="wrap hero-grid">
+  <div>
+  <h1>Resource posts scatter good links,<br><span class="dim">then quietly rot.</span></h1>
+  <p class="lede wide">
+    Someone lists fifteen sites worth bookmarking. Two months later four links are dead, three
+    were the same site under different names, and the coding agent that would actually
+    <em>use</em> them cannot see any of it. sifter collapses those posts and bookmark folders into
+    one index — deduplicated, liveness-checked, described in each site's own words, searchable
+    by an agent over MCP.
+  </p>
+  <p class="lede narrow">
+    Links rot, sites get renamed, the same tool shows up under three domains — and the agent
+    that would <em>use</em> them can't see any of it. sifter collapses those posts into one
+    index: deduplicated, liveness-checked, searchable over MCP.
+  </p>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#index">Browse the index</a>
+    <button class="cmd" id="copy-install" type="button" title="Copy">
+      <span class="p">$</span><span class="t">npx @z10/sifter search …</span>
+      <span class="c"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8" height="8" rx="1.6"/><path d="M10.5 3.5v-.5a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5"/></svg></span>
+    </button>
+  </div>
+  </div>
+
+  <!-- Real output, not a dramatisation: the three things that make the index
+       trustworthy all happen in one refresh — verification, the distinction
+       between dead and merely robot-hostile, and a rename being folded. -->
+  <aside class="term" aria-label="Example output of sifter refresh">
+    <div class="term-bar"><span></span><span></span><span></span></div>
+    <pre class="term-body"><span class="c">$</span> sifter refresh
+  <b class="ok">●</b> beautifului.dev    <span class="d">Beautiful UI — Crafted primitives…</span>
+  <b class="ok">●</b> rareui.com         <span class="d">Rare UI — Rare Animated React Com…</span>
+  <b class="ok">●</b> ui.shadcn.com      <span class="d">The Foundation for your Design Sy…</span>
+  <b class="warn">◐</b> gazes.store        <span class="d">up, but refuses robots</span>
+  <span class="d">⇢ godly.website merged into recent.design</span>
+
+checked 38 — <b class="ok">●</b> 37 alive  <b class="warn">◐</b> 1 blocked</pre>
+  </aside>
+</div></header>
+
+<main>
+<section id="index" style="padding-top:24px">
+  <div class="wrap">
+    <div class="palette">
+      <div class="search">
+        <svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14" stroke-linecap="round"/></svg>
+        <input id="q" type="search" autocomplete="off" spellcheck="false"
+               placeholder="Search the index…"
+               aria-label="Search the index">
+        <kbd class="kbd" id="hint">/</kbd>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filters"></div>
+      <div class="meta-row">
+        <span id="count">—</span>
+        <span class="sp"></span>
+        <button class="sort" id="sort" type="button"></button>
+      </div>
+      <div class="results" id="results" role="list"></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <div class="wrap">
+    <h2>Why not just an awesome-list</h2>
+    <p style="max-width:66ch; color:var(--mute)">
+      An awesome-list is a text file edited by hand, so it goes stale in silence. Every line here
+      is derived from a check that actually ran.
+    </p>
+    <div class="grid">
+      <div class="tile">
+        <h3>It merges what is the same thing</h3>
+        <p><code>www.beautifului.dev</code> and <code>beautifului.dev</code> are one entry. So are
+        <code>godly.website</code> and <code>recent.design</code> — the first now redirects to the
+        second, and that rename is caught on the next refresh. Both names stay searchable.</p>
+      </div>
+      <div class="tile">
+        <h3>It doesn't lie about what's alive</h3>
+        <p>Checking for HTTP 200 and calling the rest dead deletes working sites: two of the first
+        nine links tested returned 403 purely because Cloudflare dislikes robots.
+        <strong style="color:var(--body);font-weight:500">blocked</strong> is its own verdict, distinct from both.</p>
+      </div>
+      <div class="tile">
+        <h3>It separates the pitch from the fact</h3>
+        <p>A post says <em>"the best animated components"</em>. The site's own title says what it is
+        and what it's built with. The index searches the second and keeps the first as provenance —
+        so you can see what was claimed and what is true.</p>
+      </div>
+      <div class="tile">
+        <h3>It counts corroboration</h3>
+        <p>When the same site arrives from a post <em>and</em> from a bookmark folder, that is
+        recorded. Independent people pointing at one thing is a better signal than a star count,
+        and no hand-written list has it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="use">
+  <div class="wrap">
+    <h2>Give it to your agent</h2>
+    <div class="two">
+      <div>
+        <div class="lbl">MCP — Claude Code, Cursor, any MCP client</div>
+        <pre><span class="c">{</span>
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"sifter"</span>: {
+      <span class="k">"command"</span>: <span class="k">"npx"</span>,
+      <span class="k">"args"</span>: [<span class="k">"-y"</span>, <span class="k">"--package=@z10/sifter"</span>, <span class="k">"sifter-mcp"</span>]
+    }
+  }
+<span class="c">}</span></pre>
+        <p style="margin-top:12px; color:var(--mute); font-size:14px">
+          Four tools: search, list, get, and submit. With no local library configured it serves the
+          index shipped in the package, so an agent has something useful before you collect anything.
+        </p>
+      </div>
+      <div>
+        <div class="lbl">CLI — collect your own</div>
+        <pre><span class="c"># pull every link out of a resource post</span>
+npx @z10/sifter add https://x.com/…/status/…
+
+<span class="c"># import ONE named bookmark folder</span>
+npx @z10/sifter chrome --folder <span class="k">"Design"</span>
+
+<span class="c"># verify + pull each site's real metadata</span>
+npx @z10/sifter refresh</pre>
+        <p style="margin-top:12px; color:var(--mute); font-size:14px">
+          Bookmark import reads one folder you name and refuses to walk the tree — a bookmark bar
+          is a design gallery sitting next to your employer's admin panel. Node 20+, zero
+          dependencies, no API key.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <div class="wrap">
+    <h2>Found something good?</h2>
+    <p style="max-width:64ch; color:var(--mute)">
+      Submissions are verified on your machine before they become anyone else's problem — privacy
+      screen, liveness check, the site's own metadata, duplicate check. What reaches a maintainer
+      is a verified record rather than a bare link.
+    </p>
+    <pre style="max-width:70ch">npx @z10/sifter submit https://example.com <span class="c">\</span>
+  --note <span class="k">"what it gives you that the alternatives don't"</span></pre>
+    <div class="hero-cta" style="margin-top:20px">
+      <a class="btn btn-primary" href="https://github.com/Daily-AC/sifter/issues/new?template=submit.yml" rel="noopener">Submit via GitHub</a>
+      <a class="btn btn-ghost" href="https://github.com/Daily-AC/sifter/blob/main/CONTRIBUTING.md" rel="noopener">What gets accepted</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap foot">
+  <span>MIT</span>
+  <span class="sep">·</span>
+  <a href="https://github.com/Daily-AC/sifter" rel="noopener">github.com/Daily-AC/sifter</a>
+  <span class="sep">·</span>
+  <a href="https://www.npmjs.com/package/@z10/sifter" rel="noopener">@z10/sifter</a>
+  <span class="nav-sp"></span>
+  <span id="stamp"></span>
+</div></footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="./app.js?v=7060da71"></script>
+</body>
+</html>
