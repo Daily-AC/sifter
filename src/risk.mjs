@@ -34,7 +34,7 @@ export function assessRisk(entry) {
   const hay = [
     entry.key, entry.url, entry.title, entry.description,
     ...(entry.names || []), ...(entry.claims || []).map((c) => c.text),
-    ...(entry.sections || []), ...contexts,
+    ...(entry.sections || []), ...(entry.local_sections || []), ...contexts,
   ].filter(Boolean).join(' ');
 
   if (KNOWN_SHADOW.some((d) => (entry.key || '').includes(d) || (entry.url || '').includes(d))) {
@@ -46,7 +46,8 @@ export function assessRisk(entry) {
   // condemns the whole list, not just the lines that said so themselves.
   const freeFraming = /免费|白嫖|不花钱|不想花钱|省钱|资源站|下载|观看|追剧|听歌|看片/.test(
     [...contexts, ...(entry.sections || []), ...(entry.claims || []).map((c) => c.text)].join(' '));
-  if ((entry.sections || []).some((s) => RISK_SECTIONS.test(s)) && freeFraming) flags.add('legal_risk');
+  const allSections = [...(entry.sections || []), ...(entry.local_sections || [])];
+  if (allSections.some((s) => RISK_SECTIONS.test(s)) && freeFraming) flags.add('legal_risk');
   if (EPHEMERAL_SHARE.test(entry.url || '')) { flags.add('ephemeral'); flags.add('legal_risk'); }
 
   return [...flags];
@@ -64,6 +65,11 @@ export function assessRisk(entry) {
  *
  * So local sources survive as evidence of corroboration and nothing more.
  */
+export function sanitizeEntry(entry) {
+  const { local_sections, ...rest } = entry;
+  return { ...rest, sources: sanitizeSources(entry.sources) };
+}
+
 export function sanitizeSources(sources = []) {
   return sources.map((s) => {
     if (s.type === 'x') return s;

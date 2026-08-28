@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T12:26:09.761Z",
+  "generated_at": "2026-08-28T12:33:01.453Z",
   "count": 34,
   "entries": [
     {
@@ -9,13 +9,16 @@
       "description": "Awwwards are the Website Awards that recognize and promote the talent and effort of the best developers, designers and web agencies in the world.",
       "names": [
         "Awwwards - Website Awards - Best Web Design Trends",
+        "Awwwards — 全球网页设计奥斯卡",
         "顶级网站每推"
       ],
-      "claims": [],
-      "sections": [
-        "审美 设计相关",
-        "Awwwards — 全球网页设计奥斯卡"
+      "claims": [
+        {
+          "text": "适合看顶级网页设计，交互和视觉趋势",
+          "from": "https://x.com/yanliudreamer/status/2090968699549470798"
+        }
       ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -35,7 +38,7 @@
           "engagement": {
             "likes": 201,
             "retweets": 37,
-            "views": 27515
+            "views": 27516
           },
           "channel": "fxtwitter"
         },
@@ -59,13 +62,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.060Z",
+        "checked_at": "2026-08-28T12:32:40.731Z",
         "final_url": "https://www.awwwards.com/",
-        "ms": 2344
+        "ms": 3495
       },
-      "first_seen": "2026-08-28T09:30:23.136Z",
-      "last_seen": "2026-08-28T12:24:35.781Z",
-      "updated_at": "2026-08-28T12:24:35.781Z",
+      "first_seen": "2026-08-28T12:32:36.127Z",
+      "last_seen": "2026-08-28T12:32:37.282Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Awwwards",
       "lang": "en",
       "image": "https://assets.awwwards.com/assets/images/pages/about-certificates/awwwards.jpg"
@@ -76,18 +79,20 @@
       "title": "Beautiful UI — Crafted primitives for AI-native interfaces",
       "description": "A small library of extremely crafted, copy-paste components for chat agents, thinking states, human-in-the-loop approvals, and everything agents need to talk to humans beautifully.",
       "names": [
-        "Beautiful UI",
-        "Beautiful UI — Crafted primitives for AI-native interfaces"
+        "Beautiful UI — Crafted primitives for AI-native interfaces",
+        "Beautiful UI"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
       "flags": [],
       "sources": [
+        {
+          "type": "bookmark",
+          "at": "2026-08"
+        },
         {
           "type": "x",
           "context": "不会前端设计没关系，会“抄作业”就行。 程序员最缺的往往不是代码能力，而是审美。我的办法很简单：把优秀 UI 组件当成乐高，直接丢给 AI Agent，让它挑最合适的组件拼进项目。 这 5 个网站够用了：",
@@ -96,15 +101,11 @@
           "author": "grgerwcwetwet",
           "at": "2026-08-27T11:28:58.000Z",
           "engagement": {
-            "likes": 288,
-            "retweets": 50,
-            "views": 22239
+            "likes": 361,
+            "retweets": 60,
+            "views": 27085
           },
           "channel": "fxtwitter"
-        },
-        {
-          "type": "bookmark",
-          "at": "2026-08"
         }
       ],
       "mentions": 2,
@@ -112,13 +113,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.079Z",
+        "checked_at": "2026-08-28T12:32:40.732Z",
         "final_url": "https://www.beautifului.dev/",
-        "ms": 940
+        "ms": 898
       },
-      "first_seen": "2026-08-28T09:29:50.665Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.888Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.656Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en"
     },
     {
@@ -127,18 +128,20 @@
       "title": "Rare UI — Rare Animated React Components",
       "description": "Rare UI (RareUI) is a free, open-source registry of rare animated React components. Built with Tailwind CSS, Motion and the shadcn CLI — copy, paste, and own the code.",
       "names": [
-        "Rare UI",
-        "Components | Rare UI"
+        "Components | Rare UI",
+        "Rare UI"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
       "flags": [],
       "sources": [
+        {
+          "type": "bookmark",
+          "at": "2026-08"
+        },
         {
           "type": "x",
           "context": "不会前端设计没关系，会“抄作业”就行。 程序员最缺的往往不是代码能力，而是审美。我的办法很简单：把优秀 UI 组件当成乐高，直接丢给 AI Agent，让它挑最合适的组件拼进项目。 这 5 个网站够用了：",
@@ -147,15 +150,11 @@
           "author": "grgerwcwetwet",
           "at": "2026-08-27T11:28:58.000Z",
           "engagement": {
-            "likes": 288,
-            "retweets": 50,
-            "views": 22239
+            "likes": 361,
+            "retweets": 60,
+            "views": 27085
           },
           "channel": "fxtwitter"
-        },
-        {
-          "type": "bookmark",
-          "at": "2026-08"
         }
       ],
       "mentions": 2,
@@ -163,13 +162,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.864Z",
+        "checked_at": "2026-08-28T12:32:43.376Z",
         "final_url": "https://www.rareui.com/",
-        "ms": 736
+        "ms": 1015
       },
-      "first_seen": "2026-08-28T09:29:50.666Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.657Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Rare UI",
       "lang": "en",
       "image": "https://rareui.com/ogimage.webp"
@@ -181,6 +180,7 @@
       "description": "The best design inspiration on the Internet.",
       "names": [
         "Recent — Design Inspiration",
+        "Recent design",
         "Godly - Astronomically good web design inspiration"
       ],
       "claims": [
@@ -189,10 +189,7 @@
           "from": "https://x.com/yanliudreamer/status/2090968699549470798"
         }
       ],
-      "sections": [
-        "审美 设计相关",
-        "Recent design"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -201,10 +198,6 @@
         {
           "type": "bookmark",
           "at": "2026-08"
-        },
-        {
-          "type": "bookmark",
-          "at": "2026-06"
         },
         {
           "type": "x",
@@ -216,9 +209,13 @@
           "engagement": {
             "likes": 201,
             "retweets": 37,
-            "views": 27515
+            "views": 27516
           },
           "channel": "fxtwitter"
+        },
+        {
+          "type": "bookmark",
+          "at": "2026-06"
         }
       ],
       "mentions": 2,
@@ -226,13 +223,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:15.019Z",
+        "checked_at": "2026-08-28T12:32:43.844Z",
         "final_url": "https://recent.design/",
-        "ms": 1867
+        "ms": 1324
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T12:24:35.441Z",
-      "updated_at": "2026-08-28T12:24:35.441Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.989Z",
+      "updated_at": "2026-08-28T12:32:45.172Z",
       "lang": "en",
       "image": "https://recent.design/og.png",
       "aliases": [
@@ -245,18 +242,20 @@
       "title": "Transitions.dev: UI transitions for AI agents",
       "description": "Collection of the most essential UI transitions for web apps. Copy and paste them, or use them with your coding agent via the skill.",
       "names": [
-        "Transitions",
-        "Transitions.dev: UI transitions for AI agents"
+        "Transitions.dev: UI transitions for AI agents",
+        "Transitions"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
       "flags": [],
       "sources": [
+        {
+          "type": "bookmark",
+          "at": "2026-08"
+        },
         {
           "type": "x",
           "context": "不会前端设计没关系，会“抄作业”就行。 程序员最缺的往往不是代码能力，而是审美。我的办法很简单：把优秀 UI 组件当成乐高，直接丢给 AI Agent，让它挑最合适的组件拼进项目。 这 5 个网站够用了：",
@@ -265,15 +264,11 @@
           "author": "grgerwcwetwet",
           "at": "2026-08-27T11:28:58.000Z",
           "engagement": {
-            "likes": 288,
-            "retweets": 50,
-            "views": 22239
+            "likes": 361,
+            "retweets": 60,
+            "views": 27085
           },
           "channel": "fxtwitter"
-        },
-        {
-          "type": "bookmark",
-          "at": "2026-08"
         }
       ],
       "mentions": 2,
@@ -281,13 +276,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:15.777Z",
+        "checked_at": "2026-08-28T12:32:44.255Z",
         "final_url": "https://transitions.dev/",
-        "ms": 678
+        "ms": 569
       },
-      "first_seen": "2026-08-28T09:29:50.666Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.657Z",
+      "updated_at": "2026-08-28T12:32:45.170Z",
       "site_name": "Transitions.dev",
       "lang": "en",
       "image": "https://transitions.dev/assets/og-main.jpg"
@@ -298,18 +293,20 @@
       "title": "The Foundation for your Design System - shadcn/ui",
       "description": "A set of beautifully designed components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code.",
       "names": [
-        "shadcn/ui",
-        "The Foundation for your Design System - shadcn/ui"
+        "The Foundation for your Design System - shadcn/ui",
+        "shadcn/ui"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
       "flags": [],
       "sources": [
+        {
+          "type": "bookmark",
+          "at": "2026-08"
+        },
         {
           "type": "x",
           "context": "不会前端设计没关系，会“抄作业”就行。 程序员最缺的往往不是代码能力，而是审美。我的办法很简单：把优秀 UI 组件当成乐高，直接丢给 AI Agent，让它挑最合适的组件拼进项目。 这 5 个网站够用了：",
@@ -318,15 +315,11 @@
           "author": "grgerwcwetwet",
           "at": "2026-08-27T11:28:58.000Z",
           "engagement": {
-            "likes": 288,
-            "retweets": 50,
-            "views": 22239
+            "likes": 361,
+            "retweets": 60,
+            "views": 27085
           },
           "channel": "fxtwitter"
-        },
-        {
-          "type": "bookmark",
-          "at": "2026-08"
         }
       ],
       "mentions": 2,
@@ -334,13 +327,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:15.949Z",
+        "checked_at": "2026-08-28T12:32:44.391Z",
         "final_url": "https://ui.shadcn.com/",
-        "ms": 494
+        "ms": 454
       },
-      "first_seen": "2026-08-28T09:29:50.666Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.657Z",
+      "updated_at": "2026-08-28T12:32:45.170Z",
       "lang": "en",
       "image": "https://ui.shadcn.com/og?title=The%20Foundation%20for%20your%20Design%20System&description=A%20set%20of%20beautifully%20designed%20components%20that%20you%20can%20customize%2C%20extend%2C%20and%20build%20on.%20Start%20here%20then%20make%20it%20your%20own.%20Open%20Source.%20Open%20Code."
     },
@@ -377,13 +370,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.676Z",
+        "checked_at": "2026-08-28T12:32:40.730Z",
         "final_url": "https://www.are.na/",
-        "ms": 1629
+        "ms": 933
       },
-      "first_seen": "2026-08-28T12:24:35.782Z",
-      "last_seen": "2026-08-28T12:24:35.782Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:37.282Z",
+      "last_seen": "2026-08-28T12:32:37.282Z",
+      "updated_at": "2026-08-28T12:32:45.168Z",
       "site_name": "Are.na",
       "lang": "en",
       "image": "https://www.are.na/og-image.png"
@@ -397,9 +390,7 @@
         "Lab - Bakai Tolondu uulu"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -415,13 +406,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.078Z",
+        "checked_at": "2026-08-28T12:32:40.731Z",
         "final_url": "https://www.bakai.me/lab",
-        "ms": 695
+        "ms": 531
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T09:30:23.137Z",
-      "updated_at": "2026-08-28T09:34:16.888Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.128Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Bakai Tolondu uulu",
       "lang": "en",
       "image": "https://www.bakai.me/og.png"
@@ -447,9 +438,9 @@
           "author": "grgerwcwetwet",
           "at": "2026-08-27T11:28:58.000Z",
           "engagement": {
-            "likes": 288,
-            "retweets": 50,
-            "views": 22239
+            "likes": 361,
+            "retweets": 60,
+            "views": 27085
           },
           "channel": "fxtwitter"
         }
@@ -459,13 +450,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.079Z",
+        "checked_at": "2026-08-28T12:32:40.732Z",
         "final_url": "https://beui.dev/",
-        "ms": 449
+        "ms": 393
       },
-      "first_seen": "2026-08-28T09:29:50.666Z",
-      "last_seen": "2026-08-28T09:29:50.666Z",
-      "updated_at": "2026-08-28T09:34:16.888Z",
+      "first_seen": "2026-08-28T12:32:36.657Z",
+      "last_seen": "2026-08-28T12:32:36.657Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "beUI",
       "lang": "en",
       "image": "https://beui.dev/api/og"
@@ -479,9 +470,7 @@
         "bloub — animated SVG avatar"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -497,13 +486,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.080Z",
+        "checked_at": "2026-08-28T12:32:40.732Z",
         "final_url": "https://bloub.vercel.app/",
-        "ms": 391
+        "ms": 351
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T09:30:23.137Z",
-      "updated_at": "2026-08-28T09:34:16.888Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.128Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "bloub",
       "lang": "fr",
       "image": "https://bloub.vercel.app/og.png"
@@ -541,13 +530,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.677Z",
+        "checked_at": "2026-08-28T12:32:41.083Z",
         "final_url": "https://component.gallery/",
-        "ms": 589
+        "ms": 373
       },
-      "first_seen": "2026-08-28T12:24:35.782Z",
-      "last_seen": "2026-08-28T12:24:35.782Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:37.282Z",
+      "last_seen": "2026-08-28T12:32:37.282Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en",
       "image": "https://component.gallery/open-graph/default.png"
     },
@@ -556,16 +545,16 @@
       "url": "https://designspells.com/",
       "title": "Design Spells · Design details that feel like magic",
       "description": "Discover micro-interactions, easter eggs, and other seemingly extra design details that infuse life, personality, and fun back into the web.",
-      "names": [],
+      "names": [
+        "Design spells"
+      ],
       "claims": [
         {
           "text": "动效细节超棒！如果你想研究一个网站为什么看起来很高级，可以重点看这里。",
           "from": "https://x.com/yanliudreamer/status/2090968699549470798"
         }
       ],
-      "sections": [
-        "Design spells"
-      ],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -579,7 +568,7 @@
           "engagement": {
             "likes": 201,
             "retweets": 37,
-            "views": 27515
+            "views": 27516
           },
           "channel": "fxtwitter"
         }
@@ -589,13 +578,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.678Z",
+        "checked_at": "2026-08-28T12:32:41.125Z",
         "final_url": "https://designspells.com/",
-        "ms": 1099
+        "ms": 350
       },
-      "first_seen": "2026-08-28T12:24:35.441Z",
-      "last_seen": "2026-08-28T12:24:35.441Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:36.989Z",
+      "last_seen": "2026-08-28T12:32:36.989Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Design Spells · Design details that feel like magic",
       "lang": "en",
       "image": "https://designspells.com/og.png"
@@ -605,16 +594,16 @@
       "url": "https://www.designspiration.com/",
       "title": "Designspiration - Design Inspiration | Inspirational Art, Photography & Typography Images",
       "description": "Create an account or log in to Designspiration - An image &amp; color search engine for creating mood boards and finding art, design, logos, photography, app &amp; ui inspiration.",
-      "names": [],
+      "names": [
+        "Design ispiration"
+      ],
       "claims": [
         {
           "text": "有点像更干净版的Pinterest。平面/UI/配色/排版都有，整体质量比较高，很适合用来做moodboard。",
           "from": "https://x.com/yanliudreamer/status/2090968699549470798"
         }
       ],
-      "sections": [
-        "Design ispiration"
-      ],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -628,7 +617,7 @@
           "engagement": {
             "likes": 201,
             "retweets": 37,
-            "views": 27515
+            "views": 27516
           },
           "channel": "fxtwitter"
         }
@@ -638,13 +627,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.678Z",
+        "checked_at": "2026-08-28T12:32:41.262Z",
         "final_url": "https://www.designspiration.com/",
-        "ms": 1097
+        "ms": 728
       },
-      "first_seen": "2026-08-28T12:24:35.441Z",
-      "last_seen": "2026-08-28T12:24:35.441Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:36.989Z",
+      "last_seen": "2026-08-28T12:32:36.989Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Designspiration",
       "lang": "en",
       "image": "https://s.dspncdn.com/a1/webapp/img/content/meta/default_meta_display.jpg"
@@ -654,11 +643,11 @@
       "url": "https://github.com/anthropics/claude-plugins-community",
       "title": "anthropics/claude-plugins-community",
       "description": "Community plugin marketplace for Claude Cowork and Claude Code. Read-only mirror — submit plugins at clau.de/plugin-directory-submission.",
-      "names": [],
-      "claims": [],
-      "sections": [
+      "names": [
         "eli5 营销"
       ],
+      "claims": [],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -672,7 +661,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -682,15 +671,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:18.234Z",
+        "checked_at": "2026-08-28T12:32:38.297Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:18.235Z",
+      "first_seen": "2026-08-28T12:32:37.619Z",
+      "last_seen": "2026-08-28T12:32:37.619Z",
+      "updated_at": "2026-08-28T12:32:38.297Z",
       "github": {
-        "stars": 2484,
+        "stars": 2485,
         "language": "Python",
         "topics": [],
         "archived": false,
@@ -707,9 +696,7 @@
         "frontend-design UI Design"
       ],
       "claims": [],
-      "sections": [
-        "ad-creative 营销"
-      ],
+      "sections": [],
       "tags": [
         "agent-skills"
       ],
@@ -725,7 +712,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -735,15 +722,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:18.578Z",
+        "checked_at": "2026-08-28T12:32:38.638Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:18.579Z",
+      "first_seen": "2026-08-28T12:32:37.618Z",
+      "last_seen": "2026-08-28T12:32:37.618Z",
+      "updated_at": "2026-08-28T12:32:38.638Z",
       "github": {
-        "stars": 172182,
+        "stars": 172184,
         "language": "Python",
         "topics": [
           "agent-skills"
@@ -758,11 +745,11 @@
       "url": "https://github.com/coreyhaines31/marketingskills",
       "title": "coreyhaines31/marketingskills",
       "description": "Marketing skills for Claude Code and AI agents. CRO, copywriting, SEO, analytics, and growth engineering.",
-      "names": [],
-      "claims": [],
-      "sections": [
+      "names": [
         "ad-creative 营销"
       ],
+      "claims": [],
+      "sections": [],
       "tags": [
         "claude",
         "codex",
@@ -780,7 +767,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -790,15 +777,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:18.923Z",
+        "checked_at": "2026-08-28T12:32:38.977Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:18.923Z",
+      "first_seen": "2026-08-28T12:32:37.618Z",
+      "last_seen": "2026-08-28T12:32:37.618Z",
+      "updated_at": "2026-08-28T12:32:38.977Z",
       "github": {
-        "stars": 45947,
+        "stars": 45949,
         "language": "JavaScript",
         "topics": [
           "claude",
@@ -815,11 +802,11 @@
       "url": "https://github.com/cursor/plugins",
       "title": "cursor/plugins",
       "description": "Cursor plugin specification and official plugins",
-      "names": [],
-      "claims": [],
-      "sections": [
+      "names": [
         "unslop 营销"
       ],
+      "claims": [],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -833,7 +820,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -843,13 +830,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:19.249Z",
+        "checked_at": "2026-08-28T12:32:39.305Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:19.249Z",
+      "first_seen": "2026-08-28T12:32:37.618Z",
+      "last_seen": "2026-08-28T12:32:37.618Z",
+      "updated_at": "2026-08-28T12:32:39.305Z",
       "github": {
         "stars": 5826,
         "language": "TypeScript",
@@ -864,11 +851,11 @@
       "url": "https://github.com/humanlayer/skills",
       "title": "humanlayer/skills",
       "description": null,
-      "names": [],
-      "claims": [],
-      "sections": [
+      "names": [
         "show-me UI / 素材"
       ],
+      "claims": [],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -882,7 +869,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -892,13 +879,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:19.628Z",
+        "checked_at": "2026-08-28T12:32:39.635Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:19.628Z",
+      "first_seen": "2026-08-28T12:32:37.618Z",
+      "last_seen": "2026-08-28T12:32:37.618Z",
+      "updated_at": "2026-08-28T12:32:39.635Z",
       "github": {
         "stars": 594,
         "language": "TypeScript",
@@ -917,9 +904,7 @@
         "design-system-assets 素材 + UI Design"
       ],
       "claims": [],
-      "sections": [
-        "show-me UI / 素材"
-      ],
+      "sections": [],
       "tags": [
         "ai-agents",
         "asset-generation",
@@ -944,7 +929,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -954,13 +939,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:19.946Z",
+        "checked_at": "2026-08-28T12:32:40.031Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:19.946Z",
+      "first_seen": "2026-08-28T12:32:37.618Z",
+      "last_seen": "2026-08-28T12:32:37.618Z",
+      "updated_at": "2026-08-28T12:32:40.031Z",
       "github": {
         "stars": 2,
         "language": "Python",
@@ -993,9 +978,7 @@
           "from": "https://x.com/aronhouyu/status/2092626520393261134"
         }
       ],
-      "sections": [
-        "unslop 营销"
-      ],
+      "sections": [],
       "tags": [
         "agent-skills",
         "ai-agents",
@@ -1016,7 +999,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -1026,13 +1009,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.294Z",
+        "checked_at": "2026-08-28T12:32:40.361Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:20.295Z",
+      "first_seen": "2026-08-28T12:32:37.619Z",
+      "last_seen": "2026-08-28T12:32:37.619Z",
+      "updated_at": "2026-08-28T12:32:40.361Z",
       "github": {
         "stars": 91,
         "language": "Shell",
@@ -1056,9 +1039,7 @@
       "description": "Most AI agents know how to write code. Very few know how to market software, build a brand, or turn a landing page into a revenue engine.",
       "names": [],
       "claims": [],
-      "sections": [
-        "eli5 营销"
-      ],
+      "sections": [],
       "tags": [
         "marketing",
         "marketing-skills"
@@ -1075,7 +1056,7 @@
           "engagement": {
             "likes": 33,
             "retweets": 3,
-            "views": 1785
+            "views": 1786
           },
           "channel": "fxtwitter"
         }
@@ -1085,13 +1066,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.676Z",
+        "checked_at": "2026-08-28T12:32:40.730Z",
         "final_url": null,
         "ms": null
       },
-      "first_seen": "2026-08-28T12:24:36.110Z",
-      "last_seen": "2026-08-28T12:24:36.110Z",
-      "updated_at": "2026-08-28T12:25:20.676Z",
+      "first_seen": "2026-08-28T12:32:37.619Z",
+      "last_seen": "2026-08-28T12:32:37.619Z",
+      "updated_at": "2026-08-28T12:32:40.730Z",
       "github": {
         "stars": 4,
         "language": "JavaScript",
@@ -1113,9 +1094,7 @@
         "Liquid Gooey — liquid UI for React"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1131,13 +1110,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.080Z",
+        "checked_at": "2026-08-28T12:32:41.475Z",
         "final_url": "https://gooey.jakubantalik.com/",
-        "ms": 415
+        "ms": 383
       },
-      "first_seen": "2026-08-28T09:30:23.138Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.888Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.129Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en",
       "image": "https://gooey.jakubantalik.com/og-image.jpg"
     },
@@ -1174,13 +1153,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.679Z",
+        "checked_at": "2026-08-28T12:32:41.630Z",
         "final_url": "https://hugeicons.com/",
-        "ms": 2094
+        "ms": 1746
       },
-      "first_seen": "2026-08-28T12:24:35.782Z",
-      "last_seen": "2026-08-28T12:24:35.782Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:37.282Z",
+      "last_seen": "2026-08-28T12:32:37.282Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en",
       "image": "https://hugeicons.com/og_preview.png"
     },
@@ -1193,9 +1172,7 @@
         "Elemental Sandbox — Procedural Ice & Lightning VFX Playground"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1211,13 +1188,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.471Z",
+        "checked_at": "2026-08-28T12:32:41.663Z",
         "final_url": "https://linearabilityextthreejs.pages.dev/",
-        "ms": 393
+        "ms": 302
       },
-      "first_seen": "2026-08-28T09:30:23.138Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.129Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en"
     },
     {
@@ -1225,16 +1202,16 @@
       "url": "https://loadmo.re/",
       "title": "loadmo.re — Mobile Web Design Archive by Kim Boutin",
       "description": "A curated archive of distinctive mobile websites and unconventional digital experiences, by Kim Boutin (Kim Lê Boutin). Exploring alternative approaches to mobile-first interface design since 2021.",
-      "names": [],
+      "names": [
+        "Load more"
+      ],
       "claims": [
         {
           "text": "视觉非常大胆，收录了很多实验性，前卫的网页设计。适合在你觉得自己的设计太普通的时候来逛逛！",
           "from": "https://x.com/yanliudreamer/status/2090968699549470798"
         }
       ],
-      "sections": [
-        "Load more"
-      ],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -1248,7 +1225,7 @@
           "engagement": {
             "likes": 201,
             "retweets": 37,
-            "views": 27515
+            "views": 27516
           },
           "channel": "fxtwitter"
         }
@@ -1258,13 +1235,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:20.679Z",
+        "checked_at": "2026-08-28T12:32:41.858Z",
         "final_url": "https://loadmo.re/",
-        "ms": 1704
+        "ms": 1747
       },
-      "first_seen": "2026-08-28T12:24:35.441Z",
-      "last_seen": "2026-08-28T12:24:35.442Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:36.989Z",
+      "last_seen": "2026-08-28T12:32:36.989Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en",
       "image": "https://loadmo.re/media/pages/home/332c07bf8f-1603905890/loadmore-opengraph.png"
     },
@@ -1277,9 +1254,7 @@
         "极简"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1295,13 +1270,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.495Z",
+        "checked_at": "2026-08-28T12:32:41.965Z",
         "final_url": "https://minimal.gallery/",
-        "ms": 1454
+        "ms": 1401
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T09:30:23.137Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.128Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en-US",
       "image": "https://21ef0880.delivery.rocketcdn.me/wp-content/themes/minimalgallery/assets/img/meta/og.jpg"
     },
@@ -1338,13 +1313,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:21.266Z",
+        "checked_at": "2026-08-28T12:32:41.990Z",
         "final_url": "https://mobbin.com/",
-        "ms": 544
+        "ms": 506
       },
-      "first_seen": "2026-08-28T12:24:35.782Z",
-      "last_seen": "2026-08-28T12:24:35.782Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:37.282Z",
+      "last_seen": "2026-08-28T12:32:37.282Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "image": "https://framerusercontent.com/assets/FE3uqmxi41SxsiiVq9JNJC1Pwc.png"
     },
     {
@@ -1361,9 +1336,7 @@
           "from": "https://x.com/yanliudreamer/status/2090968699549470798"
         }
       ],
-      "sections": [
-        "Recent design"
-      ],
+      "sections": [],
       "tags": [],
       "flags": [],
       "sources": [
@@ -1377,7 +1350,7 @@
           "engagement": {
             "likes": 201,
             "retweets": 37,
-            "views": 27515
+            "views": 27516
           },
           "channel": "fxtwitter"
         }
@@ -1387,13 +1360,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:21.775Z",
+        "checked_at": "2026-08-28T12:32:42.496Z",
         "final_url": "https://muz.li/",
-        "ms": 691
+        "ms": 368
       },
-      "first_seen": "2026-08-28T12:24:35.441Z",
-      "last_seen": "2026-08-28T12:24:35.441Z",
-      "updated_at": "2026-08-28T12:25:23.876Z",
+      "first_seen": "2026-08-28T12:32:36.989Z",
+      "last_seen": "2026-08-28T12:32:36.989Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Muzli - Design inspiration hub",
       "lang": "en-US",
       "image": "https://muz.li/og.png"
@@ -1407,9 +1380,7 @@
         "One Page Love — One Page Website Inspiration and Templates"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1425,13 +1396,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.528Z",
+        "checked_at": "2026-08-28T12:32:42.864Z",
         "final_url": "https://onepagelove.com/",
-        "ms": 600
+        "ms": 1078
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T09:30:23.137Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.128Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en-US",
       "image": "https://assets.onepagelove.com/cdn-cgi/image/width=1200,height=628,fit=cover,gravity=top,format=jpg,quality=85/wp-content/uploads/global/one-page-love-meta.jpg"
     },
@@ -1445,9 +1416,7 @@
         "OneWorks Avatars"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1463,13 +1432,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:14.773Z",
+        "checked_at": "2026-08-28T12:32:43.366Z",
         "final_url": "https://oneworks.cloud/",
-        "ms": 614
+        "ms": 502
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.129Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "One Works",
       "lang": "zh-CN",
       "image": "https://oneworks.cloud/_astro/social-card.Dsc2I79z.png"
@@ -1507,13 +1476,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:25:21.777Z",
+        "checked_at": "2026-08-28T12:32:43.605Z",
         "final_url": "https://www.rebrand.gallery/",
-        "ms": 2099
+        "ms": 947
       },
-      "first_seen": "2026-08-28T12:24:35.782Z",
-      "last_seen": "2026-08-28T12:24:35.782Z",
-      "updated_at": "2026-08-28T12:25:23.877Z",
+      "first_seen": "2026-08-28T12:32:37.282Z",
+      "last_seen": "2026-08-28T12:32:37.282Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en"
     },
     {
@@ -1525,9 +1494,7 @@
         "DESIGN.md Examples for AI Agents | Refero Styles"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1543,13 +1510,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:15.128Z",
+        "checked_at": "2026-08-28T12:32:43.868Z",
         "final_url": "https://styles.refero.design/",
-        "ms": 1685
+        "ms": 1202
       },
-      "first_seen": "2026-08-28T09:30:23.137Z",
-      "last_seen": "2026-08-28T09:30:23.137Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.128Z",
+      "last_seen": "2026-08-28T12:32:36.128Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "site_name": "Refero Styles",
       "lang": "en",
       "image": "https://styles.refero.design/opengraph-image.png"
@@ -1563,9 +1530,7 @@
         "Thinking Logos — your logo as the loading state"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1581,13 +1546,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:15.387Z",
+        "checked_at": "2026-08-28T12:32:43.942Z",
         "final_url": "https://thinking-logos.ozturkenes.com/",
-        "ms": 390
+        "ms": 313
       },
-      "first_seen": "2026-08-28T09:30:23.138Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.129Z",
+      "updated_at": "2026-08-28T12:32:45.169Z",
       "lang": "en"
     },
     {
@@ -1599,9 +1564,7 @@
         "Three.js Components, Templates & Interactive Shaders | ThreeUI"
       ],
       "claims": [],
-      "sections": [
-        "审美 设计相关"
-      ],
+      "sections": [],
       "tags": [
         "design"
       ],
@@ -1617,13 +1580,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T09:34:15.601Z",
+        "checked_at": "2026-08-28T12:32:44.226Z",
         "final_url": "https://threeui.com/browse",
-        "ms": 459
+        "ms": 301
       },
-      "first_seen": "2026-08-28T09:30:23.138Z",
-      "last_seen": "2026-08-28T09:30:23.138Z",
-      "updated_at": "2026-08-28T09:34:16.889Z",
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T12:32:36.129Z",
+      "updated_at": "2026-08-28T12:32:45.170Z",
       "site_name": "ThreeUI",
       "lang": "en",
       "image": "https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/thumbnails/threeui-intro.jpg?cacheNonce=077d2b612430c92d48543a15ee5895dfab9a7fd965c3f738a524ab0969fb52a1"

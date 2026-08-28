@@ -81,7 +81,7 @@ export class Library {
     if (!e) {
       e = {
         key, url: finalUrl, title: null, description: null,
-        names: [], claims: [], sections: [], tags: [],
+        names: [], claims: [], sections: [], local_sections: [], tags: [],
         flags: [], sources: [], mentions: 0,
         liveness: null, first_seen: now(),
       };
@@ -90,7 +90,11 @@ export class Library {
 
     e.url = bestUrl([e.url, finalUrl]) || e.url;
     pushUniq(e.names, cand.name);
-    pushUniq(e.sections, cand.section);
+    // A heading a stranger wrote in a public post is public; the name of a
+    // folder in your browser is how *you* organise your work. Both are
+    // useful for grouping locally, only the first can be published.
+    if (cand.source?.type === 'chrome') pushUniq((e.local_sections ||= []), cand.section);
+    else pushUniq(e.sections, cand.section);
     for (const t of cand.tags || []) pushUniq(e.tags, t);
     if (cand.note) {
       const from = cand.source?.post || cand.source?.folder || cand.source?.type || 'unknown';
