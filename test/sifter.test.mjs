@@ -196,6 +196,35 @@ test('probe: an apostrophe does not truncate a description', () => {
   assert.equal(parseHtml(html).description, "recrée l'essentiel du bot");
 });
 
+test('probe: a title buried behind 200KB of framework script is still found', () => {
+  // Measured at byte 216,000 on two live component-library sites.
+  const filler = '<script>' + 'x'.repeat(250_000) + '</script>';
+  const html = `<html><head>${filler}<title>Magic UI</title>`
+    + '<meta name="description" content="Beautiful UI components"></head><body></body></html>';
+  const got = parseHtml(html);
+  assert.equal(got.title, 'Magic UI');
+  assert.equal(got.description, 'Beautiful UI components');
+});
+
+test('probe: a title emitted outside <head> is still found', () => {
+  // React 19 lets any component declare <title>; server rendering leaves it
+  // in the body. One live site closed <head> at byte 5,141 and emitted its
+  // title 210KB further down.
+  const html = '<html><head><meta charset="utf-8"></head><body><div>hi</div>'
+    + '<title>Fluid Functionalism</title><meta name="description" content="Refined UI components"></body></html>';
+  const got = parseHtml(html);
+  assert.equal(got.title, 'Fluid Functionalism');
+  assert.equal(got.description, 'Refined UI components');
+});
+
+test('probe: an icon\'s <title> does not become the page title', () => {
+  // Icon sets emit <title> inside inline SVG constantly, and it appears
+  // before the real one whenever the real one is rendered late.
+  const html = '<html><body><svg viewBox="0 0 24 24"><title>menu icon</title><path d="M0 0"/></svg>'
+    + '<title>Real Page Title</title></body></html>';
+  assert.equal(parseHtml(html).title, 'Real Page Title');
+});
+
 test('probe: entities are decoded', () => {
   assert.equal(parseHtml('<title>A &amp; B &#8212; C</title>').title, 'A & B — C');
 });

@@ -149,6 +149,35 @@ API，没有任何要配的东西。交叉印证数、star 数和存活状态会
 server 会直接服务仓库里自带的公开索引——所以在你还没采集任何东西之前，agent 就
 已经有东西可查了。
 
+## 上报资源
+
+任何人都可以给这份共享索引提名网站：
+
+```sh
+npx @z10/sifter submit https://example.com --note "它比同类好在哪"
+```
+
+提名会**先在你自己机器上跑完验证，再变成别人的负担**：隐私筛查、验活、抓站点
+自述的标题和描述、以及跟现有索引查重。到维护者手里的是一条已验证的记录而不是
+一个光秃秃的链接；过不了的当场就被拒绝，代价是一个人十秒钟，而不是审阅者十分钟。
+
+```
+✗ That looks like a personal or logged-in page (host-prefix:console, path:/billing).
+✗ That URL is not reachable (dns-failure).
+● Magic UI  https://magicui.design/
+  already indexed as magicui.design — submitting adds one more independent mention
+```
+
+在你亲手打开那个链接之前，什么都不会被发送。加 `--open` 直接提交，加
+`--from <推文URL>` 记录你是在哪看到的。没有 Node 就用
+[issue 表单](.github/ISSUE_TEMPLATE/submit.yml)，机器人会在帖子里跑同一套检查。
+
+agent 也能上报——MCP server 暴露了 `sifter_submit`，它只负责验证并返回 issue
+链接交给人，绝不自己提交。
+
+提名以 issue 形式汇集，由维护者合并进索引。收录标准见
+[CONTRIBUTING.md](CONTRIBUTING.md)。
+
 ## 发布
 
 ```sh

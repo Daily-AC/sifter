@@ -1,0 +1,38 @@
+name: Submit a resource
+description: Propose a website for the shared index
+title: "Add: "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Running `npx @z10/sifter submit <url> --note "..."` fills this in for you,
+        with the site's real title, description and a liveness check already done.
+        This form is the manual path; a bot verifies the URL either way.
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      placeholder: https://example.com
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: Why is it worth indexing?
+      description: One or two sentences. What does it give someone that the alternatives don't?
+    validations:
+      required: true
+  - type: input
+    id: seen_in
+    attributes:
+      label: Where did you see it? (optional)
+      description: A post or article that recommended it — this is recorded as provenance.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Please confirm
+      options:
+        - label: This is a public resource, not a personal dashboard, login page, or internal tool.
+          required: true
+        - label: I am not the sole author submitting my own project repeatedly.

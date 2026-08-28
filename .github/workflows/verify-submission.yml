@@ -1,0 +1,73 @@
+# Verifies a submitted URL and reports back on the issue.
+#
+# Submissions arrive from two places: `sifter submit`, which has already run
+# this check on the contributor's machine, and the issue form, which has not.
+# Re-running it here means a maintainer never has to open the link to find
+# out it is a login page, a duplicate, or gone — the answer is in the thread
+# before they read it.
+name: verify submission
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  verify:
+    if: contains(github.event.issue.labels.*.name, 'submission')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - id: check
+        env:
+          BODY: ${{ github.event.issue.body }}
+          SIFTER_DB: index/resources.jsonl
+        run: |
+          node --input-type=module -e '
+            import { verifySubmission } from "./src/submit.mjs";
+            import { Library } from "./src/store.mjs";
+            import { appendFileSync } from "node:fs";
+
+            const body = process.env.BODY || "";
+            const url = (body.match(/https?:\/\/[^\s<>")\]]+/) || [])[0];
+            const lib = Library.open("index/resources.jsonl");
+            const out = [];
+
+            if (!url) {
+              out.push("No URL found in this issue. Please include the full link, starting with `https://`.");
+            } else {
+              const v = await verifySubmission(url, { lib });
+              if (!v.ok) {
+                out.push(`Could not accept **${url}** — ${v.message}`);
+              } else {
+                const e = v.entry;
+                out.push(`Verified **${url}**`, "", "| | |", "|---|---|",
+                  `| Liveness | \`${e.liveness.status}\`${e.liveness.code ? ` (HTTP ${e.liveness.code})` : ""} |`,
+                  `| Title | ${e.title || "_none readable_"} |`,
+                  `| Description | ${(e.description || "_none_").slice(0, 240).replace(/\|/g, "\\|")} |`);
+                if (e.github) out.push(`| GitHub | ★${e.github.stars}${e.github.archived ? " · **archived**" : ""} |`);
+                if (e.flags?.length) out.push(`| Flags | ${e.flags.join(", ")} |`);
+                out.push("");
+                if (v.duplicate) out.push(`Already indexed as \`${v.duplicate.key}\`. Merging this records an additional independent mention.`, "");
+                for (const w of v.warnings) out.push(`- ${w}`);
+              }
+            }
+            out.push("", "<sub>Automated check. A maintainer decides what gets merged.</sub>");
+            appendFileSync(process.env.GITHUB_OUTPUT, `body<<SIFTER_EOF\n${out.join("\n")}\nSIFTER_EOF\n`);
+          '
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.REPORT,
+            });
+        env:
+          REPORT: ${{ steps.check.outputs.body }}

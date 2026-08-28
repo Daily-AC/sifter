@@ -12,6 +12,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Library } from '../src/store.mjs';
 import { search } from '../src/search.mjs';
+import { verifySubmission, issueUrl } from '../src/submit.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DB = process.env.SIFTER_DB || join(HERE, '..', 'data', 'resources.jsonl');
@@ -94,6 +95,23 @@ const TOOLS = [
     },
   },
   {
+    name: 'sifter_submit',
+    description:
+      'Propose a resource website for the shared index. Verifies the URL locally first — privacy screen, '
+      + 'liveness check, real metadata, duplicate check — and returns a prefilled GitHub issue link for a human '
+      + 'to open. It does NOT file anything; submitting is the user\'s explicit act. Use when you or the user '
+      + 'find a resource worth adding, and show the returned URL to the user.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        url: { type: 'string', description: 'The resource URL' },
+        note: { type: 'string', description: 'One or two sentences on why it is worth indexing' },
+        from: { type: 'string', description: 'Optional: the post URL where you saw it recommended' },
+      },
+      required: ['url'],
+    },
+  },
+  {
     name: 'sifter_get',
     description: 'Full record for one entry, including every source that mentioned it and what each claimed.',
     inputSchema: {
@@ -132,6 +150,16 @@ function call(name, args = {}) {
     return { json: { count: rows.length, entries: rows.slice(0, Math.min(args.limit || 50, 200)).map(brief) } };
   }
 
+  if (name === 'sifter_submit') {
+    return { pending: verifySubmission(String(args.url || ''), { note: args.note || null, from: args.from || null, lib })
+      .then((v) => (v.ok
+        ? { json: { verified: true, entry: v.entry, duplicate: v.duplicate, warnings: v.warnings,
+                    issue_url: issueUrl(v),
+                    next_step: 'Nothing has been filed. Show the issue_url to the user and let them decide to open it.' } }
+        : { json: { verified: false, reason: v.reason, message: v.message,
+                    next_step: 'Tell the user why it was refused. Do not file it.' } })) };
+  }
+
   if (name === 'sifter_get') {
     const e = lib.get(String(args.key)) || all.find((x) => (x.aliases || []).includes(String(args.key)));
     if (!e) return { text: `No entry "${args.key}".` };
@@ -145,6 +173,18 @@ function call(name, args = {}) {
 // ---- JSON-RPC over stdio ----------------------------------------------
 
 const send = (msg) => process.stdout.write(JSON.stringify(msg) + '\n');
+
+// Requests that reach the network finish after the line that started them.
+// Exiting the moment stdin closes drops their replies on the floor — which
+// is invisible in a long-lived MCP session and immediate when anything
+// pipes input in and closes it.
+const inflight = new Set();
+const track = (p) => {
+  inflight.add(p);
+  const done = () => inflight.delete(p);
+  p.then(done, done);
+  return p;
+};
 const ok = (id, result) => send({ jsonrpc: '2.0', id, result });
 const fail = (id, code, message) => send({ jsonrpc: '2.0', id, error: { code, message } });
 
@@ -163,6 +203,13 @@ function handle(req) {
   if (method === 'tools/call') {
     try {
       const out = call(params?.name, params?.arguments || {});
+      // Submission has to hit the network, so it alone answers asynchronously.
+      if (out.pending) {
+        track(out.pending
+          .then((r) => ok(id, { content: [{ type: 'text', text: r.text ?? JSON.stringify(r.json, null, 2) }] }))
+          .catch((err) => ok(id, { content: [{ type: 'text', text: `sifter error: ${err.message}` }], isError: true })));
+        return;
+      }
       const text = out.text ?? JSON.stringify(out.json, null, 2);
       return ok(id, { content: [{ type: 'text', text }] });
     } catch (err) {
@@ -186,4 +233,12 @@ process.stdin.on('data', (chunk) => {
     try { handle(req); } catch (err) { if (req?.id !== undefined) fail(req.id, -32603, String(err.message)); }
   }
 });
-process.stdin.on('end', () => process.exit(0));
+process.stdin.on('end', async () => {
+  if (inflight.size) {
+    await Promise.race([
+      Promise.allSettled([...inflight]),
+      new Promise((r) => setTimeout(r, 30_000).unref?.()),
+    ]);
+  }
+  process.exit(0);
+});

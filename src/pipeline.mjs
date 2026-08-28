@@ -10,7 +10,24 @@ import { publishable, sanitizeEntry } from './risk.mjs';
 import { normalizeUrl, groupKey } from './canonical.mjs';
 
 /** Add posts and/or plain resource URLs. */
-export async function collect(lib, inputs, { onItem = () => {} } = {}) {
+export async function collect(lib, inputs, { onItem = () => {}, from = null } = {}) {
+  // A post that lists six products and links none of them is a common genre;
+  // the names are real recommendations, the URLs are in the replies or an
+  // image. Someone resolves them by hand, and without `from` that work lands
+  // in the index as an anonymous manual entry, severing it from the post
+  // that recommended it — losing both the attribution and the corroboration
+  // count. `resolved_by_hand` marks the link as human-supplied rather than
+  // read out of the text, because sifter itself will not guess a URL.
+  let fromPost = null;
+  if (from) {
+    const post = await fetchPost(from);
+    fromPost = {
+      type: 'x', post: post.url, post_id: post.id, author: post.author,
+      at: post.created_at, context: (post.text || '').split(/\r?\n/)[0]?.slice(0, 240) || null,
+      engagement: { likes: post.likes ?? null, retweets: post.retweets ?? null, views: post.views ?? null },
+      channel: post.channel, resolved_by_hand: true,
+    };
+  }
   const stats = { posts: 0, direct: 0, added: 0, merged: 0, failed: [] };
   for (const raw of inputs) {
     const id = tweetId(raw);
@@ -33,7 +50,10 @@ export async function collect(lib, inputs, { onItem = () => {} } = {}) {
       } else {
         const url = normalizeUrl(raw);
         if (!url) { stats.failed.push(`${raw}: not a URL`); continue; }
-        const r = lib.upsert({ url, source: { type: 'manual', at: new Date().toISOString() } });
+        const r = lib.upsert({
+          url, name: null,
+          source: fromPost || { type: 'manual', at: new Date().toISOString() },
+        });
         stats.direct++;
         if (r) { r.created ? stats.added++ : stats.merged++; onItem(r, null); }
       }
