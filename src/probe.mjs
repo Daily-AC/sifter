@@ -45,11 +45,45 @@ function meta(html, ...names) {
   return null;
 }
 
+// Where a page's own title actually lives, in practice.
+//
+// Two assumptions die on contact with current frameworks:
+//
+//   "it is near the top"   — measured at byte 216,000 on two live sites,
+//                            behind a wall of inline bootstrap script.
+//   "it is inside <head>"  — React 19 lets a component declare <title>
+//                            anywhere, and server rendering leaves it in
+//                            the body; one site closed <head> at byte 5,141
+//                            and emitted its title 210KB later.
+//
+// So the whole document is searched. The one trap that creates is <title>
+// inside inline SVG, which icon sets emit constantly and which would
+// otherwise win by position — those are skipped by tracking svg nesting.
+const DOC_CAP = 4_000_000;
+
+function insideSvg(html, index) {
+  let depth = 0;
+  const re = /<(\/?)svg[\s>]/gi;
+  let m;
+  while ((m = re.exec(html)) && m.index < index) depth += m[1] ? -1 : 1;
+  return depth > 0;
+}
+
+function documentTitle(html) {
+  const re = /<title[^>]*>([\s\S]*?)<\/title>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    if (insideSvg(html, m.index)) continue;
+    const t = decodeEntities(m[1].trim()).replace(/\s+/g, ' ');
+    if (t) return t.slice(0, 200);
+  }
+  return null;
+}
+
 export function parseHtml(html) {
-  const head = html.slice(0, 200_000);
-  const rawTitle = head.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];
+  const head = html.length > DOC_CAP ? html.slice(0, DOC_CAP) : html;
   return {
-    title: rawTitle ? decodeEntities(rawTitle.trim()).replace(/\s+/g, ' ').slice(0, 200) : null,
+    title: documentTitle(head),
     ogTitle: meta(head, 'og:title', 'twitter:title'),
     description: (meta(head, 'description', 'og:description', 'twitter:description') || '').slice(0, 500) || null,
     siteName: meta(head, 'og:site_name', 'application-name'),
@@ -83,6 +117,8 @@ export async function probe(url, { timeout = 15000, signal } = {}) {
     const isHtml = /html|xml|text\/plain/i.test(ctype);
     let body = '';
     if (isHtml) {
+      const len = Number(res.headers.get('content-length') || 0);
+      if (len > 32_000_000) { res.body?.cancel?.(); throw new Error('document too large'); }
       const buf = await res.arrayBuffer();
       const cs = ctype.match(/charset=([\w-]+)/i)?.[1] || 'utf-8';
       try { body = new TextDecoder(cs).decode(buf); }

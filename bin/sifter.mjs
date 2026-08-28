@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { Library, save, collect, collectChrome, refresh, exportable, findProfiles, listFolders, findFolder } from '../src/pipeline.mjs';
 import { search } from '../src/search.mjs';
+import { verifySubmission, renderIssue, issueUrl, toIndexEntry, REPO } from '../src/submit.mjs';
 import { renderMarkdown } from '../src/render.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -49,11 +50,13 @@ function usage() {
   console.log(`${C.b('sifter')} — sift scattered resource links into a searchable index
 
   ${C.b('sifter add')} <url|post-url>...      add resource posts or plain links
+  ${C.b('sifter add')} <url> --from <post>    credit a hand-resolved link to its post
   ${C.b('sifter chrome')} --folder <name>     import ONE named bookmark folder
   ${C.b('sifter chrome')} --list              show folders you could import
   ${C.b('sifter refresh')} [--all]            check liveness + pull real metadata
   ${C.b('sifter search')} <query>             search the library
   ${C.b('sifter list')} [--flag <f>]          list entries
+  ${C.b('sifter submit')} <url> --note "..."  propose a resource for the shared index
   ${C.b('sifter export')} [--out <dir>]       write the publishable index
   ${C.b('sifter stats')}                      what's in the library
 
@@ -73,6 +76,7 @@ switch (cmd) {
     const inputs = positional();
     if (!inputs.length) { console.error('usage: sifter add <url>...'); process.exit(1); }
     const st = await collect(lib, inputs, {
+      from: flag('from') === true ? null : flag('from'),
       onItem: (r) => { if (!json()) console.log(`  ${r.created ? C.g('+') : C.dim('=')} ${r.entry.key}`); },
     });
     persist();
@@ -188,6 +192,58 @@ switch (cmd) {
     console.log(json() ? JSON.stringify({ out: outDir, published: entries.length, held: why }, null, 2)
       : `published ${C.b(entries.length)} → ${outDir.replace(homedir(), '~')}\n`
         + `held back ${held.length}: ${Object.entries(why).map(([k, v]) => `${v} ${k}`).join(', ') || 'none'}`);
+    break;
+  }
+
+  case 'submit': {
+    const target = positional()[0];
+    if (!target) {
+      console.error('usage: sifter submit <url> --note "why it is worth indexing"');
+      process.exit(1);
+    }
+    const v = await verifySubmission(target, {
+      note: flag('note') === true ? null : flag('note'),
+      from: flag('from') === true ? null : flag('from'),
+      lib,
+    });
+
+    if (!v.ok) {
+      // Refused here, on the contributor's machine, rather than in someone
+      // else's review queue.
+      console.error(`${C.r('✗')} ${v.message}`);
+      process.exit(1);
+    }
+
+    const url = issueUrl(v, { repo: flag('repo') === true ? REPO : (flag('repo') || REPO) });
+    if (json()) { console.log(JSON.stringify({ ...v, issue_url: url, index_entry: toIndexEntry(v) }, null, 2)); break; }
+
+    console.log(`${dot(v.entry.liveness.status)} ${C.b(v.entry.title || v.entry.key)}`);
+    console.log(`  ${C.c(v.entry.url)}`);
+    if (v.entry.description) console.log(`  ${v.entry.description.slice(0, 140)}`);
+    if (v.entry.github?.stars) console.log(C.dim(`  ★${v.entry.github.stars}`));
+    if (v.duplicate) console.log(C.y(`  already indexed as ${v.duplicate.key} — submitting adds one more independent mention`));
+    for (const w of v.warnings) console.log(C.y(`  ⚠︎ ${w}`));
+    console.log();
+
+    if (argv.includes('--open')) {
+      const { spawnSync } = await import('node:child_process');
+      const gh = spawnSync('gh', ['--version'], { stdio: 'ignore' }).status === 0;
+      if (gh) {
+        const r = spawnSync('gh', ['issue', 'create', '--repo', REPO,
+          '--title', `Add: ${v.entry.title || v.entry.key}`, '--body', renderIssue(v), '--label', 'submission'],
+          { stdio: 'inherit' });
+        if (r.status === 0) break;
+        console.log(C.dim('gh failed; falling back to a browser link'));
+      }
+      const opener = process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start' : 'xdg-open';
+      spawnSync(opener, [url], { stdio: 'ignore' });
+      console.log(C.dim('opened in your browser'));
+      break;
+    }
+
+    console.log('Open this to file it (nothing has been sent):');
+    console.log(url);
+    console.log(C.dim('\nor add --open to file it directly'));
     break;
   }
 

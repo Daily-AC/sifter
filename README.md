@@ -160,6 +160,40 @@ Three tools: `sifter_search`, `sifter_list`, `sifter_get`. With no `SIFTER_DB`
 the server serves the public index shipped in this repo, so an agent has
 something useful to search before you have collected anything.
 
+## Contribute a resource
+
+Anyone can propose a site for the shared index:
+
+```sh
+npx @z10/sifter submit https://example.com --note "what it gives you that the alternatives don't"
+```
+
+The submission is verified **on your machine, before it becomes anyone else's
+problem**: privacy screen, liveness check, the site's own title and
+description, and a duplicate check against the index. What reaches the
+maintainer is a verified record rather than a bare link, and what cannot pass
+is refused where it costs one person ten seconds instead of a reviewer ten
+minutes.
+
+```
+✗ That looks like a personal or logged-in page (host-prefix:console, path:/billing).
+✗ That URL is not reachable (dns-failure).
+● Magic UI  https://magicui.design/
+  already indexed as magicui.design — submitting adds one more independent mention
+```
+
+Nothing is sent until you open the printed link. Add `--open` to file it
+directly, or `--from <post-url>` to credit where you saw it. Without Node,
+the [issue form](.github/ISSUE_TEMPLATE/submit.yml) does the same thing and a
+bot runs the same check on the thread.
+
+Agents can do this too — the MCP server exposes `sifter_submit`, which
+verifies and returns the issue link for a human to open. It never files
+anything by itself.
+
+Submissions land as issues; a maintainer merges them into the index. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for what gets accepted.
+
 ## Publish
 
 ```sh

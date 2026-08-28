@@ -47,6 +47,16 @@ sifter refresh                 # verify + pull real metadata; run after adding
 An entry added but not refreshed has no title or description and will rank
 poorly. Always refresh after adding.
 
+## Submit
+
+```sh
+sifter submit <url> --note "why it is worth indexing"
+```
+
+Verifies the URL and prints a prefilled GitHub issue link. It does **not**
+file anything — show the link to the user and let them decide. Never pass
+`--open` on the user's behalf.
+
 ## Browse
 
 ```sh
