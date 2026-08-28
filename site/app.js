@@ -4,6 +4,7 @@
 // does not actually have.
 
 import { search } from './search.mjs?v=86b4acfa';
+import * as track from './analytics.mjs?v=f6470b83';
 
 const $ = (s) => document.querySelector(s);
 // A long placeholder is useful on a wide input and truncated garbage on a
@@ -58,7 +59,7 @@ function facets(list) {
   return [...counts.entries()].filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).slice(0, 8);
 }
 
-function card(e) {
+function card(e, i) {
   const status = e.status || 'unknown';
   const desc = e.description || '';
   const claim = e.claims?.[0];
@@ -72,7 +73,7 @@ function card(e) {
 
   const tags = (e.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
 
-  return `<a class="row" role="listitem" href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">
+  return `<a class="row" role="listitem" data-k="${esc(e.key)}" data-i="${i}" href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">
     <div class="row-top">
       <span class="dot ${status}" title="${status}"></span>
       <span class="name">${esc(e.title || e.names?.[0] || e.key)}</span>
@@ -123,6 +124,10 @@ function render() {
 
   els.results.innerHTML = rows.length ? rows.map(card).join('') : `<div class="empty">${empty}</div>`;
   els.results.scrollTop = 0;
+
+  // Only searches run against a loaded index are worth counting; a zero here
+  // would otherwise read as a gap in the index rather than a failed deploy.
+  if (entries.length) track.search(q, rows.length, filter);
 }
 
 function renderFilters() {
@@ -143,10 +148,19 @@ els.q.addEventListener('input', render);
 els.q.addEventListener('focus', () => els.hint.style.visibility = 'hidden');
 els.q.addEventListener('blur', () => { if (!els.q.value) els.hint.style.visibility = 'visible'; });
 
+// Which entry someone actually opened, and from which query — the pair that
+// says whether the ranking put the right thing first.
+els.results.addEventListener('click', (ev) => {
+  const row = ev.target.closest('.row');
+  if (!row) return;
+  track.open(row.dataset.k, els.q.value.trim(), Number(row.dataset.i) + 1);
+});
+
 els.filters.addEventListener('click', (ev) => {
   const b = ev.target.closest('.chip');
   if (!b) return;
   filter = b.dataset.f || null;
+  if (filter) track.facet(filter);
   renderFilters();
   render();
 });
@@ -172,6 +186,7 @@ els.copy.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(text);
     toast('Copied');
+    track.copy();
   } catch {
     // Clipboard is blocked in some contexts; select it so the user can copy.
     const r = document.createRange();
@@ -179,6 +194,7 @@ els.copy.addEventListener('click', async () => {
     getSelection().removeAllRanges();
     getSelection().addRange(r);
     toast('Press ⌘C to copy');
+    track.copy();
   }
 });
 
@@ -201,6 +217,7 @@ addEventListener('resize', fitPlaceholder, { passive: true });
     renderSort();
     render();
     fitPlaceholder();
+    track.view();
   } catch (err) {
     els.results.innerHTML =
       `<div class="empty">Could not load the index (${esc(err.message)}).<br>

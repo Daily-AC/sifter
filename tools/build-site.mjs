@@ -42,6 +42,8 @@ const stamp = (p) => createHash('sha256').update(readFileSync(p)).digest('hex').
 const v = {
   search: stamp(join(SITE, 'search.mjs')),
   lexicon: stamp(join(SITE, 'lexicon.mjs')),
+  // analytics.mjs has no imports of its own, so its hash is final here.
+  analytics: stamp(join(SITE, 'analytics.mjs')),
 };
 
 // The chain is app.js -> search.mjs -> lexicon.mjs, so rewrite inner imports
@@ -52,7 +54,8 @@ writeFileSync(join(SITE, 'search.mjs'), searchSrc);
 v.search = stamp(join(SITE, 'search.mjs'));
 
 let appSrc = readFileSync(join(ROOT, 'site', 'app.js'), 'utf8')
-  .replace(/from '\.\/search\.mjs(\?v=[a-f0-9]+)?'/, `from './search.mjs?v=${v.search}'`);
+  .replace(/from '\.\/search\.mjs(\?v=[a-f0-9]+)?'/, `from './search.mjs?v=${v.search}'`)
+  .replace(/from '\.\/analytics\.mjs(\?v=[a-f0-9]+)?'/, `from './analytics.mjs?v=${v.analytics}'`);
 writeFileSync(join(SITE, 'app.js'), appSrc);
 const appV = stamp(join(SITE, 'app.js'));
 
@@ -83,7 +86,7 @@ writeFileSync(join(SITE, 'resources.json'), JSON.stringify({
 
 const bytes = (p) => (readFileSync(p).length / 1024).toFixed(1) + ' kB';
 console.log(`site built: ${entries.length} entries`);
-for (const f of ['index.html', 'app.js', 'resources.json', 'search.mjs', 'lexicon.mjs']) {
+for (const f of ['index.html', 'app.js', 'resources.json', 'search.mjs', 'lexicon.mjs', 'analytics.mjs']) {
   console.log(`  ${f.padEnd(18)} ${bytes(join(SITE, f))}`);
 }
-console.log(`  fingerprints: app=${appV} search=${v.search} lexicon=${v.lexicon}`);
+console.log(`  fingerprints: app=${appV} search=${v.search} lexicon=${v.lexicon} analytics=${v.analytics}`);
