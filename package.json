@@ -1,5 +1,5 @@
 {
-  "name": "sifter",
+  "name": "@z10/sifter",
   "version": "0.1.0",
   "description": "Sift scattered resource links (X threads, browser bookmarks) into a deduped, liveness-checked, agent-searchable index.",
   "type": "module",
@@ -45,5 +45,8 @@
   "homepage": "https://github.com/Daily-AC/sifter#readme",
   "bugs": {
     "url": "https://github.com/Daily-AC/sifter/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -70,7 +70,7 @@ server answers `"animated react components"` with eight ranked entries.
 ## Install
 
 ```sh
-npx github:Daily-AC/sifter search "design inspiration"    # nothing to install
+npx @z10/sifter search "design inspiration"    # nothing to install
 ```
 
 That works on a clean machine: the repository ships a verified index, so the
@@ -149,7 +149,7 @@ cannot outvote relevance, and dead entries sink rather than disappear.
   "mcpServers": {
     "sifter": {
       "command": "npx",
-      "args": ["-y", "--package=github:Daily-AC/sifter", "sifter-mcp"],
+      "args": ["-y", "--package=@z10/sifter", "sifter-mcp"],
       "env": { "SIFTER_DB": "/path/to/your/resources.jsonl" }
     }
   }
