@@ -265,37 +265,40 @@ diff — four sites added, one marked dead — instead of a binary blob.
 
 ## What the site records
 
-[sifter.z10.dev](https://sifter.z10.dev) counts searches, because a search
-that comes back empty is the only trustworthy signal of what the index is
-missing: a gap stated by a real person, in their own words, at the moment
-they wanted the thing. Everything else the page records is there to make that
-number readable — a week of no misses means either a complete index or an
-empty room, and those should not look the same.
+Two things, kept apart on purpose.
 
-An event is a query string on a request that nginx logs and answers `204`.
-It carries the event name, a random id that dies with the browser tab, and
-for a search the term and how many results it returned. No cookie is set, no
-third-party script loads, and no address is written to the store — the
-machine that terminates your connection is configured not to log this
-endpoint at all, so "who asked" and "what they searched for" are never held
-by the same machine.
+**Counts, from every visit, with no text in them.** When a tab goes away the
+page writes one line: how many searches, how many came back empty, how many
+results were opened, the referring domain, a screen-size bucket, a language.
+No identifier, no ordering, nothing anybody typed. That is enough to answer
+the one question the site can usefully answer — how often does a search fail?
+— and not enough to say anything about a person.
 
-The collector is [`site/analytics.mjs`](site/analytics.mjs), 150 readable
-lines. The entire backend is
-[`deploy/analytics.nginx.conf`](deploy/analytics.nginx.conf) — there is no
-process and no database. It honours Do Not Track and Global Privacy Control,
-and you can switch it off by hand:
+**Terms, only when you send them.** A search that finds nothing offers a
+button, and the term travels only if you press it. Same bargain as a
+submission: the work happens in front of you, the link sits there, you decide.
+
+The two are different quantities and the report never blends them. A 30% miss
+rate alongside four reported terms means the index failed far more often than
+four times; the rate is the measurement, the terms are a floor.
+
+The collector is [`site/analytics.mjs`](site/analytics.mjs), 156 readable
+lines. The whole backend is
+[`deploy/analytics.nginx.conf`](deploy/analytics.nginx.conf) — one nginx
+location that appends a line and answers `204`. No process, no database, no
+cookie, no third-party script, no address in the store. It honours Do Not
+Track and Global Privacy Control, and switches off by hand:
 
 ```js
 localStorage.setItem('sifter:no-analytics', '1')
 ```
 
-`node tools/stats.mjs` is the reader.
+`node tools/stats.mjs` reads it.
 
 ## Development
 
 ```sh
-npm test        # 38 regression tests, no network
+npm test        # 39 regression tests, no network
 ```
 
 Every test in there is a mistake this project actually made against real

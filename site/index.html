@@ -161,6 +161,14 @@ h1 .dim{color:var(--ash)}
 .sep{color:var(--stone)}
 .empty{padding:44px 18px; text-align:center; color:var(--ash); font-size:14px}
 .empty code{font-family:var(--mono); color:var(--mute)}
+.gap{
+  display:inline-flex; align-items:center; height:32px; margin-top:18px; padding:0 14px;
+  background:transparent; color:var(--body); border:1px solid var(--hairline);
+  border-radius:var(--r); font:500 13px/1 var(--font); cursor:pointer;
+  transition:border-color .15s,color .15s;
+}
+.gap:hover{border-color:var(--hairline-strong); color:var(--ink)}
+.gap-done{display:inline-block; margin-top:18px; font-size:13px; color:var(--mute)}
 
 /* ─── prose sections ─── */
 section{padding:var(--section) 0}
@@ -393,6 +401,6 @@ npx @z10/sifter refresh</pre>
 </div></footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="module" src="./app.js?v=2806b5b1"></script>
+<script type="module" src="./app.js?v=79ecf0b5"></script>
 </body>
 </html>

@@ -239,19 +239,23 @@ sifter export               # 产出 index/resources.json + index/README.md
 
 ## 站点记录了什么
 
-[sifter.z10.dev](https://sifter.z10.dev) 统计搜索，因为一次搜不到结果是判断
-索引缺什么最可信的信号：那是一个真人在真的需要它的那一刻、用自己的话说出来的
-缺口。页面记录的其余一切都是为了让这个数字可读——一周没有落空，可能是索引够全，
-也可能是根本没人来，这两件事不该长得一样。
+两样东西，刻意分开。
 
-一个事件就是一次请求的 query string，nginx 记一行日志然后回 `204`。里面是事件
-名、一个随浏览器标签页一起消失的随机 id，以及搜索时的关键词和结果条数。不下
-cookie，不加载任何第三方脚本，存储里也没有 IP——终结你这条连接的那台机器被明确
-配置为不记录这个端点，所以「谁在问」和「问了什么」从不落在同一台机器上。
+**计数，来自每一次访问，里面没有任何文本。** 标签页离开时，页面写一行：搜了几次、
+几次落空、开了几个结果、来源域名、屏幕尺寸档、语言。没有标识符，没有先后顺序，
+没有任何人打过的字。这一行足以回答这个站唯一值得回答的问题——搜索多久失败一次
+——也不足以说出关于某个人的任何事。
 
-采集器是 [`site/analytics.mjs`](site/analytics.mjs)，150 行，可以读完。整个后端
-就是 [`deploy/analytics.nginx.conf`](deploy/analytics.nginx.conf)，没有进程也没有
-数据库。它尊重 Do Not Track 和 Global Privacy Control，你也可以手动关掉：
+**词，只有你亲手发送才会走。** 一次搜不到结果的搜索会给出一个按钮，你按了那个词
+才会离开浏览器。和上报资源是同一套约定：事情在你眼前做完，链接摆在那儿，你决定。
+
+这两个是不同的量，报表从不把它们混在一起。30% 的落空率旁边只有四个上报的词，
+意味着索引失败的次数远不止四次——落空率是测量值，那些词只是一个下限。
+
+采集器是 [`site/analytics.mjs`](site/analytics.mjs)，156 行，可以读完。整个后端就是
+[`deploy/analytics.nginx.conf`](deploy/analytics.nginx.conf)：一个 nginx location，
+追加一行然后回 `204`。没有进程，没有数据库，不下 cookie，没有第三方脚本，存储里
+没有 IP。它尊重 Do Not Track 和 Global Privacy Control，也可以手动关掉：
 
 ```js
 localStorage.setItem('sifter:no-analytics', '1')
@@ -262,7 +266,7 @@ localStorage.setItem('sifter:no-analytics', '1')
 ## 开发
 
 ```sh
-npm test        # 38 个回归测试，不联网
+npm test        # 39 个回归测试，不联网
 ```
 
 里面每一条测试都对应这个项目在真实数据上真的犯过的错，而且每一个都是无声的：

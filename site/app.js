@@ -4,7 +4,7 @@
 // does not actually have.
 
 import { search } from './search.mjs?v=86b4acfa';
-import * as track from './analytics.mjs?v=f6470b83';
+import * as track from './analytics.mjs?v=57e76bbc';
 
 const $ = (s) => document.querySelector(s);
 // A long placeholder is useful on a wide input and truncated garbage on a
@@ -116,8 +116,11 @@ function render() {
     empty = 'The index came back empty. That is a deploy problem, not your search — '
       + '<a href="https://github.com/Daily-AC/sifter/issues" style="color:var(--body)">tell us</a>.';
   } else if (q) {
+    // The term is the useful thing here and it is only sent if this is
+    // pressed. Nothing about the search has left the browser before that.
     empty = `Nothing matched <code>${esc(q)}</code>.<br>`
-      + 'Try fewer words — search bridges English and Chinese, so “动画组件” and “animated components” both work.';
+      + 'Try fewer words — search bridges English and Chinese, so “动画组件” and “animated components” both work.'
+      + `<br><button class="gap" data-term="${esc(q)}">Tell the maintainers about “${esc(q)}”</button>`;
   } else {
     empty = `Nothing in <code>${esc(filter || '')}</code> yet.`;
   }
@@ -127,7 +130,7 @@ function render() {
 
   // Only searches run against a loaded index are worth counting; a zero here
   // would otherwise read as a gap in the index rather than a failed deploy.
-  if (entries.length) track.search(q, rows.length, filter);
+  if (entries.length) track.searched(q, rows.length);
 }
 
 function renderFilters() {
@@ -148,19 +151,24 @@ els.q.addEventListener('input', render);
 els.q.addEventListener('focus', () => els.hint.style.visibility = 'hidden');
 els.q.addEventListener('blur', () => { if (!els.q.value) els.hint.style.visibility = 'visible'; });
 
-// Which entry someone actually opened, and from which query — the pair that
-// says whether the ranking put the right thing first.
 els.results.addEventListener('click', (ev) => {
+  const gap = ev.target.closest('.gap');
+  if (gap) {
+    track.reportGap(gap.dataset.term);
+    gap.outerHTML = '<span class="gap-done">Sent — thank you.</span>';
+    return;
+  }
+  // Which entry got opened and where it ranked. No query travels with it.
   const row = ev.target.closest('.row');
   if (!row) return;
-  track.open(row.dataset.k, els.q.value.trim(), Number(row.dataset.i) + 1);
+  track.opened(row.dataset.k, Number(row.dataset.i) + 1);
 });
 
 els.filters.addEventListener('click', (ev) => {
   const b = ev.target.closest('.chip');
   if (!b) return;
   filter = b.dataset.f || null;
-  if (filter) track.facet(filter);
+  if (filter) track.facetUsed();
   renderFilters();
   render();
 });
@@ -186,7 +194,7 @@ els.copy.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(text);
     toast('Copied');
-    track.copy();
+    track.copied();
   } catch {
     // Clipboard is blocked in some contexts; select it so the user can copy.
     const r = document.createRange();
@@ -194,7 +202,7 @@ els.copy.addEventListener('click', async () => {
     getSelection().removeAllRanges();
     getSelection().addRange(r);
     toast('Press ⌘C to copy');
-    track.copy();
+    track.copied();
   }
 });
 
@@ -217,7 +225,6 @@ addEventListener('resize', fitPlaceholder, { passive: true });
     renderSort();
     render();
     fitPlaceholder();
-    track.view();
   } catch (err) {
     els.results.innerHTML =
       `<div class="empty">Could not load the index (${esc(err.message)}).<br>

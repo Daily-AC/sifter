@@ -46,8 +46,8 @@ const v = {
   analytics: stamp(join(SITE, 'analytics.mjs')),
 };
 
-// The chain is app.js -> search.mjs -> lexicon.mjs, so rewrite inner imports
-// before hashing the file that points at them.
+// The chain is app.js -> {search.mjs -> lexicon.mjs, analytics.mjs}, so
+// rewrite inner imports before hashing the file that points at them.
 let searchSrc = readFileSync(join(SITE, 'search.mjs'), 'utf8')
   .replace(/from '\.\/lexicon\.mjs'/, `from './lexicon.mjs?v=${v.lexicon}'`);
 writeFileSync(join(SITE, 'search.mjs'), searchSrc);

@@ -1,40 +1,35 @@
-// What this page records, and what it deliberately does not.
+// What this page records, and why it is shaped this way.
 //
-// The useful question the site can answer is not "how many people came" — it
-// is "what did someone look for and not find". A search that returns nothing
-// is a gap in the index, stated by a real person in their own words, and it
-// is the only number here that changes what sifter should go collect.
-// Everything else exists to make that one readable: without knowing whether
-// anybody searched at all, a week of zero misses means either a complete
-// index or an empty room.
+// The site needs one number to be useful: how often does a search come back
+// empty? That is the rate at which the index fails the person in front of it.
+// But knowing the rate does not require knowing the terms, and those are two
+// very different things to hold. So they are split, and only one of them is
+// collected:
 //
-// The collector is this file and nothing else. There is no third-party
-// script, no cookie, no localStorage, no fingerprint, and no IP address in
-// the store — events arrive as a query string on a request that nginx logs
-// and answers 204, so the entire backend is one `location` block and a text
-// file that logrotate ages out. See deploy/analytics.nginx.conf.
+//   Counted, always, anonymously — how many searches, how many came back
+//   empty, how many results got opened. One record per visit, written when
+//   the tab goes away. No identifier, no ordering, no text anybody typed.
+//
+//   The term itself — only when somebody presses a button that says it will
+//   be sent. That is the same bargain sifter already offers for submissions:
+//   the work happens on your machine, the link sits there, and you decide.
+//
+// The earlier version of this file reported every event as it happened, with
+// an id tying them together, and leaned on the two servers being configured
+// not to hold both halves. That protected who was asking while collecting
+// everything they asked — and on a site this size, a referrer plus a language
+// plus a sequence of actions identifies people perfectly well without an
+// address. Not collecting it is the only version of this that does not
+// require trusting an nginx config.
 
 const ENDPOINT = '/e';
-
-// A session that reports more than this is either broken or being scripted;
-// either way the tail is noise and dropping it costs nothing real.
-const MAX_EVENTS = 60;
-
-// Long enough for a truncated term to be worthless to an attacker fishing
-// for pasted secrets, short enough to keep a real query intact.
-const QUERY_CAP = 80;
-
-// Silence before typing counts as a search. Every keystroke re-renders, and
-// reporting each one would turn "shader" into six searches and bury the
-// terms people actually stopped to read.
-const SETTLE = 700;
+const TERM_CAP = 80;
 
 /**
- * Opting out has to be genuinely free, so three separate signals all mean no:
- * the two the browser can send on its own, and one a person can set by hand.
- * A storage exception counts as opt-out too — in a locked-down browser the
- * choice has effectively already been expressed, and the alternative is
- * reaching for something more persistent to work around it.
+ * Three signals all mean no: the two a browser can send by itself, and one a
+ * person can set by hand. A storage exception counts as a refusal too — in a
+ * locked-down browser the choice is already expressed, and the alternative is
+ * reaching for something more persistent to get around it.
  */
 function optedOut() {
   try {
@@ -49,38 +44,21 @@ function optedOut() {
 
 const off = optedOut();
 
-// Groups events within one tab visit so "three searches then an open" is
-// distinguishable from three separate people. It dies with the tab: there is
-// no persistent identifier here, and no way to recognise a returning visitor.
-let sid = Math.random().toString(36).slice(2, 10);
-try {
-  const stored = sessionStorage.getItem('sifter:s');
-  if (stored) sid = stored;
-  else sessionStorage.setItem('sifter:s', sid);
-} catch {
-  // No sessionStorage: the in-memory id still groups this page load.
-}
-
-let sent = 0;
-
 function send(name, fields) {
-  if (off || sent >= MAX_EVENTS) return;
-  sent++;
-
-  const params = new URLSearchParams({ e: name, s: sid });
+  if (off) return;
+  const params = new URLSearchParams({ e: name });
   for (const [k, v] of Object.entries(fields || {})) {
-    if (v === undefined || v === null || v === '') continue;
-    params.set(k, String(v).slice(0, QUERY_CAP));
+    if (v === undefined || v === null || v === '' || v === 0) continue;
+    params.set(k, String(v).slice(0, TERM_CAP));
   }
   const url = `${ENDPOINT}?${params}`;
-
-  // sendBeacon survives the page going away, which a plain fetch does not —
-  // it is called with no body on purpose, so nginx gets an empty POST it can
-  // answer without reading anything.
+  // sendBeacon survives the page going away, which is the only moment the
+  // summary is written. Called with no body on purpose: nginx logs the query
+  // string and answers without reading anything.
   try {
     if (navigator.sendBeacon?.(url)) return;
   } catch {
-    // Some content-blockers throw here rather than returning false.
+    // Some content blockers throw here rather than returning false.
   }
   try {
     fetch(url, { method: 'POST', keepalive: true, mode: 'no-cors', cache: 'no-store' });
@@ -89,61 +67,90 @@ function send(name, fields) {
   }
 }
 
-export function view() {
+// Exported so the counting rules below can be tested outside a browser;
+// nothing reads it from outside except the summary and the test suite.
+export const visit = { searches: 0, misses: 0, opens: 0, facets: 0, copied: false };
+
+// The last search that was counted, so that refining one is not counted as
+// another. Held in memory for the length of the visit and never sent.
+let counted = null;
+
+/**
+ * Called on every keystroke. Typing "sha" -> "shad" -> "shader" is one search,
+ * and the outcome that matters is the one it ended on: a query and the query
+ * it grew from replace each other rather than accumulating.
+ *
+ * This undercounts in one case — "shader" edited into "shadow" passes through
+ * "shad", so the chain never breaks and the two searches count as one. It errs
+ * toward reporting fewer searches than happened, which is the safe direction
+ * for a miss rate.
+ */
+export function searched(q, results) {
+  if (!q) { counted = null; return; }
+
+  if (counted && (q.startsWith(counted.q) || counted.q.startsWith(q))) {
+    if (counted.n === 0 && results > 0) visit.misses--;
+    if (counted.n > 0 && results === 0) visit.misses++;
+    counted = { q, n: results };
+    return;
+  }
+
+  visit.searches++;
+  if (results === 0) visit.misses++;
+  counted = { q, n: results };
+}
+
+/**
+ * An open is reported on its own rather than folded into the summary, because
+ * which entry ranked where is worth knowing per entry. It carries no query and
+ * no visit id: the key is a row in a public index, not something anybody typed.
+ */
+export function opened(key, rank) {
+  visit.opens++;
+  send('open', { k: key, r: rank });
+}
+
+export function facetUsed() { visit.facets++; }
+export function copied() { visit.copied = true; }
+
+/** The only call that sends text a person typed, and only from a button. */
+export function reportGap(term) {
+  send('miss', { q: term });
+}
+
+let summarised = false;
+
+/**
+ * One record per visit, written once. Firing again on a later hide would make
+ * one visit look like two, and the counts are worth more than the tail of a
+ * session somebody came back to.
+ */
+function summarise() {
+  if (summarised || off) return;
+  summarised = true;
+
   let ref = '';
   try {
     ref = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : '';
-  } catch {
-    ref = '';
-  }
+  } catch { /* opaque referrer */ }
   if (ref === location.hostname) ref = '';
 
-  send('view', {
+  send('s', {
+    n: visit.searches, m: visit.misses, o: visit.opens, f: visit.facets,
+    c: visit.copied ? 1 : 0,
     ref,
-    // A bucket, not a size: enough to answer "should the narrow layout get
+    // A bucket, not a size: enough to answer "does the narrow layout deserve
     // more attention", not enough to help identify a screen.
     w: innerWidth < 560 ? 'sm' : innerWidth < 1000 ? 'md' : 'lg',
     l: (navigator.language || '').slice(0, 5),
   });
 }
 
-let pending = null;
-let timer = null;
-
-/** Called on every keystroke; reports at most once per settled query. */
-export function search(q, results, filter) {
-  clearTimeout(timer);
-  if (!q) { pending = null; return; }
-  pending = { q, results, filter };
-  timer = setTimeout(flush, SETTLE);
+// Guarded so importing this module outside a browser is not an error — the
+// counting rules are worth testing and a test runner has no document.
+if (typeof document !== 'undefined') {
+  addEventListener('pagehide', summarise);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') summarise();
+  });
 }
-
-function flush() {
-  if (!pending) return;
-  const { q, results, filter } = pending;
-  pending = null;
-  // Prefixes of one another are still reported — "shad" then "shader" both
-  // go out — because collapsing them needs the whole session and the reader
-  // has it: tools/stats.mjs folds a prefix chain into its longest term.
-  send('search', { q, n: results, f: filter });
-}
-
-export function open(key, q, rank) {
-  send('open', { k: key, q, r: rank });
-}
-
-export function facet(name) {
-  send('facet', { f: name });
-}
-
-export function copy() {
-  send('copy', {});
-}
-
-// A search someone typed and then left on screen is the most interesting
-// kind — they read the results and stopped. pagehide fires where unload does
-// not, particularly on mobile.
-addEventListener('pagehide', () => { clearTimeout(timer); flush(); });
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') { clearTimeout(timer); flush(); }
-});
