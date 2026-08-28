@@ -11,18 +11,31 @@ const MARK = { alive: '', blocked: ' ⚠︎', unknown: ' ?', dead: ' ✗' };
 
 function sectionOf(e) {
   if (e.sections?.length) return e.sections[0];
+  if (e.local_sections?.length) return e.local_sections[0];   // local view only
+  if (e.tags?.length) return e.tags[0];
   if (e.github?.topics?.length) return e.github.topics[0];
   return 'Other';
 }
 
-export function renderMarkdown(entries, { title = 'Sifted Resources' } = {}) {
+export function renderMarkdown(entries, { title = 'Sifted Resources', minGroup = 2 } = {}) {
   const groups = new Map();
   for (const e of entries) {
     const g = sectionOf(e);
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(e);
   }
-  const ordered = [...groups.entries()].sort((a, b) => b[1].length - a[1].length);
+
+  // A section holding one link is a worse reading experience than no section
+  // at all — six single-entry headings from GitHub topics turn a browsable
+  // page into a table of contents for itself.
+  const other = groups.get('Other') || [];
+  for (const [g, items] of [...groups]) {
+    if (g !== 'Other' && items.length < minGroup) { other.push(...items); groups.delete(g); }
+  }
+  if (other.length) groups.set('Other', other);
+
+  const ordered = [...groups.entries()]
+    .sort((a, b) => (a[0] === 'Other') - (b[0] === 'Other') || b[1].length - a[1].length);
 
   const lines = [
     `# ${title}`, '',

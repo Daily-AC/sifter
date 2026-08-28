@@ -6,7 +6,7 @@ import { fetchPost, tweetId } from './sources/x.mjs';
 import { extractFromPost, leadsIn } from './extract.mjs';
 import { readFolder, findProfiles, listFolders } from './sources/chrome.mjs';
 import { probe, probeGithub, probeAll } from './probe.mjs';
-import { publishable, sanitizeSources } from './risk.mjs';
+import { publishable, sanitizeEntry } from './risk.mjs';
 import { normalizeUrl, groupKey } from './canonical.mjs';
 
 /** Add posts and/or plain resource URLs. */
@@ -130,7 +130,7 @@ export function exportable(lib, { allowRisk = false } = {}) {
   for (const e of lib.all()) {
     const v = publishable(e, { allowRisk });
     if (!v.ok) { held.push({ key: e.key, why: v.why }); continue; }
-    out.push({ ...e, sources: sanitizeSources(e.sources) });
+    out.push(sanitizeEntry(e));
   }
   out.sort((a, b) => (b.mentions - a.mentions) || (a.key < b.key ? -1 : 1));
   return { entries: out, held };

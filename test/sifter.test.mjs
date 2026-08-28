@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import { normalizeUrl, groupKey, bestUrl } from '../src/canonical.mjs';
 import { screen } from '../src/privacy.mjs';
 import { extractFromText, postContext } from '../src/extract.mjs';
-import { assessRisk, publishable, sanitizeSources } from '../src/risk.mjs';
+import { assessRisk, publishable, sanitizeSources, sanitizeEntry } from '../src/risk.mjs';
 import { parseHtml } from '../src/probe.mjs';
 import { Library } from '../src/store.mjs';
 import { search, tokenize } from '../src/search.mjs';
@@ -79,6 +79,40 @@ test('extract: name, blurb and section come off a real post', () => {
   assert.equal(got[0].section, '电子书');
 });
 
+test('extract: a name above a bare link is a name, not a section', () => {
+  // This layout turned every entry into its own section heading and left
+  // every name empty.
+  const got = extractFromText(
+    '之前分享过几个我常用的审美网站\n\n👉Awwwards — 全球网页设计奥斯卡\nhttps://awwwards.com\n适合看顶级网页设计\n\nRecent design\nhttps://recent.design\n找灵感效率很高');
+  assert.equal(got.length, 2);
+  assert.match(got[0].name, /Awwwards/);
+  assert.equal(got[0].section, null);
+  assert.equal(got[0].note, '适合看顶级网页设计');
+  assert.equal(got[1].name, 'Recent design');
+});
+
+test('extract: a heading above a numbered list is still a heading', () => {
+  const got = extractFromText(
+    '📚 电子书\n1. Z-Library：http://zh.z-library.sk —— 综合搜索\n2. WeLib：https://zh.welib.org —— 教材');
+  assert.equal(got[0].section, '电子书');
+  assert.equal(got[0].name, 'Z-Library');
+  assert.equal(got[1].section, '电子书');
+});
+
+test('extract: a name is recovered even when the blurb shares the link line', () => {
+  const got = extractFromText('👉Design spells\nhttps://designspells.com/ 动效细节超棒');
+  assert.equal(got[0].name, 'Design spells');
+  assert.equal(got[0].section, null);
+});
+
+test('extract: a section claimed by only one entry is dropped', () => {
+  const got = extractFromText(
+    '影视\n1. A：https://a.com\n2. B：https://b.com\n\nQuirks\n3. C：https://c.com');
+  assert.equal(got[0].section, '影视');
+  assert.equal(got[1].section, '影视');
+  assert.equal(got[2].section, null, 'a heading covering one entry is a misread name');
+});
+
 test('extract: the lead-in sentence is not a section heading', () => {
   const got = extractFromText('这 5 个网站够用了：\n\nBeautiful UI：https://beautifului.dev');
   assert.equal(got[0].section, null);
@@ -132,6 +166,29 @@ test('export: bookmark provenance is anonymised, posts keep their credit', () =>
   assert.equal(clean[0].type, 'bookmark');
   assert.equal(clean[1].author, 'someone', 'a public post keeps its attribution');
   assert.equal(clean[1].at, '2026-08-22T01:06:00.000Z');
+});
+
+test('export: a bookmark folder name never becomes a public section', () => {
+  // "审美 设计相关" is how one person labels a folder in their browser. It
+  // was surfacing as a section heading in the published index and in search
+  // results, alongside genuinely public headings lifted from posts.
+  const lib = new Library();
+  lib.upsert({ url: 'https://a.com/', section: '审美 设计相关', tags: ['design'],
+               source: { type: 'chrome', folder: 'Other Bookmarks/审美 设计相关' } });
+  lib.upsert({ url: 'https://a.com/', section: '电子书', source: { type: 'x', post_id: '1' } });
+  const e = lib.get('a.com');
+  assert.deepEqual(e.local_sections, ['审美 设计相关']);
+  assert.deepEqual(e.sections, ['电子书'], 'a heading from a public post stays');
+  const pub = sanitizeEntry(e);
+  assert.equal(pub.local_sections, undefined);
+  assert.ok(!JSON.stringify(pub).includes('审美'));
+});
+
+test('risk: a local folder name still counts as evidence when assessing risk', () => {
+  assert.ok(assessRisk({
+    key: 'x.com', local_sections: ['影视'],
+    claims: [{ text: '免费在线观看' }], sources: [],
+  }).includes('legal_risk'));
 });
 
 test('probe: an apostrophe does not truncate a description', () => {

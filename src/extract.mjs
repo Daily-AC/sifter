@@ -28,17 +28,57 @@ const SEP_BEFORE_NOTE = /^[\s：:\-—–|｜(（【\[]*(?:——|--)?[\s：:\-�
 
 const EMOJI = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{2190}-\u{21FF}]/gu;
 
-const looksLikeHeading = (line) => {
+/**
+ * A line holding nothing but a link.
+ *
+ * This is what separates a section heading from a resource name in the very
+ * common "name / link / blurb" layout:
+ *
+ *     Awwwards — 全球网页设计奥斯卡      <- a name, because a bare URL follows
+ *     https://awwwards.com
+ *     适合看顶级网页设计
+ *
+ *     📚 电子书                          <- a heading, because a list follows
+ *     1. Z-Library：http://zh.z-library.sk
+ *
+ * Without the lookahead, every entry in the first layout became its own
+ * section and lost its name.
+ */
+const isBareLink = (line) => {
+  const t = (line || '').trim();
+  if (!t) return false;
+  URL_RE.lastIndex = 0;
+  const m = t.match(URL_RE);
+  if (!m || m.length !== 1) return false;
+  const rest = t.replace(m[0], '').replace(/^[👉➡️→▶️\s·•\-—:：]*/u, '').trim();
+  // The link may be trailed by its own blurb on the same line — authors mix
+  // "name / link / blurb" and "name / link + blurb" freely inside one post.
+  // What matters is that the line STARTS with the link, so the name it
+  // belongs to is the line above.
+  return rest.length === 0 || t.replace(/^[👉➡️→▶️\s·•\-—:：]*/u, '').startsWith(m[0]);
+};
+
+// Words that mean the line is narrating, not labelling.
+const NARRATION = /分享|推荐|整理|收藏|介绍|常用|以下|如下|这些|不要错过|建议|存着|安利|盘点/;
+
+const looksLikeHeading = (line, next = null) => {
+  // A bare link on the next line means this one names that link.
+  if (next !== null && isBareLink(next)) return false;
+
   const bare = line.replace(EMOJI, '').trim();
-  if (!bare || bare.length > 24) return false;
+  if (!bare) return false;
   if (URL_RE.test(line)) { URL_RE.lastIndex = 0; return false; }
   if (ORDINAL.test(line)) return false;
-  // A heading is a short noun phrase: not a sentence, and not the lead-in
-  // line that introduces the list ("这 5 个网站够用了：" ends in a colon and
-  // is prose, however short).
-  if (/[。！？.!?：:，,]$/.test(bare)) return false;
-  if (/\d/.test(bare) && /[个条种款]/.test(bare)) return false;
-  return true;
+
+  // A section heading is a short noun-phrase label — "电子书", "影视",
+  // "Tools" — not a sentence. The lead-in above a list is prose and reads
+  // as a heading to any length-based rule alone: "之前分享过几个我常用的
+  // 审美网站" is 15 characters of narration and became a section.
+  if (/[。！？.!?：:，,、]$/.test(bare)) return false;
+  if (NARRATION.test(bare)) return false;
+  const cjk = (bare.match(/[一-鿿぀-ヿ가-힯]/g) || []).length;
+  if (cjk) return bare.length <= 8;
+  return bare.split(/\s+/).length <= 3 && bare.length <= 24;
 };
 
 const clean = (s) => (s || '').replace(EMOJI, '').replace(/\s+/g, ' ').trim();
@@ -55,7 +95,10 @@ export function extractFromText(text, { maxNote = 200 } = {}) {
     const urls = line.match(URL_RE) || [];
 
     if (!urls.length) {
-      if (looksLikeHeading(line)) section = clean(line) || null;
+      if (!line.trim()) continue;
+      let nextNonEmpty = null;
+      for (let k = i + 1; k < lines.length; k++) { if (lines[k].trim()) { nextNonEmpty = lines[k]; break; } }
+      if (looksLikeHeading(line, nextNonEmpty)) section = clean(line) || null;
       continue;
     }
 
@@ -72,13 +115,12 @@ export function extractFromText(text, { maxNote = 200 } = {}) {
       let note = clean(after.replace(SEP_BEFORE_NOTE, ''));
 
       // A link alone on its line borrows the nearest text above and below.
-      if (!name) {
+      if (!name && isBareLink(line)) {
         for (let k = i - 1; k >= 0 && k >= i - 2; k--) {
           const prev = lines[k].trim();
           if (!prev) continue;
           URL_RE.lastIndex = 0;
           if (URL_RE.test(prev)) break;
-          if (looksLikeHeading(prev)) { section = section || clean(prev); break; }
           name = clean(prev.replace(ORDINAL, '').replace(SEP_AFTER_NAME, ''));
           break;
         }
@@ -106,6 +148,16 @@ export function extractFromText(text, { maxNote = 200 } = {}) {
       });
     }
   }
+
+  // A section heading labels a group. One that ended up attached to a
+  // single entry is almost always that entry's own name misread as a
+  // heading — post layouts vary too much to catch every variant by shape,
+  // but a real heading covers several links and a misread name covers one.
+  // Losing a genuine single-entry section only costs grouping; keeping a
+  // false one pollutes every published index that groups by it.
+  const perSection = new Map();
+  for (const c of out) if (c.section) perSection.set(c.section, (perSection.get(c.section) || 0) + 1);
+  for (const c of out) if (c.section && perSection.get(c.section) < 2) c.section = null;
 
   // Same link twice in one post: keep the richer mention.
   const byUrl = new Map();
