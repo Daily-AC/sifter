@@ -15,7 +15,10 @@ import { search } from '../src/search.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DB = process.env.SIFTER_DB || join(HERE, '..', 'data', 'resources.jsonl');
-const PUBLIC_INDEX = join(HERE, '..', 'index', 'resources.json');
+// The jsonl is the shipped index; the packaged .json is a convenience view
+// for anything fetching a single file, and is not in the npm tarball.
+const PUBLIC_JSONL = join(HERE, '..', 'index', 'resources.jsonl');
+const PUBLIC_JSON = join(HERE, '..', 'index', 'resources.json');
 
 // The index is a file that other commands rewrite; re-read it when it moves
 // so a long-lived agent session does not serve a stale library forever.
@@ -27,10 +30,15 @@ function library() {
     if (!cache.lib || cache.mtime !== m) cache = { mtime: m, lib: Library.open(path) };
     return cache.lib;
   }
-  if (existsSync(PUBLIC_INDEX)) {
-    const m = statSync(PUBLIC_INDEX).mtimeMs;
+  if (existsSync(PUBLIC_JSONL)) {
+    const m = statSync(PUBLIC_JSONL).mtimeMs;
+    if (!cache.lib || cache.mtime !== m) cache = { mtime: m, lib: Library.open(PUBLIC_JSONL) };
+    return cache.lib;
+  }
+  if (existsSync(PUBLIC_JSON)) {
+    const m = statSync(PUBLIC_JSON).mtimeMs;
     if (!cache.lib || cache.mtime !== m) {
-      cache = { mtime: m, lib: new Library(JSON.parse(readFileSync(PUBLIC_INDEX, 'utf8')).entries || []) };
+      cache = { mtime: m, lib: new Library(JSON.parse(readFileSync(PUBLIC_JSON, 'utf8')).entries || []) };
     }
     return cache.lib;
   }
