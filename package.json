@@ -1,0 +1,48 @@
+{
+  "name": "sifter",
+  "version": "0.1.0",
+  "description": "Sift scattered resource links (X threads, browser bookmarks) into a deduped, liveness-checked, agent-searchable index.",
+  "type": "module",
+  "bin": {
+    "sifter": "./bin/sifter.mjs",
+    "sifter-mcp": "./mcp/server.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "mcp",
+    "index",
+    "skill",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "mcp": "node mcp/server.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "ai-agent",
+    "bookmarks",
+    "awesome-list",
+    "curation",
+    "claude-code"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daily-AC/sifter.git"
+  },
+  "homepage": "https://github.com/Daily-AC/sifter#readme",
+  "bugs": {
+    "url": "https://github.com/Daily-AC/sifter/issues"
+  }
+}

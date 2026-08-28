@@ -1,0 +1,39 @@
+# Keeps the published index honest.
+#
+# A curated list decays the moment it stops being checked, and the decay is
+# invisible until someone clicks a dead link. This runs weekly, re-verifies
+# every entry, folds any renames discovered through redirects, and commits the
+# diff — so the repository's history is also the record of what rotted when.
+name: refresh index
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - run: npm test
+      - name: Re-verify every entry
+        env:
+          SIFTER_DB: index/resources.jsonl
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node bin/sifter.mjs refresh --all --concurrency 4
+          node bin/sifter.mjs export
+      - name: Commit if anything changed
+        run: |
+          git config user.name  'sifter'
+          git config user.email 'noreply@github.com'
+          git add index/
+          git diff --staged --quiet && echo 'index unchanged' && exit 0
+          git commit -m "chore: refresh index ($(date -u +%Y-%m-%d))"
+          git push
