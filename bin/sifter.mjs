@@ -11,7 +11,20 @@ import { renderMarkdown } from '../src/render.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = process.env.SIFTER_HOME || join(HERE, '..');
-const DB = process.env.SIFTER_DB || join(ROOT, 'data', 'resources.jsonl');
+const LOCAL_DB = process.env.SIFTER_DB || join(ROOT, 'data', 'resources.jsonl');
+const SHIPPED = join(ROOT, 'index', 'resources.jsonl');
+
+// Reads fall back to the index shipped with the repo, writes never do.
+// Without this a fresh `npx sifter search ...` answers "nothing matched"
+// while several hundred verified entries sit in index/ — the exact promise
+// the README makes, broken on the first command anyone runs.
+const dbFor = (mode) => {
+  const explicit = flag('db');
+  if (explicit && explicit !== true) return String(explicit);
+  if (mode === 'write') return LOCAL_DB;
+  return existsSync(LOCAL_DB) ? LOCAL_DB : (existsSync(SHIPPED) ? SHIPPED : LOCAL_DB);
+};
+const DB = LOCAL_DB;
 
 const C = process.stdout.isTTY ? {
   dim: (s) => `\x1b[2m${s}\x1b[0m`, b: (s) => `\x1b[1m${s}\x1b[0m`,
@@ -50,8 +63,9 @@ function usage() {
   ${C.dim('sifter never reads your whole bookmark tree; name the folder you want.')}`);
 }
 
-const lib = Library.open(flag('db') && flag('db') !== true ? String(flag('db')) : DB);
-const persist = () => save(flag('db') && flag('db') !== true ? String(flag('db')) : DB, lib.all());
+const WRITES = new Set(['add', 'chrome', 'refresh']);
+const lib = Library.open(dbFor(WRITES.has(cmd) ? 'write' : 'read'));
+const persist = () => save(dbFor('write'), lib.all());
 const json = () => argv.includes('--json');
 
 switch (cmd) {
