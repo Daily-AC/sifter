@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-28T12:33:01.453Z",
-  "count": 34,
+  "generated_at": "2026-08-28T13:13:12.729Z",
+  "count": 38,
   "entries": [
     {
       "key": "awwwards.com",
@@ -62,13 +62,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.731Z",
+        "checked_at": "2026-08-28T13:11:08.910Z",
         "final_url": "https://www.awwwards.com/",
-        "ms": 3495
+        "ms": 3384
       },
       "first_seen": "2026-08-28T12:32:36.127Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
       "site_name": "Awwwards",
       "lang": "en",
       "image": "https://assets.awwwards.com/assets/images/pages/about-certificates/awwwards.jpg"
@@ -113,14 +113,73 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.732Z",
+        "checked_at": "2026-08-28T13:11:08.912Z",
         "final_url": "https://www.beautifului.dev/",
-        "ms": 898
+        "ms": 858
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.656Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
       "lang": "en"
+    },
+    {
+      "key": "beui.dev",
+      "url": "https://beui.dev/",
+      "title": "Animated Components for React and Next.js · beUI",
+      "description": "Free, open-source animated components for React and Next.js, built with Motion and Tailwind CSS. Copy the source or install with the shadcn CLI.",
+      "names": [
+        "BeUI"
+      ],
+      "claims": [],
+      "sections": [],
+      "tags": [],
+      "flags": [],
+      "sources": [
+        {
+          "type": "x",
+          "context": "不会前端设计没关系，会“抄作业”就行。 程序员最缺的往往不是代码能力，而是审美。我的办法很简单：把优秀 UI 组件当成乐高，直接丢给 AI Agent，让它挑最合适的组件拼进项目。 这 5 个网站够用了：",
+          "post": "https://x.com/grgerwcwetwet/status/2092937412490260513",
+          "post_id": "2092937412490260513",
+          "author": "grgerwcwetwet",
+          "at": "2026-08-27T11:28:58.000Z",
+          "engagement": {
+            "likes": 361,
+            "retweets": 60,
+            "views": 27085
+          },
+          "channel": "fxtwitter"
+        },
+        {
+          "type": "x",
+          "post": "https://x.com/xin_pai88825/status/2093227487354298480",
+          "post_id": "2093227487354298480",
+          "author": "xin_pai88825",
+          "at": "2026-08-28T06:41:37.000Z",
+          "context": "想要 Vibecoding 出来的界面美观，那就不要错过下面几个组件库",
+          "engagement": {
+            "likes": 356,
+            "retweets": 40,
+            "views": 18345
+          },
+          "channel": "fxtwitter",
+          "resolved_by_hand": true
+        }
+      ],
+      "mentions": 2,
+      "liveness": {
+        "status": "alive",
+        "code": 200,
+        "note": null,
+        "checked_at": "2026-08-28T13:11:08.913Z",
+        "final_url": "https://beui.dev/",
+        "ms": 466
+      },
+      "first_seen": "2026-08-28T12:32:36.657Z",
+      "last_seen": "2026-08-28T13:07:27.855Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
+      "site_name": "beUI",
+      "lang": "en",
+      "image": "https://beui.dev/api/og"
     },
     {
       "key": "rareui.com",
@@ -162,13 +221,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:43.376Z",
+        "checked_at": "2026-08-28T13:11:12.259Z",
         "final_url": "https://www.rareui.com/",
-        "ms": 1015
+        "ms": 666
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "Rare UI",
       "lang": "en",
       "image": "https://rareui.com/ogimage.webp"
@@ -223,18 +282,69 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:43.844Z",
+        "checked_at": "2026-08-28T13:11:12.295Z",
         "final_url": "https://recent.design/",
-        "ms": 1324
+        "ms": 2637
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-08-28T12:32:45.172Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en",
       "image": "https://recent.design/og.png",
       "aliases": [
         "godly.website"
       ]
+    },
+    {
+      "key": "threeui.com",
+      "url": "https://threeui.com/",
+      "title": "Three.js Components, Templates & Interactive Shaders | ThreeUI",
+      "description": "Browse copy-ready Three.js components, complete website templates, WebGL backgrounds, hero sections, UI effects, and source-backed variants.",
+      "names": [
+        "Three.js Components, Templates & Interactive Shaders | ThreeUI"
+      ],
+      "claims": [],
+      "sections": [],
+      "tags": [
+        "design"
+      ],
+      "flags": [],
+      "sources": [
+        {
+          "type": "bookmark",
+          "at": "2026-08"
+        },
+        {
+          "type": "x",
+          "post": "https://x.com/xin_pai88825/status/2093227487354298480",
+          "post_id": "2093227487354298480",
+          "author": "xin_pai88825",
+          "at": "2026-08-28T06:41:37.000Z",
+          "context": "想要 Vibecoding 出来的界面美观，那就不要错过下面几个组件库",
+          "engagement": {
+            "likes": 356,
+            "retweets": 40,
+            "views": 18345
+          },
+          "channel": "fxtwitter",
+          "resolved_by_hand": true
+        }
+      ],
+      "mentions": 2,
+      "liveness": {
+        "status": "alive",
+        "code": 200,
+        "note": null,
+        "checked_at": "2026-08-28T13:11:12.664Z",
+        "final_url": "https://threeui.com/",
+        "ms": 381
+      },
+      "first_seen": "2026-08-28T12:32:36.129Z",
+      "last_seen": "2026-08-28T13:07:27.855Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
+      "site_name": "ThreeUI",
+      "lang": "en",
+      "image": "https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/thumbnails/threeui-intro.jpg?cacheNonce=077d2b612430c92d48543a15ee5895dfab9a7fd965c3f738a524ab0969fb52a1"
     },
     {
       "key": "transitions.dev",
@@ -276,13 +386,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:44.255Z",
+        "checked_at": "2026-08-28T13:11:12.778Z",
         "final_url": "https://transitions.dev/",
-        "ms": 569
+        "ms": 600
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-08-28T12:32:45.170Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "Transitions.dev",
       "lang": "en",
       "image": "https://transitions.dev/assets/og-main.jpg"
@@ -327,13 +437,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:44.391Z",
+        "checked_at": "2026-08-28T13:11:12.925Z",
         "final_url": "https://ui.shadcn.com/",
-        "ms": 454
+        "ms": 485
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-08-28T12:32:45.170Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en",
       "image": "https://ui.shadcn.com/og?title=The%20Foundation%20for%20your%20Design%20System&description=A%20set%20of%20beautifully%20designed%20components%20that%20you%20can%20customize%2C%20extend%2C%20and%20build%20on.%20Start%20here%20then%20make%20it%20your%20own.%20Open%20Source.%20Open%20Code."
     },
@@ -370,13 +480,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.730Z",
+        "checked_at": "2026-08-28T13:11:08.908Z",
         "final_url": "https://www.are.na/",
-        "ms": 933
+        "ms": 1126
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-08-28T12:32:45.168Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
       "site_name": "Are.na",
       "lang": "en",
       "image": "https://www.are.na/og-image.png"
@@ -406,60 +516,16 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.731Z",
+        "checked_at": "2026-08-28T13:11:08.911Z",
         "final_url": "https://www.bakai.me/lab",
-        "ms": 531
+        "ms": 1335
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
       "site_name": "Bakai Tolondu uulu",
       "lang": "en",
       "image": "https://www.bakai.me/og.png"
-    },
-    {
-      "key": "beui.dev",
-      "url": "https://beui.dev/",
-      "title": "Animated Components for React and Next.js · beUI",
-      "description": "Free, open-source animated components for React and Next.js, built with Motion and Tailwind CSS. Copy the source or install with the shadcn CLI.",
-      "names": [
-        "BeUI"
-      ],
-      "claims": [],
-      "sections": [],
-      "tags": [],
-      "flags": [],
-      "sources": [
-        {
-          "type": "x",
-          "context": "不会前端设计没关系，会“抄作业”就行。 程序员最缺的往往不是代码能力，而是审美。我的办法很简单：把优秀 UI 组件当成乐高，直接丢给 AI Agent，让它挑最合适的组件拼进项目。 这 5 个网站够用了：",
-          "post": "https://x.com/grgerwcwetwet/status/2092937412490260513",
-          "post_id": "2092937412490260513",
-          "author": "grgerwcwetwet",
-          "at": "2026-08-27T11:28:58.000Z",
-          "engagement": {
-            "likes": 361,
-            "retweets": 60,
-            "views": 27085
-          },
-          "channel": "fxtwitter"
-        }
-      ],
-      "mentions": 1,
-      "liveness": {
-        "status": "alive",
-        "code": 200,
-        "note": null,
-        "checked_at": "2026-08-28T12:32:40.732Z",
-        "final_url": "https://beui.dev/",
-        "ms": 393
-      },
-      "first_seen": "2026-08-28T12:32:36.657Z",
-      "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
-      "site_name": "beUI",
-      "lang": "en",
-      "image": "https://beui.dev/api/og"
     },
     {
       "key": "bloub.vercel.app",
@@ -486,16 +552,59 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.732Z",
+        "checked_at": "2026-08-28T13:11:08.914Z",
         "final_url": "https://bloub.vercel.app/",
-        "ms": 351
+        "ms": 360
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
       "site_name": "bloub",
       "lang": "fr",
       "image": "https://bloub.vercel.app/og.png"
+    },
+    {
+      "key": "boardui.com",
+      "url": "https://boardui.com/",
+      "title": "BoardUI - React Design System for Dashboards",
+      "description": "Build agentic products and data-rich dashboards with 57 React components and blocks, 17 of them chart cards, plus 5 Pro templates, Tailwind CSS, and editable source code.",
+      "names": [],
+      "claims": [],
+      "sections": [],
+      "tags": [],
+      "flags": [],
+      "sources": [
+        {
+          "type": "x",
+          "post": "https://x.com/xin_pai88825/status/2093227487354298480",
+          "post_id": "2093227487354298480",
+          "author": "xin_pai88825",
+          "at": "2026-08-28T06:41:37.000Z",
+          "context": "想要 Vibecoding 出来的界面美观，那就不要错过下面几个组件库",
+          "engagement": {
+            "likes": 356,
+            "retweets": 40,
+            "views": 18345
+          },
+          "channel": "fxtwitter",
+          "resolved_by_hand": true
+        }
+      ],
+      "mentions": 1,
+      "liveness": {
+        "status": "alive",
+        "code": 200,
+        "note": null,
+        "checked_at": "2026-08-28T13:11:09.274Z",
+        "final_url": "https://www.boardui.com/",
+        "ms": 932
+      },
+      "first_seen": "2026-08-28T13:07:27.854Z",
+      "last_seen": "2026-08-28T13:07:27.854Z",
+      "updated_at": "2026-08-28T13:11:14.932Z",
+      "site_name": "BoardUI",
+      "lang": "en",
+      "image": "https://www.boardui.com/og_image.png"
     },
     {
       "key": "component.gallery",
@@ -530,13 +639,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.083Z",
+        "checked_at": "2026-08-28T13:11:09.380Z",
         "final_url": "https://component.gallery/",
-        "ms": 373
+        "ms": 461
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en",
       "image": "https://component.gallery/open-graph/default.png"
     },
@@ -578,13 +687,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.125Z",
+        "checked_at": "2026-08-28T13:11:09.770Z",
         "final_url": "https://designspells.com/",
-        "ms": 350
+        "ms": 743
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "Design Spells · Design details that feel like magic",
       "lang": "en",
       "image": "https://designspells.com/og.png"
@@ -627,16 +736,58 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.262Z",
+        "checked_at": "2026-08-28T13:11:09.840Z",
         "final_url": "https://www.designspiration.com/",
-        "ms": 728
+        "ms": 689
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "Designspiration",
       "lang": "en",
       "image": "https://s.dspncdn.com/a1/webapp/img/content/meta/default_meta_display.jpg"
+    },
+    {
+      "key": "fluidfunctionalism.com",
+      "url": "https://www.fluidfunctionalism.com/",
+      "title": "Fluid Functionalism",
+      "description": "Open Source UI components created by @micka_design",
+      "names": [],
+      "claims": [],
+      "sections": [],
+      "tags": [],
+      "flags": [],
+      "sources": [
+        {
+          "type": "x",
+          "post": "https://x.com/xin_pai88825/status/2093227487354298480",
+          "post_id": "2093227487354298480",
+          "author": "xin_pai88825",
+          "at": "2026-08-28T06:41:37.000Z",
+          "context": "想要 Vibecoding 出来的界面美观，那就不要错过下面几个组件库",
+          "engagement": {
+            "likes": 356,
+            "retweets": 40,
+            "views": 18345
+          },
+          "channel": "fxtwitter",
+          "resolved_by_hand": true
+        }
+      ],
+      "mentions": 1,
+      "liveness": {
+        "status": "alive",
+        "code": 200,
+        "note": null,
+        "checked_at": "2026-08-28T13:11:10.034Z",
+        "final_url": "https://www.fluidfunctionalism.com/",
+        "ms": 766
+      },
+      "first_seen": "2026-08-28T13:07:27.854Z",
+      "last_seen": "2026-08-28T13:07:27.854Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
+      "lang": "en",
+      "image": "https://www.fluidfunctionalism.com/metadata/og.png"
     },
     {
       "key": "github.com/anthropics/claude-plugins-community",
@@ -671,15 +822,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:38.297Z",
+        "checked_at": "2026-08-28T13:11:06.484Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-08-28T12:32:38.297Z",
+      "updated_at": "2026-08-28T13:11:06.485Z",
       "github": {
-        "stars": 2485,
+        "stars": 2490,
         "language": "Python",
         "topics": [],
         "archived": false,
@@ -722,15 +873,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:38.638Z",
+        "checked_at": "2026-08-28T13:11:06.828Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-08-28T12:32:38.638Z",
+      "updated_at": "2026-08-28T13:11:06.828Z",
       "github": {
-        "stars": 172184,
+        "stars": 172190,
         "language": "Python",
         "topics": [
           "agent-skills"
@@ -777,15 +928,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:38.977Z",
+        "checked_at": "2026-08-28T13:11:07.162Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-08-28T12:32:38.977Z",
+      "updated_at": "2026-08-28T13:11:07.162Z",
       "github": {
-        "stars": 45949,
+        "stars": 45953,
         "language": "JavaScript",
         "topics": [
           "claude",
@@ -830,15 +981,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:39.305Z",
+        "checked_at": "2026-08-28T13:11:07.528Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-08-28T12:32:39.305Z",
+      "updated_at": "2026-08-28T13:11:07.528Z",
       "github": {
-        "stars": 5826,
+        "stars": 5830,
         "language": "TypeScript",
         "topics": [],
         "archived": false,
@@ -879,13 +1030,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:39.635Z",
+        "checked_at": "2026-08-28T13:11:07.905Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-08-28T12:32:39.635Z",
+      "updated_at": "2026-08-28T13:11:07.905Z",
       "github": {
         "stars": 594,
         "language": "TypeScript",
@@ -939,13 +1090,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.031Z",
+        "checked_at": "2026-08-28T13:11:08.240Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-08-28T12:32:40.031Z",
+      "updated_at": "2026-08-28T13:11:08.240Z",
       "github": {
         "stars": 2,
         "language": "Python",
@@ -1009,13 +1160,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.361Z",
+        "checked_at": "2026-08-28T13:11:08.579Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-08-28T12:32:40.361Z",
+      "updated_at": "2026-08-28T13:11:08.579Z",
       "github": {
         "stars": 91,
         "language": "Shell",
@@ -1066,13 +1217,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-08-28T12:32:40.730Z",
+        "checked_at": "2026-08-28T13:11:08.907Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-08-28T12:32:40.730Z",
+      "updated_at": "2026-08-28T13:11:08.907Z",
       "github": {
         "stars": 4,
         "language": "JavaScript",
@@ -1110,15 +1261,57 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.475Z",
+        "checked_at": "2026-08-28T13:11:10.206Z",
         "final_url": "https://gooey.jakubantalik.com/",
-        "ms": 383
+        "ms": 337
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en",
       "image": "https://gooey.jakubantalik.com/og-image.jpg"
+    },
+    {
+      "key": "heroui.pro",
+      "url": "https://heroui.pro/",
+      "title": "HeroUI Pro — Premium UI Components & Templates",
+      "description": "Premium UI components, templates, and AI tooling for React and React Native. Accessibility, animations, and edge cases built in. We handle the UI so you can focus on your product.",
+      "names": [],
+      "claims": [],
+      "sections": [],
+      "tags": [],
+      "flags": [],
+      "sources": [
+        {
+          "type": "x",
+          "post": "https://x.com/xin_pai88825/status/2093227487354298480",
+          "post_id": "2093227487354298480",
+          "author": "xin_pai88825",
+          "at": "2026-08-28T06:41:37.000Z",
+          "context": "想要 Vibecoding 出来的界面美观，那就不要错过下面几个组件库",
+          "engagement": {
+            "likes": 356,
+            "retweets": 40,
+            "views": 18345
+          },
+          "channel": "fxtwitter",
+          "resolved_by_hand": true
+        }
+      ],
+      "mentions": 1,
+      "liveness": {
+        "status": "alive",
+        "code": 200,
+        "note": null,
+        "checked_at": "2026-08-28T13:11:10.246Z",
+        "final_url": "https://heroui.pro/",
+        "ms": 546
+      },
+      "first_seen": "2026-08-28T13:07:27.855Z",
+      "last_seen": "2026-08-28T13:07:27.855Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
+      "lang": "en",
+      "image": "https://heroui.pro/images/og.png"
     },
     {
       "key": "hugeicons.com",
@@ -1153,13 +1346,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.630Z",
+        "checked_at": "2026-08-28T13:11:10.513Z",
         "final_url": "https://hugeicons.com/",
         "ms": 1746
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en",
       "image": "https://hugeicons.com/og_preview.png"
     },
@@ -1188,13 +1381,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.663Z",
+        "checked_at": "2026-08-28T13:11:10.529Z",
         "final_url": "https://linearabilityextthreejs.pages.dev/",
-        "ms": 302
+        "ms": 422
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en"
     },
     {
@@ -1235,13 +1428,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.858Z",
+        "checked_at": "2026-08-28T13:11:10.543Z",
         "final_url": "https://loadmo.re/",
-        "ms": 1747
+        "ms": 1914
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en",
       "image": "https://loadmo.re/media/pages/home/332c07bf8f-1603905890/loadmore-opengraph.png"
     },
@@ -1270,13 +1463,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.965Z",
+        "checked_at": "2026-08-28T13:11:10.792Z",
         "final_url": "https://minimal.gallery/",
-        "ms": 1401
+        "ms": 1643
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en-US",
       "image": "https://21ef0880.delivery.rocketcdn.me/wp-content/themes/minimalgallery/assets/img/meta/og.jpg"
     },
@@ -1313,13 +1506,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:41.990Z",
+        "checked_at": "2026-08-28T13:11:10.800Z",
         "final_url": "https://mobbin.com/",
-        "ms": 506
+        "ms": 484
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "image": "https://framerusercontent.com/assets/FE3uqmxi41SxsiiVq9JNJC1Pwc.png"
     },
     {
@@ -1360,13 +1553,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:42.496Z",
+        "checked_at": "2026-08-28T13:11:10.951Z",
         "final_url": "https://muz.li/",
-        "ms": 368
+        "ms": 522
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "Muzli - Design inspiration hub",
       "lang": "en-US",
       "image": "https://muz.li/og.png"
@@ -1396,13 +1589,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:42.864Z",
+        "checked_at": "2026-08-28T13:11:11.284Z",
         "final_url": "https://onepagelove.com/",
-        "ms": 1078
+        "ms": 1380
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en-US",
       "image": "https://assets.onepagelove.com/cdn-cgi/image/width=1200,height=628,fit=cover,gravity=top,format=jpg,quality=85/wp-content/uploads/global/one-page-love-meta.jpg"
     },
@@ -1432,13 +1625,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:43.366Z",
+        "checked_at": "2026-08-28T13:11:11.473Z",
         "final_url": "https://oneworks.cloud/",
-        "ms": 502
+        "ms": 822
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "One Works",
       "lang": "zh-CN",
       "image": "https://oneworks.cloud/_astro/social-card.Dsc2I79z.png"
@@ -1476,13 +1669,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:43.605Z",
+        "checked_at": "2026-08-28T13:11:12.294Z",
         "final_url": "https://www.rebrand.gallery/",
-        "ms": 947
+        "ms": 1088
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en"
     },
     {
@@ -1510,13 +1703,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:43.868Z",
+        "checked_at": "2026-08-28T13:11:12.435Z",
         "final_url": "https://styles.refero.design/",
-        "ms": 1202
+        "ms": 1445
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "site_name": "Refero Styles",
       "lang": "en",
       "image": "https://styles.refero.design/opengraph-image.png"
@@ -1546,33 +1739,40 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:43.942Z",
+        "checked_at": "2026-08-28T13:11:12.457Z",
         "final_url": "https://thinking-logos.ozturkenes.com/",
-        "ms": 313
+        "ms": 321
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-08-28T12:32:45.169Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
       "lang": "en"
     },
     {
-      "key": "threeui.com",
-      "url": "https://threeui.com/browse",
-      "title": "Three.js Components, Templates & Interactive Shaders | ThreeUI",
-      "description": "Browse copy-ready Three.js components, complete website templates, WebGL backgrounds, hero sections, UI effects, and source-backed variants.",
-      "names": [
-        "Three.js Components, Templates & Interactive Shaders | ThreeUI"
-      ],
+      "key": "ui.watermelon.sh",
+      "url": "https://ui.watermelon.sh/",
+      "title": "Watermelon UI — Premium React Components, Dashboards & Blocks",
+      "description": "A collection of high-quality React components, dashboards, and UI blocks. Copy and paste production-ready UI with ease.",
+      "names": [],
       "claims": [],
       "sections": [],
-      "tags": [
-        "design"
-      ],
+      "tags": [],
       "flags": [],
       "sources": [
         {
-          "type": "bookmark",
-          "at": "2026-08"
+          "type": "x",
+          "post": "https://x.com/xin_pai88825/status/2093227487354298480",
+          "post_id": "2093227487354298480",
+          "author": "xin_pai88825",
+          "at": "2026-08-28T06:41:37.000Z",
+          "context": "想要 Vibecoding 出来的界面美观，那就不要错过下面几个组件库",
+          "engagement": {
+            "likes": 356,
+            "retweets": 40,
+            "views": 18345
+          },
+          "channel": "fxtwitter",
+          "resolved_by_hand": true
         }
       ],
       "mentions": 1,
@@ -1580,16 +1780,16 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-08-28T12:32:44.226Z",
-        "final_url": "https://threeui.com/browse",
-        "ms": 301
+        "checked_at": "2026-08-28T13:11:13.045Z",
+        "final_url": "https://ui.watermelon.sh/",
+        "ms": 387
       },
-      "first_seen": "2026-08-28T12:32:36.129Z",
-      "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-08-28T12:32:45.170Z",
-      "site_name": "ThreeUI",
+      "first_seen": "2026-08-28T13:07:27.854Z",
+      "last_seen": "2026-08-28T13:07:27.854Z",
+      "updated_at": "2026-08-28T13:11:14.933Z",
+      "site_name": "Watermelon UI",
       "lang": "en",
-      "image": "https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/thumbnails/threeui-intro.jpg?cacheNonce=077d2b612430c92d48543a15ee5895dfab9a7fd965c3f738a524ab0969fb52a1"
+      "image": "https://ui.watermelon.sh/og-image.avif"
     }
   ]
 }
