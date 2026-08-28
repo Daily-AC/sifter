@@ -1,0 +1,6 @@
+node_modules/
+data/raw/
+data/resources.jsonl
+data/private.jsonl
+.DS_Store
+*.log
