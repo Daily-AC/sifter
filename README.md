@@ -32,6 +32,10 @@ $ sifter search "动画组件"
   2 sources · 审美 设计相关
 ```
 
+Browse the index at **[sifter.z10.dev](https://sifter.z10.dev)** — the page runs the same
+search the CLI does, because `search.mjs` is copied into the site verbatim rather than
+reimplemented.
+
 ## Why not just an awesome-list
 
 An awesome-list is a text file someone edits by hand. It goes stale silently:

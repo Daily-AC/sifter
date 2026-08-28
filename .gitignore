@@ -4,3 +4,12 @@ data/resources.jsonl
 data/private.jsonl
 .DS_Store
 *.log
+site/resources.json
+.shots/
+
+# Build artefacts: copied from src/ by tools/build-site.mjs so the site and
+# the CLI can never drift apart. Only index.html and app.js are sources.
+site/search.mjs
+site/lexicon.mjs
+site/resources.json
+.shots/

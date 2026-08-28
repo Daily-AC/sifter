@@ -31,6 +31,10 @@ $ sifter search "动画组件"
   2 sources · 审美 设计相关
 ```
 
+索引可以直接浏览：**[sifter.z10.dev](https://sifter.z10.dev)**（大陆访问走
+[sifter.lab.z10.dev](https://sifter.lab.z10.dev) 更快）。页面里的检索跑的就是 CLI 那份
+`search.mjs`——构建时原样拷过去，不是重写一遍。
+
 ## 和 awesome-list 有什么不同
 
 awesome-list 是一个人手工编辑的文本文件。它会无声地烂掉：链接失效、网站改名、
