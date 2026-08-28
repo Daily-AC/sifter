@@ -10,6 +10,14 @@
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#07080a">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23121212'/><g stroke='%23f4f4f6' stroke-width='2.2' fill='none' stroke-linecap='round'><path d='M7 10h18M9.5 16h13M12.5 22h7'/></g></svg>">
+<!-- The index is fetched by app.js, so without this hint it does not start
+     downloading until app.js has parsed — one more serial round trip on top of
+     the module chain. as="fetch" has to match how app.js asks for it or the
+     file is fetched twice; verified against performance entries, not assumed. -->
+<link rel="preload" as="fetch" href="./resources.json" crossorigin="anonymous">
+<link rel="modulepreload" href="./search.mjs?v=86b4acfa">
+<link rel="modulepreload" href="./lexicon.mjs?v=17566535">
+<script>document.documentElement.className += ' js'</script>
 <style>
 :root{
   --canvas:#07080a; --surface:#0d0d0d; --elevated:#101111; --card:#121212;
@@ -159,6 +167,32 @@ h1 .dim{color:var(--ash)}
 .badge{color:var(--mute)}
 .badge strong{color:var(--body); font-weight:500}
 .sep{color:var(--stone)}
+/* ─── loading ───
+   Static markup rather than something app.js renders, because the gap it
+   covers is the one before app.js has run — anything the script draws arrives
+   after the moment that needed it. Sized like real rows so the list does not
+   jump when they are replaced. */
+.sk{display:inline-block; height:11px; border-radius:3px; background:var(--hairline); animation:sk-pulse 1.5s ease-in-out infinite}
+.sk-chip{height:26px; border-radius:999px}
+.sk-desc{display:block; height:9px; margin-top:11px; background:var(--hairline-soft)}
+.sk-tag{height:18px; border-radius:4px; margin:12px 6px 0 0}
+.sk-row{padding:16px 18px; border-bottom:1px solid var(--hairline)}
+/* Real rows measure 110-140px and the list settles at 70vh. Without this the
+   panel would stand 300px tall while loading and shove the rest of the page
+   down the moment the rows arrived. */
+.js .results:has(.sk-row){min-height:min(70vh,760px)}
+.sk-only{display:none}
+.js span.sk-only{display:inline-block}
+.js div.sk-only{display:block}
+@keyframes sk-pulse{0%,100%{opacity:.45} 50%{opacity:.9}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none; opacity:.6}}
+/* If the script never arrives the skeleton would pulse forever, and nothing
+   could be running to notice. So this is scheduled from the start; on a normal
+   load it is replaced long before anyone sees it. */
+.sk-stall{opacity:0; padding:16px 18px; font-size:13px; color:var(--ash); animation:sk-stall .4s ease 10s forwards}
+.sk-stall a{color:var(--body)}
+@keyframes sk-stall{to{opacity:1}}
+
 .empty{padding:44px 18px; text-align:center; color:var(--ash); font-size:14px}
 .empty code{font-family:var(--mono); color:var(--mute)}
 .gap{
@@ -278,13 +312,28 @@ checked 38 — <b class="ok">●</b> 37 alive  <b class="warn">◐</b> 1 blocked
                aria-label="Search the index">
         <kbd class="kbd" id="hint">/</kbd>
       </div>
-      <div class="filters" id="filters" role="group" aria-label="Filters"></div>
-      <div class="meta-row">
-        <span id="count">—</span>
-        <span class="sp"></span>
-        <button class="sort" id="sort" type="button"></button>
+      <div class="filters" id="filters" role="group" aria-label="Filters">
+        <span class="sk sk-chip sk-only" style="width:54px" aria-hidden="true"></span>
+        <span class="sk sk-chip sk-only" style="width:78px" aria-hidden="true"></span>
+        <span class="sk sk-chip sk-only" style="width:62px" aria-hidden="true"></span>
+        <span class="sk sk-chip sk-only" style="width:88px" aria-hidden="true"></span>
+        <span class="sk sk-chip sk-only" style="width:70px" aria-hidden="true"></span>
       </div>
-      <div class="results" id="results" role="list"></div>
+      <div class="meta-row">
+        <span id="count"><span class="sk sk-only" style="width:128px" aria-hidden="true"></span></span>
+        <span class="sp"></span>
+        <button class="sort" id="sort" type="button"><span class="sk sk-only" style="width:104px" aria-hidden="true"></span></button>
+      </div>
+      <div class="results" id="results" role="list">
+        <div class="sk-row sk-only" aria-hidden="true"><div class="row-top"><span class="sk" style="width:6px;height:6px;border-radius:50%"></span><span class="sk" style="width:196px"></span><span class="sk" style="width:84px"></span></div><span class="sk sk-desc" style="width:88%"></span><span class="sk sk-desc" style="width:54%"></span><span class="sk sk-tag" style="width:58px"></span><span class="sk sk-tag" style="width:44px"></span></div>
+        <div class="sk-row sk-only" aria-hidden="true"><div class="row-top"><span class="sk" style="width:6px;height:6px;border-radius:50%"></span><span class="sk" style="width:148px"></span><span class="sk" style="width:96px"></span></div><span class="sk sk-desc" style="width:74%"></span><span class="sk sk-desc" style="width:41%"></span><span class="sk sk-tag" style="width:46px"></span><span class="sk sk-tag" style="width:62px"></span></div>
+        <div class="sk-row sk-only" aria-hidden="true"><div class="row-top"><span class="sk" style="width:6px;height:6px;border-radius:50%"></span><span class="sk" style="width:224px"></span><span class="sk" style="width:72px"></span></div><span class="sk sk-desc" style="width:91%"></span><span class="sk sk-desc" style="width:62%"></span><span class="sk sk-tag" style="width:52px"></span><span class="sk sk-tag" style="width:38px"></span></div>
+        <div class="sk-row sk-only" aria-hidden="true"><div class="row-top"><span class="sk" style="width:6px;height:6px;border-radius:50%"></span><span class="sk" style="width:172px"></span><span class="sk" style="width:88px"></span></div><span class="sk sk-desc" style="width:68%"></span><span class="sk sk-desc" style="width:47%"></span><span class="sk sk-tag" style="width:64px"></span><span class="sk sk-tag" style="width:50px"></span></div>
+        <div class="sk-row sk-only" aria-hidden="true"><div class="row-top"><span class="sk" style="width:6px;height:6px;border-radius:50%"></span><span class="sk" style="width:204px"></span><span class="sk" style="width:78px"></span></div><span class="sk sk-desc" style="width:83%"></span><span class="sk sk-desc" style="width:38%"></span><span class="sk sk-tag" style="width:42px"></span><span class="sk sk-tag" style="width:56px"></span></div>
+        <div class="sk-stall sk-only" role="status">Still loading. If this does not clear, the page's script did not run — <a href="https://github.com/Daily-AC/sifter/issues" rel="noopener">tell us</a>.</div>
+        <noscript><div class="empty">This page runs the search in your browser, so it needs JavaScript.<br>
+          The same index is <a href="https://github.com/Daily-AC/sifter/blob/main/index/README.md" style="color:var(--body)" rel="noopener">browsable on GitHub</a>.</div></noscript>
+      </div>
     </div>
   </div>
 </section>
@@ -401,6 +450,6 @@ npx @z10/sifter refresh</pre>
 </div></footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="module" src="./app.js?v=79ecf0b5"></script>
+<script type="module" src="./app.js?v=905d83f3"></script>
 </body>
 </html>

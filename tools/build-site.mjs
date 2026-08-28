@@ -60,7 +60,11 @@ writeFileSync(join(SITE, 'app.js'), appSrc);
 const appV = stamp(join(SITE, 'app.js'));
 
 let html = readFileSync(join(SITE, 'index.html'), 'utf8')
-  .replace(/src="\.\/app\.js(\?v=[a-f0-9]+)?"/, `src="./app.js?v=${appV}"`);
+  .replace(/src="\.\/app\.js(\?v=[a-f0-9]+)?"/, `src="./app.js?v=${appV}"`)
+  // Same fingerprint as the import in app.js, or the preload is a second
+  // resource and every visitor downloads both files twice.
+  .replace(/href="\.\/search\.mjs(\?v=[a-f0-9]+)?"/, `href="./search.mjs?v=${v.search}"`)
+  .replace(/href="\.\/lexicon\.mjs(\?v=[a-f0-9]+)?"/, `href="./lexicon.mjs?v=${v.lexicon}"`);
 writeFileSync(join(SITE, 'index.html'), html);
 
 const data = JSON.parse(readFileSync(INDEX, 'utf8'));
