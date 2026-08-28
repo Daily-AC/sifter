@@ -103,14 +103,25 @@ function render() {
     });
   }
 
-  els.count.textContent = q
-    ? `${rows.length} of ${pool.length} match “${q}”`
+  els.count.textContent = !entries.length ? 'index unavailable'
+    : q ? `${rows.length} of ${pool.length} match “${q}”`
     : `${rows.length} resources${filter ? ` in ${filter}` : ''}`;
 
-  els.results.innerHTML = rows.length
-    ? rows.map(card).join('')
-    : `<div class="empty">Nothing matched <code>${esc(q)}</code>.<br>
-       Try fewer words — search bridges English and Chinese, so “动画组件” and “animated components” both work.</div>`;
+  // Three different empty states, because they mean three different things
+  // and only one of them is the visitor's doing. Showing "nothing matched"
+  // for an index that failed to load blames the person for a broken deploy.
+  let empty;
+  if (!entries.length) {
+    empty = 'The index came back empty. That is a deploy problem, not your search — '
+      + '<a href="https://github.com/Daily-AC/sifter/issues" style="color:var(--body)">tell us</a>.';
+  } else if (q) {
+    empty = `Nothing matched <code>${esc(q)}</code>.<br>`
+      + 'Try fewer words — search bridges English and Chinese, so “动画组件” and “animated components” both work.';
+  } else {
+    empty = `Nothing in <code>${esc(filter || '')}</code> yet.`;
+  }
+
+  els.results.innerHTML = rows.length ? rows.map(card).join('') : `<div class="empty">${empty}</div>`;
   els.results.scrollTop = 0;
 }
 
