@@ -24,7 +24,7 @@ ssh "$LS_HOST" 'sudo tee /etc/logrotate.d/sifter-events >/dev/null' < "$ROOT/dep
 ssh "$LS_HOST" 'bash -s' <<'REMOTE'
 set -euo pipefail
 sudo mkdir -p /var/log/sifter
-sudo chown www-data:adm /var/log/sifter
+sudo chown root:adm /var/log/sifter
 sudo chmod 0755 /var/log/sifter
 
 VHOST=/etc/nginx/sites-enabled/sifter
@@ -48,6 +48,15 @@ echo "  nginx reloaded"
 # rather than as an error today.
 if sudo logrotate -d /etc/logrotate.conf 2>&1 | grep -i "duplicate log entry" | grep -q sifter; then
   echo "  logrotate: /var/log/sifter is claimed by another rule"; exit 1
+fi
+# Everything logrotate says about this file, not just conflicts. It reports a
+# directive quietly overriding another as a warning and then carries on with
+# a schedule nobody asked for — which is how `size` next to `daily` turned
+# "ninety days" into "ninety files" here the first time.
+if sudo logrotate -d /etc/logrotate.conf 2>&1 \
+     | awk '/^reading config file sifter-events/{f=1;next} /^reading config file /{f=0} f' \
+     | grep -iE "warning|error"; then
+  echo "  logrotate: the rule above is not being read the way it is written"; exit 1
 fi
 echo "  logrotate rule clean"
 REMOTE

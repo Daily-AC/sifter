@@ -15,6 +15,7 @@ import { parseHtml } from '../src/probe.mjs';
 import { Library } from '../src/store.mjs';
 import { search, tokenize } from '../src/search.mjs';
 import { linksIn } from '../src/sources/x.mjs';
+import { parseEvents, fold, summarize } from '../tools/stats.mjs';
 
 test('canonical: locale skins and www fold together', () => {
   assert.equal(groupKey('https://www.beautifului.dev/'), 'beautifului.dev');
@@ -282,4 +283,56 @@ test('search: dead entries sink but stay findable', () => {
   const res = search(entries, 'widget factory');
   assert.equal(res[0].entry.key, 'live.com');
   assert.equal(res.length, 2);
+});
+
+// -- site analytics -----------------------------------------------------
+
+const ev = (at, a) => JSON.stringify({ at: new Date(at).toISOString(), c: 'browser', a });
+
+test('stats: a typed prefix chain is one search, at the term it settled on', () => {
+  const { events } = parseEvents([
+    ev(1000, 'e=search&s=a&q=sha&n=9'),
+    ev(2000, 'e=search&s=a&q=shad&n=4'),
+    ev(3000, 'e=search&s=a&q=shader&n=1'),
+  ].join('\n'));
+  const folded = fold(events);
+  assert.equal(folded.length, 1);
+  assert.equal(folded[0].q, 'shader');
+  assert.equal(folded[0].n, 1);
+});
+
+test('stats: an open between two reports of one search still counts', () => {
+  // The bug this replaces printed "0% of searches led to an open" while the
+  // log plainly held the click: folding moved the search's timestamp forward
+  // past the open it had produced. Changing a facet re-reports the same query,
+  // so the second report is ordinary behaviour, not a contrived case.
+  const { events } = parseEvents([
+    ev(1000, 'e=search&s=a&q=shader&n=1'),
+    ev(2000, 'e=open&s=a&q=shader&k=threeui.com&r=1'),
+    ev(3000, 'e=search&s=a&q=shader&n=1&f=design'),
+  ].join('\n'));
+  const s = summarize(events);
+  assert.equal(s.searches.length, 1);
+  assert.equal(s.searches[0].opened, true);
+});
+
+test('stats: a search that found nothing is counted as a miss', () => {
+  const { events } = parseEvents([
+    ev(1000, 'e=search&s=a&q=godot%20shaders&n=0'),
+    ev(2000, 'e=search&s=b&q=shader&n=1'),
+  ].join('\n'));
+  const s = summarize(events);
+  assert.deepEqual(s.misses.map((m) => m.q), ['godot shaders']);
+  assert.equal(s.sessions, 2);
+});
+
+test('stats: crawlers are excluded unless asked for, and junk is counted not thrown', () => {
+  const lines = [
+    JSON.stringify({ at: new Date(1000).toISOString(), c: 'bot', a: 'e=search&s=z&q=shader&n=1' }),
+    ev(2000, 'e=search&s=a&q=shader&n=1'),
+    'not json at all',
+  ].join('\n');
+  assert.equal(parseEvents(lines).events.length, 1);
+  assert.equal(parseEvents(lines).malformed, 1);
+  assert.equal(parseEvents(lines, { keepBots: true }).events.length, 2);
 });
