@@ -60,7 +60,9 @@ const brief = (e) => ({
   flags: e.flags?.length ? e.flags : undefined,
   // What the people who shared it said, kept distinct from what the site
   // says about itself, so an agent can tell a pitch from a description.
-  claimed: e.claims?.slice(0, 3).map((c) => c.text),
+  // Omitted entirely when empty: an empty array reads as "nobody said
+  // anything about this", which is noise in every result that has none.
+  claimed: e.claims?.length ? e.claims.slice(0, 3).map((c) => c.text) : undefined,
 });
 
 const TOOLS = [
@@ -69,8 +71,17 @@ const TOOLS = [
     description:
       'Search a curated index of resource websites (design galleries, UI component libraries, tools) '
       + 'collected from social posts and browser bookmarks, deduplicated across sources and liveness-checked. '
-      + 'Queries may be English or Chinese; the index bridges the two. '
-      + 'Use this before recommending a website or looking for a component library, design reference, or tool.',
+      + 'Queries may be English or Chinese; the index bridges the two. Use this before recommending a website '
+      + 'or looking for a component library, design reference, or tool — a URL you remember may be dead or '
+      + 'renamed, while these were checked.\n\n'
+      + 'Reading the results:\n'
+      + '- `description`/`title` are what the SITE says about itself. Trust these.\n'
+      + '- `claimed` is what the person sharing it said — a pitch. It explains why it was shared, not what it is.\n'
+      + '- `status`: `alive` verified reachable; `blocked` up but refusing robots (still usable, metadata may be '
+      + 'missing); `unknown` unverified last run; `dead` gone. Never present a dead entry as a recommendation.\n'
+      + '- `sources` counts independent people who pointed at it. Two or more is a materially stronger signal '
+      + 'than one, and stronger than a star count.\n'
+      + '- `flags` containing `legal_risk` are hidden unless include_risky is set.',
     inputSchema: {
       type: 'object',
       properties: {
