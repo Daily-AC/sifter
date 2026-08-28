@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// Reads the site's event log and answers the question the log exists for:
-// what did people look for, and what did the index not have?
+// Reads the site's event log.
 //
 //   node tools/stats.mjs                 last 14 days
 //   node tools/stats.mjs --days 90
@@ -8,114 +7,78 @@
 //   node tools/stats.mjs --local f.log   a file you already pulled down
 //   node tools/stats.mjs --bots          include crawler traffic
 //
-// The log has no addresses in it (see deploy/analytics.nginx.conf), so nothing
-// here can be per-person and nothing tries to be. The unit is a tab visit.
+// Two kinds of record, and the difference between them is the whole design:
 //
-// parseEvents and summarize are exported and covered by the test suite: the
-// folding rule below got this wrong once in a way that printed a confident
-// zero rather than failing, which is exactly the kind of mistake the rest of
-// this repository's tests exist for.
+//   s     one per visit, written when the tab goes away. Counts only — how
+//         many searches, how many empty, how many opens. No identifier, no
+//         ordering, no text anybody typed.
+//   miss  a term somebody chose to send by pressing a button that said so.
+//   open  which entry was opened and where it ranked. Public index keys.
+//
+// So the miss RATE comes from every visit, and the miss TERMS come only from
+// people who volunteered them. Those two numbers answer different questions
+// and should never be read as one: a rate of 30% with four reported terms
+// means the index is failing far more often than four times.
 
 import { execFileSync } from 'node:child_process';
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-// A session reporting far past the client's own cap is a script wearing a
-// browser's User-Agent, and its terms are nobody's questions.
-const SANE_SESSION = 80;
+const KINDS = new Set(['s', 'miss', 'open']);
 
-/** One log line -> one event, or null if it is not one. */
-function parseLine(line, { since = 0, keepBots = false } = {}) {
-  let rec;
-  try { rec = JSON.parse(line); } catch { return null; }
-  const at = Date.parse(rec.at);
-  if (!Number.isFinite(at) || at < since) return undefined;      // outside the window, not malformed
-  if (!keepBots && rec.c !== 'browser') return undefined;
-
-  const p = new URLSearchParams(rec.a || '');
-  const kind = p.get('e');
-  if (!kind) return null;
-  return {
-    at, kind, session: p.get('s') || '?',
-    q: p.get('q') || '', n: Number(p.get('n') ?? NaN), f: p.get('f') || '',
-    k: p.get('k') || '', r: Number(p.get('r') ?? NaN),
-    ref: p.get('ref') || '', w: p.get('w') || '', lang: p.get('l') || '',
-  };
-}
-
-export function parseEvents(text, opts = {}) {
+export function parseEvents(text, { since = 0, keepBots = false } = {}) {
   const events = [];
   let malformed = 0;
+
   for (const line of String(text).split('\n')) {
     if (!line.trim()) continue;
-    const ev = parseLine(line, opts);
-    if (ev === null) { malformed++; continue; }
-    if (ev === undefined) continue;
-    events.push(ev);
+    let rec;
+    try { rec = JSON.parse(line); } catch { malformed++; continue; }
+
+    const at = Date.parse(rec.at);
+    if (!Number.isFinite(at) || at < since) continue;
+    if (!keepBots && rec.c !== 'browser') continue;
+
+    const p = new URLSearchParams(rec.a || '');
+    const kind = p.get('e');
+    if (!KINDS.has(kind)) { malformed++; continue; }
+
+    const num = (f) => Number(p.get(f) || 0);
+    events.push({
+      at, kind,
+      searches: num('n'), misses: num('m'), opens: num('o'), facets: num('f'),
+      copied: num('c') === 1,
+      ref: p.get('ref') || '', w: p.get('w') || '', lang: p.get('l') || '',
+      q: p.get('q') || '', k: p.get('k') || '', r: num('r'),
+    });
   }
+
   events.sort((a, b) => a.at - b.at);
   return { events, malformed };
 }
 
-/**
- * Typing "sha" -> "shad" -> "shader" is one search, not three, and only the
- * term someone settled on says what they wanted. Consecutive reports where one
- * is a prefix of the other collapse into the longer one — which is also the
- * right treatment for backspacing, seen from the other side.
- *
- * The surviving record keeps the moment typing STARTED. A folded search covers
- * a span and an open lands inside it; carrying the later timestamp forward
- * orphans the click the search actually produced, and the report then says
- * nothing led anywhere while the log plainly shows the click.
- */
-export function fold(searches) {
-  const out = [];
-  for (const s of searches) {
-    const prev = out[out.length - 1];
-    if (prev && (s.q.startsWith(prev.q) || prev.q.startsWith(s.q))) {
-      if (s.q.length >= prev.q.length) out[out.length - 1] = { ...s, at: prev.at };
-      continue;
-    }
-    out.push(s);
-  }
-  return out;
-}
-
-/** Sessions, folded searches, and whether each search led anywhere. */
 export function summarize(events) {
-  const sessions = new Map();
-  for (const ev of events) {
-    if (!sessions.has(ev.session)) sessions.set(ev.session, []);
-    sessions.get(ev.session).push(ev);
-  }
-
-  const scripted = [...sessions].filter(([, evs]) => evs.length > SANE_SESSION).map(([s]) => s);
-  for (const s of scripted) sessions.delete(s);
-
-  const searches = [];
-  const opens = [];
-  const facets = [];
-  const views = [];
-  let copies = 0;
-
-  for (const [, evs] of sessions) {
-    const sessionOpens = evs.filter((e) => e.kind === 'open');
-    for (const s of fold(evs.filter((e) => e.kind === 'search'))) {
-      // An open carries the query it came from, so the pairing is exact
-      // rather than a guess from timestamps alone.
-      s.opened = sessionOpens.some((o) => o.q === s.q && o.at >= s.at);
-      searches.push(s);
-    }
-    opens.push(...sessionOpens);
-    facets.push(...evs.filter((e) => e.kind === 'facet'));
-    views.push(...evs.filter((e) => e.kind === 'view'));
-    copies += evs.filter((e) => e.kind === 'copy').length;
-  }
+  const visits = events.filter((e) => e.kind === 's');
+  const gaps = events.filter((e) => e.kind === 'miss');
+  const opens = events.filter((e) => e.kind === 'open');
+  const sum = (f) => visits.reduce((a, v) => a + v[f], 0);
 
   return {
-    sessions: sessions.size, searches, opens, facets, views, copies,
-    misses: searches.filter((s) => s.n === 0),
-    scripted: scripted.length,
+    visits: visits.length,
+    searches: sum('searches'),
+    misses: sum('misses'),
+    facets: sum('facets'),
+    copies: visits.filter((v) => v.copied).length,
+    // A visit that searched at least once, as opposed to one that landed and
+    // read the page — the denominator for "did the search work for them".
+    searchingVisits: visits.filter((v) => v.searches > 0).length,
+    // Two counts of the same act, kept apart because they can disagree: the
+    // summary is one number a visit reported about itself, and the events are
+    // what actually arrived. A visit killed before it could summarise leaves
+    // its opens behind, so the rate uses the self-reported pair (same visits
+    // in numerator and denominator) and the listing uses the events.
+    openCount: sum('opens'),
+    opens, gaps, visitRecords: visits,
   };
 }
 
@@ -146,8 +109,7 @@ function main() {
 
   const C = process.stdout.isTTY && !AS_JSON ? {
     dim: (s) => `\x1b[2m${s}\x1b[0m`, b: (s) => `\x1b[1m${s}\x1b[0m`,
-    g: (s) => `\x1b[32m${s}\x1b[0m`, y: (s) => `\x1b[33m${s}\x1b[0m`,
-    r: (s) => `\x1b[31m${s}\x1b[0m`, c: (s) => `\x1b[36m${s}\x1b[0m`,
+    y: (s) => `\x1b[33m${s}\x1b[0m`,
   } : new Proxy({}, { get: () => (s) => s });
 
   // zcat -f reads the rotated .gz files and the current plain one with one
@@ -162,27 +124,27 @@ function main() {
     keepBots: has('bots'),
   });
   const s = summarize(events);
-  const missTally = tally(s.misses, 'q');
+  const gapTally = tally(s.gaps, 'q');
+  const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : '—');
 
   if (AS_JSON) {
     console.log(JSON.stringify({
-      window_days: DAYS, sessions: s.sessions, views: s.views.length,
-      searches: s.searches.length, misses: s.misses.length,
-      opens: s.opens.length, copies: s.copies,
-      missed_terms: missTally.map(([q, n]) => ({ q, n })),
-      top_searches: tally(s.searches, 'q').slice(0, 40).map(([q, n]) => ({ q, n })),
-      top_opened: tally(s.opens, 'k').slice(0, 40).map(([k, n]) => ({ key: k, n })),
-      facets: tally(s.facets, 'f').map(([f, n]) => ({ facet: f, n })),
-      referrers: tally(s.views, 'ref').map(([ref, n]) => ({ ref, n })),
-      widths: Object.fromEntries(tally(s.views, 'w')),
-      languages: Object.fromEntries(tally(s.views, 'lang').slice(0, 8)),
-      dropped: { malformed, scripted_sessions: s.scripted },
+      window_days: DAYS, visits: s.visits, searching_visits: s.searchingVisits,
+      searches: s.searches, misses: s.misses,
+      opens: s.opens.length, opens_self_reported: s.openCount,
+      facet_uses: s.facets, install_copies: s.copies,
+      miss_rate: s.searches ? s.misses / s.searches : null,
+      reported_gaps: gapTally.map(([q, n]) => ({ term: q, n })),
+      opened: tally(s.opens, 'k').slice(0, 40).map(([k, n]) => ({ key: k, n })),
+      referrers: tally(s.visitRecords, 'ref').map(([ref, n]) => ({ ref, n })),
+      widths: Object.fromEntries(tally(s.visitRecords, 'w')),
+      languages: Object.fromEntries(tally(s.visitRecords, 'lang').slice(0, 8)),
+      unparseable_lines: malformed,
     }, null, 2));
     return;
   }
 
-  const bar = (n, max, width = 18) =>
-    C.dim('▏') + '█'.repeat(Math.max(1, Math.round((n / max) * width)));
+  const bar = (n, max, width = 18) => C.dim('▏') + '█'.repeat(Math.max(1, Math.round((n / max) * width)));
 
   function section(title, rows, { empty = 'nothing yet' } = {}) {
     console.log(`\n${C.b(title)}`);
@@ -194,42 +156,34 @@ function main() {
     }
   }
 
-  const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : '—');
-
   console.log(`\n${C.b('sifter.z10.dev')} ${C.dim(`· last ${DAYS} days`)}`);
-  console.log(`  ${s.sessions} visits · ${s.views.length} page loads · ${s.searches.length} searches · ${s.opens.length} opens · ${s.copies} install copies`);
-  console.log(C.dim(`  ${pct(s.searches.filter((x) => x.opened).length, s.searches.length)} of searches led to an open · ${pct(s.misses.length, s.searches.length)} found nothing`));
-  if (s.scripted || malformed) {
-    console.log(C.dim(`  dropped: ${s.scripted} scripted session(s), ${malformed} unparseable line(s)`));
-  }
+  console.log(`  ${s.visits} visits · ${s.searchingVisits} searched · ${s.searches} searches · ${s.opens.length} opens · ${s.copies} install copies`);
+  console.log(C.dim(`  ${pct(s.misses, s.searches)} of searches found nothing · ${pct(s.openCount, s.searches)} of searches led to an open`));
+  if (malformed) console.log(C.dim(`  ${malformed} unreadable line(s)`));
 
-  // First, because it is the only number here that should change what the
-  // index contains. Everything below is context for reading it.
-  section(C.y('Searched for, found nothing') + C.dim('  — candidates for the index'),
-    missTally.map(([q, n]) => [q, n]),
-    { empty: s.searches.length ? 'every search matched something' : 'no searches recorded yet' });
-
-  section('Top searches', tally(s.searches, 'q').slice(0, 15).map(([q, n]) => {
-    const opened = s.searches.filter((x) => x.q === q && x.opened).length;
-    return [q, n, `${opened} opened`];
-  }));
+  // The rate above says how often the index fails. This says what it was
+  // missing, and only for the people who chose to tell us — it is a floor on
+  // the gaps, never a census of them.
+  section(C.y('Gaps people reported') + C.dim('  — sent on purpose, one button press each'),
+    gapTally.map(([q, n]) => [q, n]),
+    { empty: s.misses ? `${s.misses} searches found nothing and nobody pressed the button` : 'no empty searches yet' });
 
   section('Most opened', tally(s.opens, 'k').slice(0, 15).map(([k, n]) => {
-    const ranks = s.opens.filter((o) => o.k === k && Number.isFinite(o.r)).map((o) => o.r);
+    const ranks = s.opens.filter((o) => o.k === k && o.r > 0).map((o) => o.r);
     const avg = ranks.length ? (ranks.reduce((a, b) => a + b, 0) / ranks.length).toFixed(1) : null;
     return [k, n, avg ? `avg position ${avg}` : null];
   }));
 
-  section('Facets used', tally(s.facets, 'f').slice(0, 10).map(([f, n]) => [f, n]));
-  section('Came from', tally(s.views, 'ref').slice(0, 10).map(([r, n]) => [r, n]),
+  section('Came from', tally(s.visitRecords, 'ref').slice(0, 10).map(([r, n]) => [r, n]),
     { empty: 'all direct' });
 
-  const widths = tally(s.views, 'w');
-  const langs = tally(s.views, 'lang').slice(0, 6);
+  const widths = tally(s.visitRecords, 'w');
+  const langs = tally(s.visitRecords, 'lang').slice(0, 6);
   if (widths.length || langs.length) {
     console.log(`\n${C.b('Readers')}`);
     if (widths.length) console.log(`  screen   ${widths.map(([w, n]) => `${w} ${n}`).join('  ')}`);
     if (langs.length) console.log(`  language ${langs.map(([l, n]) => `${l} ${n}`).join('  ')}`);
+    if (s.facets) console.log(`  facets   used ${s.facets} time(s)`);
   }
   console.log();
 }
