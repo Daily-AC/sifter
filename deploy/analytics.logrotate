@@ -1,0 +1,23 @@
+# /etc/logrotate.d/sifter-events
+# Source of truth: deploy/analytics.logrotate
+#
+# The packaged nginx rule keeps 14 days, which is too short for the question
+# this log exists to answer: a term searched twice in six weeks is a pattern,
+# and at 14 days it reads as noise. 90 days compressed is a few megabytes.
+#
+# The size cap is the second line of defence against a scripted endpoint —
+# rate limiting is the first, and neither one should be the only one.
+/var/log/sifter/*.log {
+    daily
+    rotate 90
+    size 20M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        [ -f /var/run/nginx.pid ] && kill -USR1 "$(cat /var/run/nginx.pid)"
+    endscript
+}

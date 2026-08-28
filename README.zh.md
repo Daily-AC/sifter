@@ -234,7 +234,30 @@ sifter export               # 产出 index/resources.json + index/README.md
   提供。
 - 私密深链会降级到它的公开父页，而那个父页只有在另有独立公开来源背书时才会发布
   ——否则从公司登录页往上走一层，发布的就是公司域名。
-- 什么都不会上传。索引是你自己的一个文件。
+- 什么都不会上传。索引是你自己的一个文件。CLI 和 MCP server 没有任何遥测，连
+  opt-in 的都没有——这个项目里唯一会记录点什么的是那个网站，[它记录这些](#站点记录了什么)。
+
+## 站点记录了什么
+
+[sifter.z10.dev](https://sifter.z10.dev) 统计搜索，因为一次搜不到结果是判断
+索引缺什么最可信的信号：那是一个真人在真的需要它的那一刻、用自己的话说出来的
+缺口。页面记录的其余一切都是为了让这个数字可读——一周没有落空，可能是索引够全，
+也可能是根本没人来，这两件事不该长得一样。
+
+一个事件就是一次请求的 query string，nginx 记一行日志然后回 `204`。里面是事件
+名、一个随浏览器标签页一起消失的随机 id，以及搜索时的关键词和结果条数。不下
+cookie，不加载任何第三方脚本，存储里也没有 IP——终结你这条连接的那台机器被明确
+配置为不记录这个端点，所以「谁在问」和「问了什么」从不落在同一台机器上。
+
+采集器是 [`site/analytics.mjs`](site/analytics.mjs)，150 行，可以读完。整个后端
+就是 [`deploy/analytics.nginx.conf`](deploy/analytics.nginx.conf)，没有进程也没有
+数据库。它尊重 Do Not Track 和 Global Privacy Control，你也可以手动关掉：
+
+```js
+localStorage.setItem('sifter:no-analytics', '1')
+```
+
+读数据用 `node tools/stats.mjs`。
 
 ## 开发
 

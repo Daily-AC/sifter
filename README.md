@@ -258,7 +258,39 @@ diff — four sites added, one marked dead — instead of a binary blob.
   published only if some independent public source also vouched for it —
   otherwise walking up from your employer's login page publishes your
   employer.
-- Nothing is uploaded anywhere. The index is a file you own.
+- Nothing is uploaded anywhere. The index is a file you own. The CLI and the
+  MCP server have no telemetry of any kind, not even opt-in — the one thing
+  here that records anything is the website, and it records
+  [this](#what-the-site-records).
+
+## What the site records
+
+[sifter.z10.dev](https://sifter.z10.dev) counts searches, because a search
+that comes back empty is the only trustworthy signal of what the index is
+missing: a gap stated by a real person, in their own words, at the moment
+they wanted the thing. Everything else the page records is there to make that
+number readable — a week of no misses means either a complete index or an
+empty room, and those should not look the same.
+
+An event is a query string on a request that nginx logs and answers `204`.
+It carries the event name, a random id that dies with the browser tab, and
+for a search the term and how many results it returned. No cookie is set, no
+third-party script loads, and no address is written to the store — the
+machine that terminates your connection is configured not to log this
+endpoint at all, so "who asked" and "what they searched for" are never held
+by the same machine.
+
+The collector is [`site/analytics.mjs`](site/analytics.mjs), 150 readable
+lines. The entire backend is
+[`deploy/analytics.nginx.conf`](deploy/analytics.nginx.conf) — there is no
+process and no database. It honours Do Not Track and Global Privacy Control,
+and you can switch it off by hand:
+
+```js
+localStorage.setItem('sifter:no-analytics', '1')
+```
+
+`node tools/stats.mjs` is the reader.
 
 ## Development
 

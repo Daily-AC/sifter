@@ -14,7 +14,7 @@ node "$ROOT/tools/build-site.mjs"
 cd "$ROOT/site"
 # COPYFILE_DISABLE stops macOS tar from shipping ._* AppleDouble files, which
 # otherwise land in the web root and get served as 163-byte garbage.
-COPYFILE_DISABLE=1 tar czf - index.html app.js search.mjs lexicon.mjs resources.json \
+COPYFILE_DISABLE=1 tar czf - index.html app.js search.mjs lexicon.mjs analytics.mjs resources.json \
   | ssh "$HOST" "sudo tar xzf - -C '$DEST' \
       && sudo chown -R www-data:www-data '$DEST' \
       && sudo rm -f '$DEST'/._*"
