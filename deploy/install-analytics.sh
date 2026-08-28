@@ -62,7 +62,13 @@ echo "  logrotate rule clean"
 REMOTE
 
 say "hk — forward without logging"
-ssh "$HK_HOST" 'sudo mkdir -p /etc/nginx/snippets && sudo tee /etc/nginx/snippets/sifter-events-hk.conf >/dev/null' < "$ROOT/deploy/analytics.hk.conf"
+# The origin comes from the vhost that is already serving the site, so this
+# snippet cannot drift from it and the address stays out of the repository.
+ORIGIN="${SIFTER_ORIGIN:-$(ssh "$HK_HOST" "sudo sed -n 's#^ *proxy_pass https://\([^;]*\);#\1#p' /etc/nginx/conf.d/30-sifter.z10.dev.conf | head -1")}"
+[ -n "$ORIGIN" ] || { echo "could not read the origin from hk's sifter vhost; set SIFTER_ORIGIN"; exit 1; }
+echo "  origin: $ORIGIN"
+sed "s#__ORIGIN__#$ORIGIN#" "$ROOT/deploy/analytics.hk.conf" \
+  | ssh "$HK_HOST" 'sudo mkdir -p /etc/nginx/snippets && sudo tee /etc/nginx/snippets/sifter-events-hk.conf >/dev/null'
 
 ssh "$HK_HOST" 'bash -s' <<'REMOTE'
 set -euo pipefail
