@@ -214,7 +214,10 @@ addEventListener('resize', fitPlaceholder, { passive: true });
 
 (async function boot() {
   try {
-    const res = await fetch('./resources.json', { cache: 'no-cache' });
+    // No cache option here: nginx already serves this no-cache, and overriding
+    // the mode would stop the request matching the <link rel=preload> in the
+    // HTML, fetching the file twice instead of once.
+    const res = await fetch('./resources.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     entries = data.entries || [];
@@ -230,5 +233,9 @@ addEventListener('resize', fitPlaceholder, { passive: true });
       `<div class="empty">Could not load the index (${esc(err.message)}).<br>
        The whole thing is a static file — <code>resources.json</code> — so this is usually a bad deploy.</div>`;
     els.count.textContent = 'failed to load';
+    // The filter and sort skeletons are static markup; nothing else clears
+    // them on this path, and they would pulse next to a failure message.
+    els.filters.innerHTML = '';
+    els.sort.textContent = '';
   }
 })();
