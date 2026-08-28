@@ -70,8 +70,17 @@ server answers `"animated react components"` with eight ranked entries.
 ## Install
 
 ```sh
-npx sifter --help          # no install
-npm i -g sifter            # or install it
+npx github:Daily-AC/sifter search "design inspiration"    # nothing to install
+```
+
+That works on a clean machine: the repository ships a verified index, so the
+first command you run returns results rather than an empty library.
+
+To keep your own library, clone it:
+
+```sh
+git clone https://github.com/Daily-AC/sifter && cd sifter
+./bin/sifter.mjs --help
 ```
 
 Node 20+. No dependencies, no API key, no service to run.
@@ -140,7 +149,7 @@ cannot outvote relevance, and dead entries sink rather than disappear.
   "mcpServers": {
     "sifter": {
       "command": "npx",
-      "args": ["-y", "sifter-mcp"],
+      "args": ["-y", "--package=github:Daily-AC/sifter", "sifter-mcp"],
       "env": { "SIFTER_DB": "/path/to/your/resources.jsonl" }
     }
   }

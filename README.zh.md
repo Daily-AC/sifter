@@ -64,8 +64,17 @@ sifter 的每一行都是推导出来的，所以这些不会累积。
 ## 安装
 
 ```sh
-npx sifter --help          # 不装也能用
-npm i -g sifter            # 或者装上
+npx github:Daily-AC/sifter search "design inspiration"    # 什么都不用装
+```
+
+这在一台干净机器上就能跑：仓库自带一份已验活的索引，所以你敲的第一条命令就有
+结果，而不是面对一个空库。
+
+想攒自己的库就 clone：
+
+```sh
+git clone https://github.com/Daily-AC/sifter && cd sifter
+./bin/sifter.mjs --help
 ```
 
 Node 20+。零依赖、不需要 API key、没有常驻服务。
@@ -129,7 +138,7 @@ API，没有任何要配的东西。交叉印证数、star 数和存活状态会
   "mcpServers": {
     "sifter": {
       "command": "npx",
-      "args": ["-y", "sifter-mcp"],
+      "args": ["-y", "--package=github:Daily-AC/sifter", "sifter-mcp"],
       "env": { "SIFTER_DB": "/path/to/your/resources.jsonl" }
     }
   }
