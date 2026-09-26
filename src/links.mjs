@@ -340,7 +340,11 @@ export function recall(book, text, { limit = 3, rare = 5, min = 10, vocab = { to
     if (score < min) continue;
     out.push({ link: f.e, score: +score.toFixed(2), matched: [...inOwn, ...inBody] });
   }
-  return out.sort((a, b) => b.score - a.score).slice(0, limit);
+  // On a tie, a link someone already drew a conclusion about is worth more
+  // than one that was only pasted, and a recent one more than an old one.
+  const notes = (x) => (x.link.notes?.length ? 1 : 0);
+  return out.sort((a, b) => (b.score - a.score) || (notes(b) - notes(a))
+    || (a.link.first_seen < b.link.first_seen ? 1 : -1)).slice(0, limit);
 }
 
 /** Explicit search, when someone asks: ranked, not gated. */
