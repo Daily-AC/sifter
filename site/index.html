@@ -11,11 +11,24 @@
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
+<!-- Language is settled before first paint so the page never flashes the
+     wrong one: ?lang= if given, else the visitor's last choice, else the
+     browser's language (Chinese for zh-*, English for everything else). -->
+<script>
+(function () {
+  var l, d = document.documentElement;
+  try { l = new URLSearchParams(location.search).get('lang') || localStorage.getItem('sifter:lang'); } catch (e) {}
+  if (l !== 'zh' && l !== 'en') l = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+  d.dataset.lang = l;
+  d.lang = l === 'en' ? 'en' : 'zh-CN';
+  if (l === 'en') document.title = 'sifter · Good sites and AI work, sifted';
+})();
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231d1d1f'/><g stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round'><path d='M8 10.5h16M10.5 16h11M13.5 21.5h5'/></g></svg>">
 <!-- Fetched by app.js, so without this hint it would not start until the
      module chain had parsed. as="fetch" + crossorigin must match the fetch
      or the browser downloads it twice. -->
-<link rel="preload" as="fetch" href="./wall.json?v=6a647200" crossorigin="anonymous">
+<link rel="preload" as="fetch" href="./wall.json?v=7696e651" crossorigin="anonymous">
 <link rel="modulepreload" href="./search.mjs?v=a97407f7">
 <link rel="modulepreload" href="./lexicon.mjs?v=c519aac5">
 <style>
@@ -58,13 +71,14 @@ button{font:inherit; color:inherit}
 .mark{display:flex; align-items:center; gap:8px; font-weight:600; font-size:17px; letter-spacing:-.02em}
 .mark svg{display:block}
 .top .sp{flex:1}
+.top a.out + a.out{margin-left:24px}
 .top a.out{font-size:14px; color:var(--ink-2); display:inline-flex; align-items:center; min-height:44px; transition:color .2s}
 .top a.out:hover{color:var(--ink)}
 
 /* ─── hero ─── */
 .hero{padding-top:44px; padding-bottom:36px; text-align:center}
 h1{margin:0 auto; font-family:var(--display); font-weight:600; font-size:clamp(34px,4.6vw,58px); line-height:1.08; letter-spacing:-.025em; text-wrap:balance; max-width:14em}
-.lede{margin:18px auto 0; max-width:40em; color:var(--ink-2); font-size:clamp(17px,1.6vw,21px); line-height:1.5; text-wrap:pretty}
+.lede{margin:18px auto 0; max-width:40em; color:var(--ink-2); font-size:clamp(17px,1.6vw,21px); line-height:1.5; text-wrap:balance}
 @media (max-width:560px){ .hero{padding-top:28px; padding-bottom:24px} .lede{margin-top:12px} .lede br{display:none} }
 
 /* ─── sticky bar: categories + search ───
@@ -175,6 +189,9 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 20px}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important; transition:none!important}
 }
+
+/* Static copy is written in both languages; the one not in use is hidden. */
+:root[data-lang="en"] [data-l="zh"], :root[data-lang="zh"] [data-l="en"]{display:none}
 </style>
 </head>
 <body>
@@ -185,12 +202,16 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 20px}
     sifter
   </a>
   <span class="sp"></span>
+  <a class="out lang" href="?lang=en" data-to="en" data-l="zh" lang="en">English</a>
+  <a class="out lang" href="?lang=zh" data-to="zh" data-l="en" lang="zh-CN">中文</a>
   <a class="out" href="https://github.com/Daily-AC/sifter" rel="noopener">GitHub</a>
 </header>
 
 <section class="wrap hero">
-  <h1>好网站和 AI 作品，替你筛过一遍。</h1>
-  <p class="lede">每条都用一句话说清是什么，<br>视频存了一份，打不开 X 也能看。</p>
+  <h1 data-l="zh">好网站和 AI 作品，替你筛过一遍。</h1>
+  <h1 data-l="en" lang="en">Good sites and AI work, sifted for you.</h1>
+  <p class="lede" data-l="zh">每条都用一句话说清是什么，<br>视频存了一份，打不开 X 也能看。</p>
+  <p class="lede" data-l="en" lang="en">Each one says in a line what it is. <br>The videos are kept here, so they play even where X does not.</p>
 </section>
 
 <div class="bar" id="bar">
@@ -206,20 +227,22 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 20px}
 <main class="wrap">
   <div class="status" id="status" aria-live="polite"></div>
   <div class="wall" id="wall"></div>
-  <noscript><p class="empty">这一页在浏览器里排版和检索，需要开启 JavaScript。<br>网站索引也可以在 <a href="https://github.com/Daily-AC/sifter/blob/main/index/README.md" style="color:var(--link)">GitHub</a> 上看。</p></noscript>
+  <noscript><p class="empty">这一页在浏览器里排版和检索，需要开启 JavaScript。<br>This page lays itself out and searches in the browser, so it needs JavaScript.<br><a href="https://github.com/Daily-AC/sifter/blob/main/index/README.md" style="color:var(--link)">GitHub</a></p></noscript>
 </main>
 
 <section class="agent">
   <div class="wrap">
-    <h2>也可以交给你的 agent。</h2>
-    <p>网站这部分是一份开源索引：同一个站只收一次，每个链接都真的打开验过。agent 通过 MCP 直接检索，在 Claude Code 里一行装上：</p>
+    <h2 data-l="zh">也可以交给你的 agent。</h2>
+    <h2 data-l="en" lang="en">Or hand it to your agent.</h2>
+    <p data-l="zh">网站这部分是一份开源索引：同一个站只收一次，每个链接都真的打开验过。agent 通过 MCP 直接检索，在 Claude Code 里一行装上：</p>
+    <p data-l="en" lang="en">The sites are an open-source index: each one listed once, every link actually opened and checked. Agents search it over MCP. In Claude Code it is one line:</p>
     <button class="cmd" id="copy" type="button" aria-label="复制安装命令">
       <code>claude mcp add sifter -- npx -y --package=@z10/sifter sifter-mcp</code>
       <span class="c" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5"/></svg></span>
     </button>
     <div class="links">
-      <a href="https://github.com/Daily-AC/sifter" rel="noopener">源码和用法 ↗</a>
-      <a href="https://github.com/Daily-AC/sifter/issues/new?template=submit.yml" rel="noopener">推荐一个网站 ↗</a>
+      <a href="https://github.com/Daily-AC/sifter" rel="noopener"><span data-l="zh">源码和用法</span><span data-l="en">Source and docs</span> ↗</a>
+      <a href="https://github.com/Daily-AC/sifter/issues/new?template=submit.yml" rel="noopener"><span data-l="zh">推荐一个网站</span><span data-l="en">Suggest a site</span> ↗</a>
     </div>
   </div>
 </section>
@@ -227,7 +250,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 20px}
 <footer><div class="wrap">
   <span id="stamp"></span>
   <span>MIT</span>
-  <span>不用 cookie</span>
+  <span data-l="zh">不用 cookie</span><span data-l="en">No cookies</span>
 </div></footer>
 
 <dialog class="player" id="player" aria-label="播放视频">
@@ -237,6 +260,6 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:6px 20px}
 </dialog>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script type="module" src="./app.js?v=2a51dea4"></script>
+<script type="module" src="./app.js?v=d7c091d8"></script>
 </body>
 </html>

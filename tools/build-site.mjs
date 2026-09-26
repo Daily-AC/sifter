@@ -9,8 +9,9 @@
 // become a demo of something the tool does not do.
 //
 // The page is one wall: every indexed site as a screenshot, every published
-// video as a loop, in a single wall.json. What each card says in Chinese,
-// and which cards open the page, comes from site/curation.json.
+// video as a loop, in a single wall.json. What each card says, in Chinese and
+// English, comes from site/curation.json for sites and from the private video
+// data for videos; which cards open the page comes from curation.json too.
 
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, rmSync, linkSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -36,13 +37,16 @@ for (const f of ['search.mjs', 'lexicon.mjs']) {
 
 // ─── the wall ───
 
+// [key, Chinese, English]. The labels ride along in wall.json so the page
+// and the search index agree on them.
 const CATS = [
-  ['design', '设计资源'], ['agent', 'Agent 与工具'], ['video', 'AI 视频'], ['3d', '3D'],
-  ['motion', '代码动效'], ['game', '游戏'], ['image', '图像'], ['voice', '语音'],
-  ['launch', '发布'], ['misc', '其他'],
+  ['design', '设计资源', 'Design'], ['agent', 'Agent 与工具', 'Agents & tools'],
+  ['video', 'AI 视频', 'AI video'], ['3d', '3D', '3D'], ['motion', '代码动效', 'Motion'],
+  ['game', '游戏', 'Games'], ['image', '图像', 'Images'], ['voice', '语音', 'Voice'],
+  ['launch', '发布', 'Launches'], ['misc', '其他', 'Other'],
 ];
-const CAT = Object.fromEntries(CATS);
-const FLAG = { prompt: '附提示词', open: '开源', howto: '讲了做法' };
+const CAT = Object.fromEntries(CATS.map(([k, zh, en]) => [k, [zh, en]]));
+const FLAG = { prompt: ['附提示词', 'prompt included'], open: ['开源', 'open source'], howto: ['讲了做法', 'how-to'] };
 
 const curation = JSON.parse(readFileSync(join(SITE, 'curation.json'), 'utf8'));
 const index = JSON.parse(readFileSync(INDEX, 'utf8'));
@@ -78,9 +82,13 @@ const sites = index.entries.map((e) => {
     kind: gh ? 'repo' : 'site',
     key: e.key, url: e.url, cat: note?.cat || 'design',
     title: note?.zh || e.description || e.title,
+    en: note?.en || e.description || e.title,
     names: [note?.name || e.site_name || e.title, e.title].filter(Boolean),
-    tags: [CAT[note?.cat || 'design'], ...(e.tags || []).slice(0, 6)],
-    description: e.description, claims: e.claims?.slice(0, 2).map((c) => c.text),
+    tags: [...CAT[note?.cat || 'design'], ...(e.tags || []).slice(0, 6)],
+    // The site's own words and our English line, so an English query finds
+    // it by either.
+    description: [e.description, note?.en].filter(Boolean).join(' '),
+    claims: e.claims?.slice(0, 2).map((c) => c.text),
     by: gh ? `${gh[1]}/${gh[2]}` : new URL(e.url).hostname.replace(/^www\./, ''),
     mentions: e.mentions, at: e.first_seen,
   };
@@ -103,6 +111,7 @@ const sites = index.entries.map((e) => {
 // marked `hide` reach the site, with their media and none of the post text.
 let videos = [];
 if (existsSync(join(VIDEOS, 'videos.json'))) {
+  const EN = existsSync(join(VIDEOS, 'en.json')) ? JSON.parse(readFileSync(join(VIDEOS, 'en.json'), 'utf8')) : {};
   videos = JSON.parse(readFileSync(join(VIDEOS, 'videos.json'), 'utf8'))
     .filter((x) => !x.hide)
     .map((x) => {
@@ -114,10 +123,11 @@ if (existsSync(join(VIDEOS, 'videos.json'))) {
       place(clip, join(SITE, 'v', `${x.id}.mp4`));
       place(still, join(SITE, 'v', `${x.id}.webp`));
       place(full, join(SITE, 'v', 'full', `${x.id}.mp4`));
-      const flags = x.flags.map((f) => FLAG[f]);
+      if (!EN[x.id]) missing.push(`en:${x.id}`);
       return {
-        kind: 'video', key: x.id, url: x.url, cat: x.cat, title: x.zh,
-        names: [x.author, x.name], tags: [CAT[x.cat], ...flags], flags,
+        kind: 'video', key: x.id, url: x.url, cat: x.cat, title: x.zh, en: EN[x.id] || x.zh,
+        names: [x.author, x.name], tags: [...CAT[x.cat], ...x.flags.flatMap((f) => FLAG[f])],
+        description: EN[x.id], flags: x.flags,
         by: `@${x.author}`, at: x.at, likes: x.likes,
         img: `v/${x.id}.webp`, clip: `v/${x.id}.mp4`, full: `v/full/${x.id}.mp4`, w, h,
       };
