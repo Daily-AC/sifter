@@ -347,6 +347,56 @@ export function recall(book, text, { limit = 3, rare = 5, min = 10, vocab = { to
     || (a.link.first_seen < b.link.first_seen ? 1 : -1)).slice(0, limit);
 }
 
+/**
+ * Links from what someone has lately been collecting, for a message that
+ * goes back to the same subject.
+ *
+ * recall() needs words this person rarely uses, so it misses the commonest
+ * case of all: a new task opened in everyday vocabulary. "我现在想你做一个
+ * 视觉效果比较惊艳的视频" shares nothing rare with the video posts handed
+ * over an hour earlier; "视频" is a word they say every week. What makes it
+ * mean something that evening is that several links handed over in the last
+ * few days are about it. One link sharing a common word is chance; two
+ * different ones, at least one of which has the word in its own title, are
+ * a subject being worked on.
+ *
+ * So this looks only at links handed over in the last `days`, in some other
+ * session, and at words the person uses in no more than one message in
+ * fifty. Function words (的, 已经, 如果) name anything and are left out.
+ * Long messages are mostly pasted material, whose words are the tools', not
+ * the person's, so only a message of a few sentences is read.
+ *
+ * Not called by the hook yet. Replayed over 7,050 real messages
+ * (tools/replay-recall.mjs) it spoke on 24 (0.34%) and brought back the
+ * video posts above, but only 14 of the 24 were judged relevant: "cli",
+ * "skill", "提交" and "最好" name two recent links as easily as "视频"
+ * does. The bar for switching it on is 60% of at least 30 judged hits;
+ * rerun the replay as the book grows.
+ */
+export function recallRecent(book, text, { at = now(), session = null, days = 7, limit = 3, vocab = { total: 0, words: {} }, skip = () => false } = {}) {
+  const s = String(text || '');
+  if (!vocab.total || s.length > 300 || RELAYED.test(s)) return [];
+  const asked = terms(ownWords(s)).filter((t) => (vocab.words[t] || 0) <= vocab.total / 50
+    && !(/[一-鿿]/.test(t) && FUNCTION_CHARS.test(t)));
+  if (!asked.length) return [];
+  const since = new Date(Date.parse(at) - days * 864e5).toISOString();
+  const lately = book.all().filter((e) => !skip(e)
+    && e.said.some((x) => x.at >= since && x.at < at && x.session !== session));
+  const title = new Map(lately.map((e) => [e, new Set(terms([e.title, ...(e.topics || [])].join(' ')))]));
+  const own = new Map(lately.map((e) => [e, new Set([...title.get(e), ...terms([
+    ...e.said.map((x) => x.text).filter((t) => t.length <= 80), ...(e.notes || []).map((n) => n.text)].join(' '))])]));
+  const hits = new Map();
+  for (const t of asked) {
+    const named = lately.filter((e) => own.get(e).has(t));
+    // The same page kept under two URLs is one thing, not two.
+    if (new Set(named.map((e) => e.title || e.key)).size < 2 || !named.some((e) => title.get(e).has(t))) continue;
+    for (const e of named) hits.set(e, [...(hits.get(e) || []), t]);
+  }
+  const last = (e) => e.said.reduce((m, x) => (x.at > m ? x.at : m), '');
+  return [...hits].sort(([a], [b]) => (last(a) < last(b) ? 1 : -1))
+    .slice(0, limit).map(([link, matched]) => ({ link, matched }));
+}
+
 /** Explicit search, when someone asks: ranked, not gated. */
 export function find(book, query, { limit = 8 } = {}) {
   const docs = book.all().map((e) => ({
