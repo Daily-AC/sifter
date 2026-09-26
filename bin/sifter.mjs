@@ -3,12 +3,14 @@
 
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
-import { homedir } from 'node:os';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { homedir, tmpdir } from 'node:os';
 import { Library, save, collect, collectChrome, refresh, exportable, findProfiles, listFolders, findFolder } from '../src/pipeline.mjs';
 import { search } from '../src/search.mjs';
 import { verifySubmission, renderIssue, issueUrl, toIndexEntry, REPO } from '../src/submit.mjs';
 import { renderMarkdown } from '../src/render.mjs';
+import { LinkBook, saveBook, pick, recall, find, enrich, describe, readIgnore, learnVocab, readVocab, asksAboutPast, keywords } from '../src/links.mjs';
+import { claudeMessages, codexMessages } from '../src/sources/transcripts.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = process.env.SIFTER_HOME || join(HERE, '..');
@@ -26,6 +28,9 @@ const dbFor = (mode) => {
   return existsSync(LOCAL_DB) ? LOCAL_DB : (existsSync(SHIPPED) ? SHIPPED : LOCAL_DB);
 };
 const DB = LOCAL_DB;
+const LINKS = process.env.SIFTER_LINKS || join(ROOT, 'data', 'links.jsonl');
+const LINKS_IGNORE = join(dirname(LINKS), 'links-ignore.txt');
+const LINKS_VOCAB = join(dirname(LINKS), 'links-vocab.json');
 
 const C = process.stdout.isTTY ? {
   dim: (s) => `\x1b[2m${s}\x1b[0m`, b: (s) => `\x1b[1m${s}\x1b[0m`,
@@ -59,6 +64,9 @@ function usage() {
   ${C.b('sifter submit')} <url> --note "..."  propose a resource for the shared index
   ${C.b('sifter export')} [--out <dir>]       write the publishable index
   ${C.b('sifter stats')}                      what's in the library
+  ${C.b('sifter links')} [query]              links you handed your agent, newest first or by relevance
+  ${C.b('sifter links note')} <url> "..."     record what came of one
+  ${C.b('sifter links backfill')}             pull links out of past Claude Code / Codex sessions
 
   ${C.dim('--json')}       machine-readable output
   ${C.dim('--db <path>')}  library location (default ${DB.replace(homedir(), '~')})
@@ -267,5 +275,138 @@ switch (cmd) {
     break;
   }
 
+  case 'links': {
+    const sub = argv[1];
+    const book = LinkBook.open(LINKS);
+
+    if (sub === 'hook') { await linksHook(book); break; }
+
+    if (sub === 'backfill') {
+      // Agents' session logs are deleted on a rolling window (Claude Code
+      // keeps about a month), so history not captured now is gone.
+      const msgs = [...claudeMessages(), ...codexMessages()].sort((a, b) => (a.at < b.at ? -1 : 1));
+      const ignore = readIgnore(LINKS_IGNORE);
+      const before = book.all().length;
+      for (const m of msgs) for (const f of pick(m.text, { ignore })) book.capture(f, m);
+      saveBook(LINKS, book);
+      const vocab = learnVocab(msgs);
+      writeFileSync(LINKS_VOCAB, JSON.stringify(vocab));
+      console.log(`read ${msgs.length} messages → ${C.b(book.all().length - before)} new links (${book.all().length} total), vocabulary of ${Object.keys(vocab.words).length} words`);
+      console.log(C.dim('run `sifter links enrich` to fetch what each one is'));
+      break;
+    }
+
+    if (sub === 'enrich') {
+      const due = book.all().filter((e) => argv.includes('--all') || !e.enriched_at
+        || (e.enrich_error && Date.now() - Date.parse(e.enriched_at) > 864e5));
+      for (const e of due) {
+        await enrich(e);
+        if (!json()) console.log(`  ${e.enrich_error ? C.r('!') : C.g('+')} ${e.key.slice(0, 50).padEnd(52)}${C.dim((e.title || e.enrich_error || '').slice(0, 50))}`);
+      }
+      // Enriching takes seconds of network time, and a prompt submitted in
+      // another session meanwhile may have captured a new link. Merge into
+      // what is on disk now rather than writing back a stale snapshot.
+      const fresh = LinkBook.open(LINKS);
+      for (const e of due) {
+        const cur = fresh.get(e.key);
+        if (!cur) continue;
+        for (const f of ['kind', 'title', 'text', 'author', 'posted_at', 'media', 'stars', 'topics', 'status', 'enriched_at', 'enrich_error']) {
+          if (e[f] === undefined) delete cur[f]; else cur[f] = e[f];
+        }
+      }
+      saveBook(LINKS, fresh);
+      if (!json()) console.log(C.dim(`\nenriched ${due.length}`));
+      break;
+    }
+
+    if (sub === 'note') {
+      const [, target, ...words] = positional();
+      const e = target && words.length ? book.note(target, words.join(' ')) : null;
+      if (!e) { console.error(target ? `not in the link book: ${target}` : 'usage: sifter links note <url> "what came of it"'); process.exit(1); }
+      saveBook(LINKS, book);
+      console.log(`${C.g('✓')} ${e.key}`);
+      break;
+    }
+
+    const q = positional().join(' ');
+    const rows = q
+      ? find(book, q, { limit: Number(flag('limit', 8)) || 8 })
+      : book.all().sort((a, b) => (a.first_seen < b.first_seen ? 1 : -1)).slice(0, Number(flag('limit', 20)) || 20);
+    if (json()) { console.log(JSON.stringify(rows, null, 2)); break; }
+    if (!rows.length) { console.log(C.dim(q ? 'nothing matched' : `no links yet (${LINKS.replace(homedir(), '~')})`)); break; }
+    for (const e of rows) {
+      const d = describe(e);
+      console.log(`${C.dim(d.day)} ${C.b(d.what || e.key)}`);
+      console.log(`  ${C.c(e.url)}`);
+      if (d.said) console.log(`  「${d.said}」${d.project ? C.dim(' · ' + d.project) : ''}`);
+      if (d.note) console.log(`  ${C.y('→')} ${d.note}`);
+      console.log();
+    }
+    break;
+  }
+
   default: usage(); if (cmd && cmd !== '--help' && cmd !== '-h') process.exit(1);
+}
+
+/**
+ * Claude Code's UserPromptSubmit hook. Reads the event on stdin, remembers
+ * any resource links in the prompt, and hands back earlier links that look
+ * relevant as context for the model. Must stay fast and must never fail the
+ * prompt: every error path exits 0 with no output.
+ */
+async function linksHook(book) {
+  let ev;
+  try { ev = JSON.parse(readFileSync(0, 'utf8')); } catch { return; }
+  const prompt = String(ev.prompt || '');
+  const session = ev.session_id || null;
+  const me = fileURLToPath(import.meta.url);
+  const cli = `node ${me.replace(homedir(), '~')} links`;
+
+  const found = pick(prompt, { ignore: readIgnore(LINKS_IGNORE) });
+  for (const f of found) book.capture(f, { session, cwd: ev.cwd || null });
+  if (found.length) {
+    saveBook(LINKS, book);
+    // Fetching titles is seconds of network time; the prompt cannot wait.
+    const { spawn } = await import('node:child_process');
+    spawn(process.execPath, [me, 'links', 'enrich'], { detached: true, stdio: 'ignore' }).unref();
+  }
+
+  // Once per session per link: a reminder repeated every turn is noise.
+  const seenFile = join(tmpdir(), `sifter-links-${String(session).replace(/[^\w-]/g, '')}.json`);
+  let shown = [];
+  try { shown = JSON.parse(readFileSync(seenFile, 'utf8')); } catch {}
+  const fresh = new Set(found.map((f) => f.key));
+  const vocab = readVocab(LINKS_VOCAB);
+  const asking = asksAboutPast(prompt);
+  // Searched on what the question is about, not on "之前给过你", which
+  // matches every link someone once said that about.
+  const topic = asking ? keywords(prompt, vocab).join(' ') : '';
+  const hits = asking
+    ? (topic ? find(book, topic, { limit: 5 }).filter((e) => !fresh.has(e.key)) : [])
+    : recall(book, prompt, {
+      vocab,
+      skip: (e) => fresh.has(e.key) || shown.includes(e.key) || e.said.every((s) => s.session === session),
+    }).map((h) => h.link);
+
+  const lines = [];
+  if (hits.length) {
+    if (!asking) writeFileSync(seenFile, JSON.stringify([...shown, ...hits.map((e) => e.key)]));
+    lines.push(asking
+      ? `[sifter links] 用户在问以前给过的链接。按相关度的候选（不一定准，可用 \`${cli} <关键词>\` 换词再搜）：`
+      : '[sifter links] 用户以前亲手给过、和这条消息可能相关的链接（自动召回）：');
+    for (const e of hits) {
+      const d = describe(e, { max: 80 });
+      lines.push(`- ${d.day} ${e.url}${d.what ? ` —— ${d.what}` : ''}`);
+      if (d.said) lines.push(`  用户当时说：「${d.said}」${d.project ? `（在 ${d.project}）` : ''}`);
+      if (d.note) lines.push(`  后来的结论：${d.note}`);
+    }
+    if (!asking) lines.push('确实相关就在回复里主动提一句「你之前给过……」并考虑用上；不相关就忽略，不要硬提。');
+  }
+  if (found.length) {
+    lines.push(`[sifter links] 已自动记下本条消息里的 ${found.length} 个链接。处理完如果有明确结论（用上了、试过不行、做成了什么），用 \`${cli} note <url> "<一句话>"\` 补上，下次召回会带着它。`);
+  }
+  if (!lines.length) return;
+  const out = { hookSpecificOutput: { hookEventName: 'UserPromptSubmit', additionalContext: lines.join('\n') } };
+  if (found.length) out.systemMessage = `已收录 ${found.length} 个链接：${found.map((f) => f.key).join('、').slice(0, 120)}`;
+  process.stdout.write(JSON.stringify(out));
 }

@@ -54,16 +54,21 @@ export function linksIn(text) {
 async function viaFx(id) {
   const d = await getJson(`https://api.fxtwitter.com/i/status/${id}`);
   const t = d?.tweet;
-  if (!t?.text) return null;
+  // Article and video posts can have no text at all; they are still posts.
+  if (!t || !(t.text || t.article || t.media)) return null;
   return {
     id, channel: 'fxtwitter',
-    text: t.text,
+    text: t.text || '',
     author: t.author?.screen_name || null,
     author_name: t.author?.name || null,
     created_at: t.created_at ? new Date(t.created_at).toISOString() : null,
     likes: t.likes ?? null, retweets: t.retweets ?? null,
     replies: t.replies ?? null, views: t.views ?? null,
     url: t.url || `https://x.com/i/status/${id}`,
+    // A long-form article's post text is just a link to the article; the
+    // title and preview are where the words are.
+    article: t.article ? { title: t.article.title || null, preview: t.article.preview_text || null } : null,
+    media: (t.media?.all || []).map((m) => m.type),
   };
 }
 

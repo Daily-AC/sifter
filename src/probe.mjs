@@ -172,6 +172,8 @@ export async function probeGithub(owner, repo, { token = process.env.GITHUB_TOKE
   try {
     const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
     if (res.status === 404) return { status: 'dead', note: 'repo not found' };
+    // Taken down (DMCA and the like): gone for good, not a transient failure.
+    if (res.status === 451) return { status: 'dead', note: 'taken down (451)' };
     if (!res.ok) return null;
     const j = await res.json();
     return {
