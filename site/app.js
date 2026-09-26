@@ -3,7 +3,7 @@
 // changes here, and a visitor is never shown a demo of behaviour the tool
 // does not actually have.
 
-import { search } from './search.mjs?v=86b4acfa';
+import { search } from './search.mjs?v=a97407f7';
 import * as track from './analytics.mjs?v=57e76bbc';
 
 const $ = (s) => document.querySelector(s);

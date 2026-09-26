@@ -8,7 +8,7 @@
 // would drift, and the drift would be invisible — the site would quietly
 // become a demo of something the tool does not do.
 
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -88,8 +88,30 @@ writeFileSync(join(SITE, 'resources.json'), JSON.stringify({
   generated_at: data.generated_at, count: entries.length, entries,
 }));
 
+// The videos page. Its source, data/videos/videos.json, is private: it holds
+// every candidate, including the ones held back from publishing. Only cards
+// not marked `hide` reach the site, with their thumbnails and none of the
+// post text, and site/v/ is rebuilt so a card taken down loses its image too.
+const VIDEOS = join(ROOT, 'data', 'videos', 'videos.json');
+let videoCount = 0;
+if (existsSync(VIDEOS)) {
+  const keep = JSON.parse(readFileSync(VIDEOS, 'utf8')).filter((x) => !x.hide);
+  rmSync(join(SITE, 'v'), { recursive: true, force: true });
+  mkdirSync(join(SITE, 'v'));
+  for (const x of keep) copyFileSync(join(ROOT, 'data', 'videos', x.poster), join(SITE, x.poster));
+  writeFileSync(join(SITE, 'videos.json'), JSON.stringify({
+    generated_at: new Date().toISOString(),
+    items: keep.map(({ id, url, author, name, at, likes, cat, zh, flags, videos, poster }) =>
+      ({ id, url, author, name, at, likes, cat, zh, flags, videos, poster })),
+  }));
+  const page = join(SITE, 'videos.html');
+  writeFileSync(page, readFileSync(page, 'utf8')
+    .replace(/src="\.\/videos\.js(\?v=[a-f0-9]+)?"/, `src="./videos.js?v=${stamp(join(SITE, 'videos.js'))}"`));
+  videoCount = keep.length;
+}
+
 const bytes = (p) => (readFileSync(p).length / 1024).toFixed(1) + ' kB';
-console.log(`site built: ${entries.length} entries`);
+console.log(`site built: ${entries.length} entries, ${videoCount} videos`);
 for (const f of ['index.html', 'app.js', 'resources.json', 'search.mjs', 'lexicon.mjs', 'analytics.mjs']) {
   console.log(`  ${f.padEnd(18)} ${bytes(join(SITE, f))}`);
 }

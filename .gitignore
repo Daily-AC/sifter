@@ -14,3 +14,8 @@ site/lexicon.mjs
 data/links.jsonl
 data/links-ignore.txt
 data/links-vocab.json
+data/videos/
+
+# Built from data/videos/ by tools/build-site.mjs
+site/videos.json
+site/v/
