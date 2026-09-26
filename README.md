@@ -164,6 +164,42 @@ Three tools: `sifter_search`, `sifter_list`, `sifter_get`. With no `SIFTER_DB`
 the server serves the public index shipped in this repo, so an agent has
 something useful to search before you have collected anything.
 
+## Remember what you hand your agent
+
+The index answers "is there a site for X". The other question is "what was
+that post I sent you last month", and nobody bookmarks the links they paste
+into a chat. `sifter links` keeps them: every resource link you type to a
+coding agent, with what you said when you sent it, and brings one back when
+a later message is about the same thing.
+
+```sh
+sifter links backfill        # pull links out of past Claude Code and Codex sessions
+sifter links enrich          # fetch what each one is (post text, repo description, title)
+sifter links                 # newest first
+sifter links "香港 服务器"     # search
+sifter links note <url> "tried it; too slow on our VM"
+```
+
+For Claude Code, run it as a `UserPromptSubmit` hook:
+
+```json
+{ "hooks": { "UserPromptSubmit": [{ "hooks": [
+  { "type": "command", "command": "node /path/to/sifter/bin/sifter.mjs links hook", "timeout": 5 }
+] }] } }
+```
+
+On each prompt it records any links in it, and when the prompt shares two
+words you rarely use with an earlier link (or asks "我之前给过你的那个…"),
+it hands the model that link and what you said about it. Rarity is measured
+against your own messages, which `backfill` reads once: replayed over eleven
+thousand real prompts, it spoke up on about one in two hundred.
+
+The book lives in `data/links.jsonl` next to your library and never leaves
+it: `export` does not read it. Links that look private (tokens in the query,
+consoles, LAN addresses) are dropped before anything is written, and
+`data/links-ignore.txt` takes hosts or `host/path` prefixes you never want
+kept, one per line.
+
 ## Contribute a resource
 
 Anyone can propose a site for the shared index:

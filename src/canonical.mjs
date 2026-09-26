@@ -11,8 +11,9 @@
 
 const TRACKING_PARAMS = [
   /^utm_/i, /^ref$/i, /^ref_/i, /^fbclid$/i, /^gclid$/i, /^msclkid$/i,
-  /^spm$/i, /^scm$/i, /^from$/i, /^source$/i, /^share_/i, /^si$/i,
+  /^spm/i, /^scm$/i, /^from$/i, /^source$/i, /^share_/i, /^si$/i,
   /^igshid$/i, /^mc_[ce]id$/i, /^_hs/i, /^vd_source$/i, /^s$/i, /^t$/i,
+  /^rdt/i,
 ];
 
 // Host prefixes that are a language/locale skin of the same site, not a

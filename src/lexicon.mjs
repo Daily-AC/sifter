@@ -34,6 +34,9 @@ export const PAIRS = [
   ['agent', '智能体'], ['prompt', '提示词'], ['model', '模型'],
   ['image', '图片', '图像'], ['video', '视频'], ['audio', '音频'],
   ['voice', '语音'], ['search', '搜索'], ['dataset', '数据集'],
+  // platforms, whose repos are named in pinyin or after the export brand
+  ['jianying', 'capcut', '剪映'], ['douyin', 'tiktok', '抖音'], ['wechat', 'weixin', '微信'],
+  ['xiaohongshu', 'rednote', '小红书'], ['bilibili', '哔哩哔哩'], ['editing', '剪辑'],
 ];
 
 const MAP = new Map();

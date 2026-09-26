@@ -11,3 +11,6 @@ site/resources.json
 # the CLI can never drift apart. Only index.html and app.js are sources.
 site/search.mjs
 site/lexicon.mjs
+data/links.jsonl
+data/links-ignore.txt
+data/links-vocab.json
