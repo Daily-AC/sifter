@@ -25,15 +25,27 @@ const lines = (f) => { try { return readFileSync(f, 'utf8').split('\n'); } catch
 /** Claude Code: ~/.claude/projects/<dir>/<session>.jsonl */
 export function* claudeMessages(root = join(homedir(), '.claude', 'projects')) {
   for (const f of walk(root)) {
+    // A message typed while the agent is mid-turn is folded into that turn
+    // as a queued_command attachment and never becomes a user entry, so it
+    // is read from there too. If the queue drains after the turn instead,
+    // the same text also arrives as a user entry; count it once.
+    const seen = new Set();
     for (const line of lines(f)) {
-      if (!line.includes('"type":"user"')) continue;
+      if (!line.includes('"type":"user"') && !line.includes('"queued_command"')) continue;
       let o; try { o = JSON.parse(line); } catch { continue; }
-      if (o.type !== 'user' || o.isMeta || o.isSidechain || o.toolUseResult) continue;
-      const c = o.message?.content;
+      if (o.isMeta || o.isSidechain) continue;
+      let c;
+      if (o.type === 'user' && !o.toolUseResult) c = o.message?.content;
+      else if (o.type === 'attachment' && o.attachment?.type === 'queued_command'
+        && o.attachment.origin?.kind === 'human' && o.attachment.commandMode === 'prompt') c = o.attachment.prompt;
+      else continue;
       const texts = typeof c === 'string' ? [c]
         : Array.isArray(c) ? c.filter((x) => x?.type === 'text').map((x) => x.text) : [];
       for (const text of texts) {
         if (/^\s*<(system-reminder|command-|local-command|task-notification|bash-)/.test(text)) continue;
+        const key = `${o.sessionId}\0${text.trim()}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
         yield { text, at: o.timestamp, session: o.sessionId, cwd: o.cwd };
       }
     }
