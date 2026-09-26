@@ -5,6 +5,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pick, keyOf, LinkBook, recall, keywords, asksAboutPast, describe } from '../src/links.mjs';
+import { claudeMessages } from '../src/sources/transcripts.mjs';
+import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 test('pick: a link typed flush against Chinese ends where the URL does', () => {
   const [l] = pick('https://github.com/citrolabs/ego-lite你去看看这个仓库，有什么牛逼的地方');
@@ -79,4 +83,24 @@ test('describe: a short remark beats a pasted paragraph', () => {
   const e = { first_seen: '2026-09-25T00:00:00Z', notes: [],
     said: [{ text: '看看' }, { text: 'x'.repeat(200) }, { text: '想把这个接到我的状态屏上' }] };
   assert.equal(describe(e).said, '想把这个接到我的状态屏上');
+});
+
+test('claudeMessages: a link typed while the agent is mid-turn is read too, once', () => {
+  // 2026-09-26: a link sent during a long turn was absorbed as a
+  // queued_command attachment and never became a user entry, so backfill
+  // missed it; 7% of real messages arrive this way.
+  const root = mkdtempSync(join(tmpdir(), 'sifter-cc-'));
+  mkdirSync(join(root, 'p'));
+  const url = 'https://x.com/rexan_wong/status/2103707054108299437 这个会对你有帮助的';
+  const row = (o) => JSON.stringify({ sessionId: 's1', timestamp: '2026-09-26T16:57:52Z', cwd: '/p', ...o });
+  writeFileSync(join(root, 'p', 's1.jsonl'), [
+    row({ type: 'user', message: { role: 'user', content: '开工' } }),
+    row({ type: 'attachment', attachment: { type: 'queued_command', prompt: url, commandMode: 'prompt', origin: { kind: 'human' } } }),
+    row({ type: 'attachment', attachment: { type: 'queued_command', prompt: '<task-notification>done</task-notification>', commandMode: 'task-notification' } }),
+    row({ type: 'attachment', attachment: { type: 'queued_command', prompt: 'from another session', commandMode: 'prompt', origin: { kind: 'peer' } } }),
+    row({ type: 'attachment', attachment: { type: 'queued_command', prompt: [{ type: 'text', text: '[Image #1] 看这里' }, { type: 'image' }], commandMode: 'prompt', origin: { kind: 'human' } } }),
+    row({ type: 'user', message: { role: 'user', content: url } }),
+  ].join('\n'));
+  const texts = [...claudeMessages(root)].map((m) => m.text);
+  assert.deepEqual(texts, ['开工', url, '[Image #1] 看这里']);
 });
