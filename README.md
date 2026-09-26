@@ -205,6 +205,8 @@ words you rarely use with an earlier link (or asks "我之前给过你的那个�
 it hands the model that link and what you said about it. Rarity is measured
 against your own messages, which `backfill` reads once: replayed over eleven
 thousand real prompts, it spoke up on about one in two hundred.
+`node tools/replay-recall.mjs` reruns that replay on your own history, each
+message seeing only the links handed over before it.
 
 The book lives in `data/links.jsonl` next to your library and never leaves
 it: `export` does not read it. Links that look private (tokens in the query,
