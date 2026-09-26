@@ -14,8 +14,10 @@ site/lexicon.mjs
 data/links.jsonl
 data/links-ignore.txt
 data/links-vocab.json
-data/videos/
+data/videos
+data/shots
 
-# Built from data/videos/ by tools/build-site.mjs
-site/videos.json
+# Built from index/, data/shots and data/videos by tools/build-site.mjs
+site/wall.json
+site/s/
 site/v/
