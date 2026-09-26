@@ -5,10 +5,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { pick, keyOf, LinkBook, recall, keywords, asksAboutPast, describe } from '../src/links.mjs';
-import { claudeMessages } from '../src/sources/transcripts.mjs';
-import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { claudeMessages, claudeLogSince } from '../src/sources/transcripts.mjs';
+import { mkdtempSync, mkdirSync, writeFileSync, appendFileSync, readFileSync, rmSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 test('pick: a link typed flush against Chinese ends where the URL does', () => {
   const [l] = pick('https://github.com/citrolabs/ego-lite你去看看这个仓库，有什么牛逼的地方');
@@ -103,4 +105,46 @@ test('claudeMessages: a link typed while the agent is mid-turn is read too, once
   ].join('\n'));
   const texts = [...claudeMessages(root)].map((m) => m.text);
   assert.deepEqual(texts, ['开工', url, '[Image #1] 看这里']);
+});
+
+// 2026-09-27: links typed mid-turn only ever reached the book through a
+// manual backfill, because Claude Code never runs UserPromptSubmit for
+// them. A Stop hook now reads each turn's tail of the session log.
+const logRow = (o) => JSON.stringify({ sessionId: 's2', timestamp: '2026-09-27T01:00:00Z', cwd: '/p', ...o }) + '\n';
+const queuedRow = (text) => logRow({ type: 'attachment', attachment: { type: 'queued_command', prompt: text, commandMode: 'prompt', origin: { kind: 'human' } } });
+
+test('claudeLogSince: reads what the log gained, and never half a line', () => {
+  const log = join(mkdtempSync(join(tmpdir(), 'sifter-log-')), 's2.jsonl');
+  writeFileSync(log, logRow({ type: 'user', message: { role: 'user', content: '开工' } }) + queuedRow('第一句'));
+  const a = claudeLogSince(log);
+  assert.deepEqual(a.messages.map((m) => [m.text, !!m.queued]), [['开工', false], ['第一句', true]]);
+  // A line still being written is left for the next call.
+  const half = queuedRow('第二句');
+  appendFileSync(log, half.slice(0, 30));
+  const b = claudeLogSince(log, a.next);
+  assert.deepEqual(b.messages, []);
+  assert.equal(b.next, a.next);
+  appendFileSync(log, half.slice(30));
+  assert.deepEqual(claudeLogSince(log, b.next).messages.map((m) => m.text), ['第二句']);
+});
+
+test('links queued: the Stop hook records links typed mid-turn, and only those', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'sifter-stop-'));
+  const log = join(dir, 's.jsonl');
+  const session = `test-${process.pid}-${Date.now()}`;
+  writeFileSync(log, logRow({ type: 'user', message: { role: 'user', content: 'https://prompt-hook.invalid/sees-this 看看' } })
+    + queuedRow('https://mid-turn.invalid/typed-this 这个会对你有帮助的'));
+  const cli = join(dirname(fileURLToPath(import.meta.url)), '..', 'bin', 'sifter.mjs');
+  try {
+    const r = spawnSync(process.execPath, [cli, 'links', 'queued'], {
+      input: JSON.stringify({ hook_event_name: 'Stop', session_id: session, transcript_path: log, cwd: '/p' }),
+      env: { ...process.env, SIFTER_LINKS: join(dir, 'links.jsonl') }, encoding: 'utf8',
+    });
+    assert.equal(r.status, 0);
+    assert.equal(r.stdout, '');
+    const book = readFileSync(join(dir, 'links.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+    // The first link came through UserPromptSubmit already; this hook is
+    // only for what that one never sees.
+    assert.deepEqual(book.map((e) => [e.key, e.said[0].text]), [['mid-turn.invalid/typed-this', '这个会对你有帮助的']]);
+  } finally { rmSync(join(tmpdir(), `sifter-links-read-${session}`), { force: true }); }
 });

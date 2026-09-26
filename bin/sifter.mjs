@@ -10,7 +10,7 @@ import { search } from '../src/search.mjs';
 import { verifySubmission, renderIssue, issueUrl, toIndexEntry, REPO } from '../src/submit.mjs';
 import { renderMarkdown } from '../src/render.mjs';
 import { LinkBook, saveBook, pick, recall, find, enrich, describe, readIgnore, learnVocab, readVocab, asksAboutPast, keywords } from '../src/links.mjs';
-import { claudeMessages, codexMessages } from '../src/sources/transcripts.mjs';
+import { claudeMessages, codexMessages, claudeLogSince } from '../src/sources/transcripts.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = process.env.SIFTER_HOME || join(HERE, '..');
@@ -280,6 +280,7 @@ switch (cmd) {
     const book = LinkBook.open(LINKS);
 
     if (sub === 'hook') { await linksHook(book); break; }
+    if (sub === 'queued') { await linksQueuedHook(book); break; }
 
     if (sub === 'backfill') {
       // Agents' session logs are deleted on a rolling window (Claude Code
@@ -364,12 +365,7 @@ async function linksHook(book) {
 
   const found = pick(prompt, { ignore: readIgnore(LINKS_IGNORE) });
   for (const f of found) book.capture(f, { session, cwd: ev.cwd || null });
-  if (found.length) {
-    saveBook(LINKS, book);
-    // Fetching titles is seconds of network time; the prompt cannot wait.
-    const { spawn } = await import('node:child_process');
-    spawn(process.execPath, [me, 'links', 'enrich'], { detached: true, stdio: 'ignore' }).unref();
-  }
+  if (found.length) await keep(book);
 
   // Once per session per link: a reminder repeated every turn is noise.
   const seenFile = join(tmpdir(), `sifter-links-${String(session).replace(/[^\w-]/g, '')}.json`);
@@ -409,4 +405,41 @@ async function linksHook(book) {
   const out = { hookSpecificOutput: { hookEventName: 'UserPromptSubmit', additionalContext: lines.join('\n') } };
   if (found.length) out.systemMessage = `已收录 ${found.length} 个链接：${found.map((f) => f.key).join('、').slice(0, 120)}`;
   process.stdout.write(JSON.stringify(out));
+}
+
+/** Writes the book and fetches what the new links are, without waiting for it. */
+async function keep(book) {
+  saveBook(LINKS, book);
+  // Fetching titles is seconds of network time; no hook can wait for it.
+  const { spawn } = await import('node:child_process');
+  spawn(process.execPath, [fileURLToPath(import.meta.url), 'links', 'enrich'], { detached: true, stdio: 'ignore' }).unref();
+}
+
+/**
+ * Claude Code's Stop hook: records links in messages typed while the agent
+ * was mid-turn. Those are folded into the running turn as queued_command
+ * attachments and never pass through UserPromptSubmit, so the prompt hook
+ * never sees them. This reads only what the session log gained since the
+ * last time it ran and says nothing back; recall stays with the prompt hook.
+ * A turn cut short with Esc fires no Stop, and its messages are read at the
+ * next one. Codex needs none of this: it runs UserPromptSubmit on input
+ * steered into a running turn.
+ */
+async function linksQueuedHook(book) {
+  let ev;
+  try { ev = JSON.parse(readFileSync(0, 'utf8')); } catch { return; }
+  if (!ev.transcript_path) return;
+  const mark = join(tmpdir(), `sifter-links-read-${String(ev.session_id).replace(/[^\w-]/g, '')}`);
+  let from = 0;
+  try { from = Number(readFileSync(mark, 'utf8')) || 0; } catch {}
+  let read;
+  try { read = claudeLogSince(ev.transcript_path, from); } catch { return; }
+  const ignore = readIgnore(LINKS_IGNORE);
+  let n = 0;
+  for (const m of read.messages) {
+    if (!m.queued) continue;
+    for (const f of pick(m.text, { ignore })) { book.capture(f, m); n++; }
+  }
+  if (n) await keep(book);
+  writeFileSync(mark, String(read.next));
 }
