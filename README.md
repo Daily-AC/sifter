@@ -180,13 +180,25 @@ sifter links "香港 服务器"     # search
 sifter links note <url> "tried it; too slow on our VM"
 ```
 
-For Claude Code, run it as a `UserPromptSubmit` hook:
+For Claude Code, run it as a `UserPromptSubmit` hook, and `links queued` as a
+`Stop` hook:
 
 ```json
-{ "hooks": { "UserPromptSubmit": [{ "hooks": [
-  { "type": "command", "command": "node /path/to/sifter/bin/sifter.mjs links hook", "timeout": 5 }
-] }] } }
+{ "hooks": {
+  "UserPromptSubmit": [{ "hooks": [
+    { "type": "command", "command": "node /path/to/sifter/bin/sifter.mjs links hook", "timeout": 5 }
+  ] }],
+  "Stop": [{ "hooks": [
+    { "type": "command", "command": "node /path/to/sifter/bin/sifter.mjs links queued", "timeout": 5 }
+  ] }]
+} }
 ```
+
+A message typed while the agent is still working joins the running turn
+without passing through `UserPromptSubmit`; the `Stop` hook reads what the
+session log gained during the turn and records links from those messages.
+It only records, and says nothing back. Codex runs its prompt hook on such
+messages too, so there the one hook is enough.
 
 On each prompt it records any links in it, and when the prompt shares two
 words you rarely use with an earlier link (or asks "我之前给过你的那个…"),
