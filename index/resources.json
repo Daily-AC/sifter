@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T09:56:53.344Z",
+  "generated_at": "2026-09-28T10:55:07.291Z",
   "count": 38,
   "entries": [
     {
@@ -62,13 +62,13 @@
         "status": "unknown",
         "code": null,
         "note": "TypeError fetch failed ETIMEDOUT",
-        "checked_at": "2026-09-21T09:56:50.124Z",
+        "checked_at": "2026-09-28T10:55:01.201Z",
         "final_url": null,
-        "ms": 341
+        "ms": 262
       },
       "first_seen": "2026-08-28T12:32:36.127Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.219Z",
       "site_name": "Awwwards",
       "lang": "en",
       "image": "https://assets.awwwards.com/assets/images/pages/about-certificates/awwwards.jpg"
@@ -113,13 +113,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.127Z",
+        "checked_at": "2026-09-28T10:55:01.203Z",
         "final_url": "https://www.beautifului.dev/",
-        "ms": 377
+        "ms": 241
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.656Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en"
     },
     {
@@ -170,13 +170,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.433Z",
+        "checked_at": "2026-09-28T10:55:01.444Z",
         "final_url": "https://beui.dev/",
-        "ms": 944
+        "ms": 916
       },
       "first_seen": "2026-08-28T12:32:36.657Z",
       "last_seen": "2026-08-28T13:07:27.855Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "beUI",
       "lang": "en",
       "image": "https://beui.dev/api/og"
@@ -221,13 +221,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.858Z",
-        "final_url": "https://www.rareui.com/",
-        "ms": 296
+        "checked_at": "2026-09-28T10:55:03.506Z",
+        "final_url": "https://rareui.com/",
+        "ms": 86
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "Rare UI",
       "lang": "en",
       "image": "https://rareui.com/ogimage.webp"
@@ -282,13 +282,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.938Z",
+        "checked_at": "2026-09-28T10:55:03.586Z",
         "final_url": "https://recent.design/",
-        "ms": 403
+        "ms": 692
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://recent.design/og.png",
       "aliases": [
@@ -335,16 +335,16 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:52.251Z",
+        "checked_at": "2026-09-28T10:55:04.552Z",
         "final_url": "https://threeui.com/",
-        "ms": 92
+        "ms": 179
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T13:07:27.855Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.221Z",
       "site_name": "ThreeUI",
       "lang": "en",
-      "image": "https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/thumbnails/threeui-intro.jpg?cacheNonce=077d2b612430c92d48543a15ee5895dfab9a7fd965c3f738a524ab0969fb52a1"
+      "image": "https://threeui.com/social/threeui-living-world-prompts.jpg"
     },
     {
       "key": "transitions.dev",
@@ -386,13 +386,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:52.305Z",
+        "checked_at": "2026-09-28T10:55:04.599Z",
         "final_url": "https://transitions.dev/",
-        "ms": 154
+        "ms": 214
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.221Z",
       "site_name": "Transitions.dev",
       "lang": "en",
       "image": "https://transitions.dev/assets/og-main.jpg"
@@ -437,13 +437,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:52.341Z",
+        "checked_at": "2026-09-28T10:55:04.688Z",
         "final_url": "https://ui.shadcn.com/",
-        "ms": 157
+        "ms": 111
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-09-21T09:56:53.292Z",
+      "updated_at": "2026-09-28T10:55:07.221Z",
       "lang": "en",
       "image": "https://ui.shadcn.com/og?title=The%20Foundation%20for%20your%20Design%20System&description=Composable%2C%20accessible%20components%20with%20thoughtful%20defaults.%20Build%20your%20own%20component%20library%20with%20code%20you%20can%20customize%2C%20extend%2C%20and%20make%20your%20own.",
       "site_name": "shadcn/ui"
@@ -481,13 +481,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.122Z",
+        "checked_at": "2026-09-28T10:55:01.199Z",
         "final_url": "https://www.are.na/",
-        "ms": 311
+        "ms": 390
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.219Z",
       "site_name": "Are.na",
       "lang": "en",
       "image": "https://www.are.na/og-image.png"
@@ -517,13 +517,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.125Z",
+        "checked_at": "2026-09-28T10:55:01.202Z",
         "final_url": "https://www.bakai.me/lab",
-        "ms": 1102
+        "ms": 1086
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "Bakai Tolondu uulu",
       "lang": "en",
       "image": "https://www.bakai.me/og.png"
@@ -553,13 +553,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.465Z",
+        "checked_at": "2026-09-28T10:55:01.463Z",
         "final_url": "https://bloub.vercel.app/",
-        "ms": 103
+        "ms": 106
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "bloub",
       "lang": "fr",
       "image": "https://bloub.vercel.app/og.png"
@@ -596,13 +596,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.504Z",
+        "checked_at": "2026-09-28T10:55:01.569Z",
         "final_url": "https://www.boardui.com/",
-        "ms": 292
+        "ms": 568
       },
       "first_seen": "2026-08-28T13:07:27.854Z",
       "last_seen": "2026-08-28T13:07:27.854Z",
-      "updated_at": "2026-09-21T09:56:53.290Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "BoardUI",
       "lang": "en",
       "image": "https://www.boardui.com/og_image.png"
@@ -640,13 +640,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.568Z",
+        "checked_at": "2026-09-28T10:55:01.589Z",
         "final_url": "https://component.gallery/",
-        "ms": 45
+        "ms": 233
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://component.gallery/open-graph/default.png"
     },
@@ -688,13 +688,13 @@
         "status": "blocked",
         "code": 429,
         "note": "http 429",
-        "checked_at": "2026-09-21T09:56:50.613Z",
+        "checked_at": "2026-09-28T10:55:01.822Z",
         "final_url": "https://designspells.com/",
-        "ms": 112
+        "ms": 66
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "Design Spells · Design details that feel like magic",
       "lang": "en",
       "image": "https://designspells.com/og.png"
@@ -737,13 +737,13 @@
         "status": "blocked",
         "code": 403,
         "note": "bot-challenge",
-        "checked_at": "2026-09-21T09:56:50.725Z",
+        "checked_at": "2026-09-28T10:55:01.888Z",
         "final_url": "https://www.designspiration.com/",
-        "ms": 107
+        "ms": 190
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "Designspiration",
       "lang": "en-US",
       "image": "https://s.dspncdn.com/a1/webapp/img/content/meta/default_meta_display.jpg"
@@ -780,13 +780,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.796Z",
+        "checked_at": "2026-09-28T10:55:02.078Z",
         "final_url": "https://www.fluidfunctionalism.com/",
-        "ms": 213
+        "ms": 339
       },
       "first_seen": "2026-08-28T13:07:27.854Z",
       "last_seen": "2026-08-28T13:07:27.854Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://www.fluidfunctionalism.com/metadata/og.png"
     },
@@ -823,15 +823,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:48.301Z",
+        "checked_at": "2026-09-28T10:54:59.380Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-09-21T09:56:48.301Z",
+      "updated_at": "2026-09-28T10:54:59.381Z",
       "github": {
-        "stars": 4332,
+        "stars": 4420,
         "language": "Python",
         "topics": [],
         "archived": false,
@@ -874,21 +874,21 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:48.605Z",
+        "checked_at": "2026-09-28T10:54:59.678Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-21T09:56:48.605Z",
+      "updated_at": "2026-09-28T10:54:59.678Z",
       "github": {
-        "stars": 177398,
+        "stars": 178735,
         "language": "Python",
         "topics": [
           "agent-skills"
         ],
         "archived": false,
-        "pushed_at": "2026-09-10T19:44:11Z",
+        "pushed_at": "2026-09-24T16:20:39Z",
         "license": null
       }
     },
@@ -929,15 +929,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:48.910Z",
+        "checked_at": "2026-09-28T10:54:59.937Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-21T09:56:48.910Z",
+      "updated_at": "2026-09-28T10:54:59.937Z",
       "github": {
-        "stars": 51042,
+        "stars": 51760,
         "language": "JavaScript",
         "topics": [
           "claude",
@@ -982,19 +982,19 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:49.144Z",
+        "checked_at": "2026-09-28T10:55:00.268Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-21T09:56:49.144Z",
+      "updated_at": "2026-09-28T10:55:00.268Z",
       "github": {
-        "stars": 8264,
+        "stars": 8849,
         "language": "TypeScript",
         "topics": [],
         "archived": false,
-        "pushed_at": "2026-09-20T08:34:24Z",
+        "pushed_at": "2026-09-25T23:04:33Z",
         "license": null
       }
     },
@@ -1031,15 +1031,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:49.376Z",
+        "checked_at": "2026-09-28T10:55:00.514Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-21T09:56:49.376Z",
+      "updated_at": "2026-09-28T10:55:00.514Z",
       "github": {
-        "stars": 4397,
+        "stars": 4534,
         "language": "TypeScript",
         "topics": [],
         "archived": false,
@@ -1091,13 +1091,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:49.625Z",
+        "checked_at": "2026-09-28T10:55:00.742Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-21T09:56:49.625Z",
+      "updated_at": "2026-09-28T10:55:00.742Z",
       "github": {
         "stars": 2,
         "language": "Python",
@@ -1162,15 +1162,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:49.833Z",
+        "checked_at": "2026-09-28T10:55:01.002Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-09-21T09:56:49.833Z",
+      "updated_at": "2026-09-28T10:55:01.002Z",
       "github": {
-        "stars": 126,
+        "stars": 132,
         "language": "Python",
         "topics": [
           "agent-skills",
@@ -1182,7 +1182,7 @@
           "llm"
         ],
         "archived": false,
-        "pushed_at": "2026-09-19T19:20:27Z",
+        "pushed_at": "2026-09-27T10:02:18Z",
         "license": "MIT"
       }
     },
@@ -1220,15 +1220,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.122Z",
+        "checked_at": "2026-09-28T10:55:01.198Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-09-21T09:56:50.122Z",
+      "updated_at": "2026-09-28T10:55:01.198Z",
       "github": {
-        "stars": 6,
+        "stars": 7,
         "language": "JavaScript",
         "topics": [
           "marketing",
@@ -1264,13 +1264,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:50.832Z",
+        "checked_at": "2026-09-28T10:55:02.137Z",
         "final_url": "https://gooey.jakubantalik.com/",
-        "ms": 346
+        "ms": 5082
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://gooey.jakubantalik.com/og-image.jpg",
       "site_name": "Liquid Gooey"
@@ -1307,13 +1307,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.009Z",
+        "checked_at": "2026-09-28T10:55:02.289Z",
         "final_url": "https://heroui.pro/",
-        "ms": 341
+        "ms": 231
       },
       "first_seen": "2026-08-28T13:07:27.855Z",
       "last_seen": "2026-08-28T13:07:27.855Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://heroui.pro/images/og.png"
     },
@@ -1350,13 +1350,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.178Z",
+        "checked_at": "2026-09-28T10:55:02.360Z",
         "final_url": "https://hugeicons.com/",
-        "ms": 376
+        "ms": 464
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://hugeicons.com/og_preview.png"
     },
@@ -1385,13 +1385,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.227Z",
+        "checked_at": "2026-09-28T10:55:02.417Z",
         "final_url": "https://linearabilityextthreejs.pages.dev/",
-        "ms": 176
+        "ms": 292
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en"
     },
     {
@@ -1432,13 +1432,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.350Z",
+        "checked_at": "2026-09-28T10:55:02.520Z",
         "final_url": "https://loadmo.re/",
-        "ms": 508
+        "ms": 665
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://loadmo.re/media/pages/home/332c07bf8f-1603905890/loadmore-opengraph.png"
     },
@@ -1467,13 +1467,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.377Z",
+        "checked_at": "2026-09-28T10:55:02.709Z",
         "final_url": "https://minimal.gallery/",
-        "ms": 928
+        "ms": 877
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en-US",
       "image": "https://21ef0880.delivery.rocketcdn.me/wp-content/themes/minimalgallery/assets/img/meta/og.jpg"
     },
@@ -1510,13 +1510,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.403Z",
+        "checked_at": "2026-09-28T10:55:02.824Z",
         "final_url": "https://mobbin.com/",
-        "ms": 190
+        "ms": 439
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "image": "https://framerusercontent.com/assets/FE3uqmxi41SxsiiVq9JNJC1Pwc.png"
     },
     {
@@ -1557,13 +1557,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.554Z",
+        "checked_at": "2026-09-28T10:55:03.185Z",
         "final_url": "https://muz.li/",
-        "ms": 259
+        "ms": 57
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "Muzli - Design inspiration hub",
       "lang": "en-US",
       "image": "https://muz.li/og.png"
@@ -1593,13 +1593,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.593Z",
+        "checked_at": "2026-09-28T10:55:03.242Z",
         "final_url": "https://onepagelove.com/",
-        "ms": 317
+        "ms": 299
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en-US",
       "image": "https://assets.onepagelove.com/cdn-cgi/image/width=1200,height=628,fit=cover,gravity=top,format=jpg,quality=85/wp-content/uploads/global/one-page-love-meta.jpg"
     },
@@ -1629,13 +1629,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.813Z",
+        "checked_at": "2026-09-28T10:55:03.263Z",
         "final_url": "https://oneworks.cloud/",
-        "ms": 125
+        "ms": 243
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "site_name": "One Works",
       "lang": "zh-CN",
       "image": "https://oneworks.cloud/_astro/social-card.Dsc2I79z.png"
@@ -1673,21 +1673,21 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:51.910Z",
+        "checked_at": "2026-09-28T10:55:03.541Z",
         "final_url": "https://www.rebrand.gallery/",
-        "ms": 264
+        "ms": 1011
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.220Z",
       "lang": "en",
       "image": "https://www.rebrand.gallery/rebrand-og.jpg"
     },
     {
       "key": "styles.refero.design",
       "url": "https://styles.refero.design/",
-      "title": "DESIGN.md Examples for AI Agents | Refero Styles",
-      "description": "Browse a curated DESIGN.md library for AI agents: colors, typography, spacing, components, and design rules from leading product websites.",
+      "title": "Website Styles & DESIGN.md Library | Refero Styles",
+      "description": "Explore real website styles and their AI-readable DESIGN.md files. Compare screenshots, colors, typography, and spacing to find a direction for your project.",
       "names": [
         "DESIGN.md Examples for AI Agents | Refero Styles"
       ],
@@ -1708,13 +1708,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:52.154Z",
+        "checked_at": "2026-09-28T10:55:03.592Z",
         "final_url": "https://styles.refero.design/",
-        "ms": 1135
+        "ms": 1006
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.221Z",
       "site_name": "Refero Styles",
       "lang": "en",
       "image": "https://styles.refero.design/opengraph-image.png"
@@ -1744,13 +1744,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:52.174Z",
+        "checked_at": "2026-09-28T10:55:04.278Z",
         "final_url": "https://thinking-logos.ozturkenes.com/",
-        "ms": 77
+        "ms": 410
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-21T09:56:53.291Z",
+      "updated_at": "2026-09-28T10:55:07.221Z",
       "lang": "en"
     },
     {
@@ -1785,13 +1785,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-21T09:56:52.343Z",
+        "checked_at": "2026-09-28T10:55:04.731Z",
         "final_url": "https://ui.watermelon.sh/",
-        "ms": 198
+        "ms": 112
       },
       "first_seen": "2026-08-28T13:07:27.854Z",
       "last_seen": "2026-08-28T13:07:27.854Z",
-      "updated_at": "2026-09-21T09:56:53.292Z",
+      "updated_at": "2026-09-28T10:55:07.221Z",
       "site_name": "Watermelon UI",
       "lang": "en",
       "image": "https://ui.watermelon.sh/og-image.avif"
