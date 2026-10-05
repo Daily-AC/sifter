@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T10:55:07.291Z",
+  "generated_at": "2026-10-05T11:29:52.733Z",
   "count": 38,
   "entries": [
     {
@@ -59,16 +59,16 @@
       ],
       "mentions": 3,
       "liveness": {
-        "status": "unknown",
-        "code": null,
-        "note": "TypeError fetch failed ETIMEDOUT",
-        "checked_at": "2026-09-28T10:55:01.201Z",
-        "final_url": null,
-        "ms": 262
+        "status": "blocked",
+        "code": 403,
+        "note": "http 403",
+        "checked_at": "2026-10-05T11:29:49.151Z",
+        "final_url": "https://www.awwwards.com/",
+        "ms": 959
       },
       "first_seen": "2026-08-28T12:32:36.127Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-28T10:55:07.219Z",
+      "updated_at": "2026-10-05T11:29:52.659Z",
       "site_name": "Awwwards",
       "lang": "en",
       "image": "https://assets.awwwards.com/assets/images/pages/about-certificates/awwwards.jpg"
@@ -113,13 +113,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.203Z",
+        "checked_at": "2026-10-05T11:29:49.153Z",
         "final_url": "https://www.beautifului.dev/",
-        "ms": 241
+        "ms": 534
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.656Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en"
     },
     {
@@ -170,13 +170,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.444Z",
+        "checked_at": "2026-10-05T11:29:49.687Z",
         "final_url": "https://beui.dev/",
-        "ms": 916
+        "ms": 787
       },
       "first_seen": "2026-08-28T12:32:36.657Z",
       "last_seen": "2026-08-28T13:07:27.855Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "site_name": "beUI",
       "lang": "en",
       "image": "https://beui.dev/api/og"
@@ -184,7 +184,7 @@
     {
       "key": "rareui.com",
       "url": "https://rareui.com/",
-      "title": "Rare UI — Rare Animated React Components",
+      "title": "Vercel Security Checkpoint",
       "description": "Rare UI (RareUI) is a free, open-source registry of rare animated React components. Built with Tailwind CSS, Motion and the shadcn CLI — copy, paste, and own the code.",
       "names": [
         "Components | Rare UI",
@@ -218,16 +218,16 @@
       ],
       "mentions": 2,
       "liveness": {
-        "status": "alive",
-        "code": 200,
-        "note": null,
-        "checked_at": "2026-09-28T10:55:03.506Z",
+        "status": "blocked",
+        "code": 429,
+        "note": "http 429",
+        "checked_at": "2026-10-05T11:29:51.559Z",
         "final_url": "https://rareui.com/",
-        "ms": 86
+        "ms": 140
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "site_name": "Rare UI",
       "lang": "en",
       "image": "https://rareui.com/ogimage.webp"
@@ -282,13 +282,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:03.586Z",
+        "checked_at": "2026-10-05T11:29:51.699Z",
         "final_url": "https://recent.design/",
-        "ms": 692
+        "ms": 314
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "lang": "en",
       "image": "https://recent.design/og.png",
       "aliases": [
@@ -335,13 +335,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:04.552Z",
+        "checked_at": "2026-10-05T11:29:52.152Z",
         "final_url": "https://threeui.com/",
-        "ms": 179
+        "ms": 208
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T13:07:27.855Z",
-      "updated_at": "2026-09-28T10:55:07.221Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "site_name": "ThreeUI",
       "lang": "en",
       "image": "https://threeui.com/social/threeui-living-world-prompts.jpg"
@@ -386,13 +386,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:04.599Z",
+        "checked_at": "2026-10-05T11:29:52.180Z",
         "final_url": "https://transitions.dev/",
-        "ms": 214
+        "ms": 357
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-09-28T10:55:07.221Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "site_name": "Transitions.dev",
       "lang": "en",
       "image": "https://transitions.dev/assets/og-main.jpg"
@@ -437,13 +437,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:04.688Z",
+        "checked_at": "2026-10-05T11:29:52.360Z",
         "final_url": "https://ui.shadcn.com/",
-        "ms": 111
+        "ms": 148
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.657Z",
-      "updated_at": "2026-09-28T10:55:07.221Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "lang": "en",
       "image": "https://ui.shadcn.com/og?title=The%20Foundation%20for%20your%20Design%20System&description=Composable%2C%20accessible%20components%20with%20thoughtful%20defaults.%20Build%20your%20own%20component%20library%20with%20code%20you%20can%20customize%2C%20extend%2C%20and%20make%20your%20own.",
       "site_name": "shadcn/ui"
@@ -481,13 +481,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.199Z",
+        "checked_at": "2026-10-05T11:29:49.149Z",
         "final_url": "https://www.are.na/",
-        "ms": 390
+        "ms": 721
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-28T10:55:07.219Z",
+      "updated_at": "2026-10-05T11:29:52.659Z",
       "site_name": "Are.na",
       "lang": "en",
       "image": "https://www.are.na/og-image.png"
@@ -517,13 +517,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.202Z",
+        "checked_at": "2026-10-05T11:29:49.152Z",
         "final_url": "https://www.bakai.me/lab",
-        "ms": 1086
+        "ms": 1114
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.659Z",
       "site_name": "Bakai Tolondu uulu",
       "lang": "en",
       "image": "https://www.bakai.me/og.png"
@@ -553,13 +553,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.463Z",
+        "checked_at": "2026-10-05T11:29:49.870Z",
         "final_url": "https://bloub.vercel.app/",
-        "ms": 106
+        "ms": 104
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "site_name": "bloub",
       "lang": "fr",
       "image": "https://bloub.vercel.app/og.png"
@@ -567,8 +567,8 @@
     {
       "key": "boardui.com",
       "url": "https://boardui.com/",
-      "title": "BoardUI - React Design System for Dashboards",
-      "description": "Build agentic products and data-rich dashboards with 72 React components and blocks, 17 of them chart cards, plus 8 Pro templates, Tailwind CSS, and editable source code.",
+      "title": "BoardUI — 面向仪表盘的 React 设计系统",
+      "description": "使用 85 个 React 组件与组合组件、其中的 19 个图表卡片，以及 10 个 Pro 模板，打造智能体产品和数据丰富的仪表盘。基于 Tailwind CSS，源代码可自由编辑。",
       "names": [],
       "claims": [],
       "sections": [],
@@ -596,15 +596,15 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.569Z",
-        "final_url": "https://www.boardui.com/",
-        "ms": 568
+        "checked_at": "2026-10-05T11:29:49.974Z",
+        "final_url": "https://www.boardui.com/zh-hans",
+        "ms": 814
       },
       "first_seen": "2026-08-28T13:07:27.854Z",
       "last_seen": "2026-08-28T13:07:27.854Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "site_name": "BoardUI",
-      "lang": "en",
+      "lang": "zh-Hans",
       "image": "https://www.boardui.com/og_image.png"
     },
     {
@@ -640,13 +640,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.589Z",
+        "checked_at": "2026-10-05T11:29:50.110Z",
         "final_url": "https://component.gallery/",
-        "ms": 233
+        "ms": 586
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en",
       "image": "https://component.gallery/open-graph/default.png"
     },
@@ -688,13 +688,13 @@
         "status": "blocked",
         "code": 429,
         "note": "http 429",
-        "checked_at": "2026-09-28T10:55:01.822Z",
+        "checked_at": "2026-10-05T11:29:50.266Z",
         "final_url": "https://designspells.com/",
-        "ms": 66
+        "ms": 508
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "site_name": "Design Spells · Design details that feel like magic",
       "lang": "en",
       "image": "https://designspells.com/og.png"
@@ -737,13 +737,13 @@
         "status": "blocked",
         "code": 403,
         "note": "bot-challenge",
-        "checked_at": "2026-09-28T10:55:01.888Z",
+        "checked_at": "2026-10-05T11:29:50.474Z",
         "final_url": "https://www.designspiration.com/",
-        "ms": 190
+        "ms": 216
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "site_name": "Designspiration",
       "lang": "en-US",
       "image": "https://s.dspncdn.com/a1/webapp/img/content/meta/default_meta_display.jpg"
@@ -780,13 +780,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.078Z",
+        "checked_at": "2026-10-05T11:29:50.690Z",
         "final_url": "https://www.fluidfunctionalism.com/",
-        "ms": 339
+        "ms": 372
       },
       "first_seen": "2026-08-28T13:07:27.854Z",
       "last_seen": "2026-08-28T13:07:27.854Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en",
       "image": "https://www.fluidfunctionalism.com/metadata/og.png"
     },
@@ -823,19 +823,19 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:54:59.380Z",
+        "checked_at": "2026-10-05T11:29:47.383Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-09-28T10:54:59.381Z",
+      "updated_at": "2026-10-05T11:29:47.383Z",
       "github": {
-        "stars": 4420,
+        "stars": 4474,
         "language": "Python",
         "topics": [],
         "archived": false,
-        "pushed_at": "2026-08-25T20:01:46Z",
+        "pushed_at": "2026-10-01T18:21:32Z",
         "license": "Apache-2.0"
       }
     },
@@ -874,21 +874,21 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:54:59.678Z",
+        "checked_at": "2026-10-05T11:29:47.624Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-28T10:54:59.678Z",
+      "updated_at": "2026-10-05T11:29:47.624Z",
       "github": {
-        "stars": 178735,
+        "stars": 179714,
         "language": "Python",
         "topics": [
           "agent-skills"
         ],
         "archived": false,
-        "pushed_at": "2026-09-24T16:20:39Z",
+        "pushed_at": "2026-10-03T20:38:10Z",
         "license": null
       }
     },
@@ -929,15 +929,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:54:59.937Z",
+        "checked_at": "2026-10-05T11:29:47.868Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-28T10:54:59.937Z",
+      "updated_at": "2026-10-05T11:29:47.869Z",
       "github": {
-        "stars": 51760,
+        "stars": 53299,
         "language": "JavaScript",
         "topics": [
           "claude",
@@ -945,7 +945,7 @@
           "marketing"
         ],
         "archived": false,
-        "pushed_at": "2026-09-05T04:48:10Z",
+        "pushed_at": "2026-10-03T01:51:50Z",
         "license": "MIT"
       }
     },
@@ -982,19 +982,19 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:55:00.268Z",
+        "checked_at": "2026-10-05T11:29:48.109Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-28T10:55:00.268Z",
+      "updated_at": "2026-10-05T11:29:48.109Z",
       "github": {
-        "stars": 8849,
+        "stars": 9867,
         "language": "TypeScript",
         "topics": [],
         "archived": false,
-        "pushed_at": "2026-09-25T23:04:33Z",
+        "pushed_at": "2026-10-05T06:36:15Z",
         "license": null
       }
     },
@@ -1031,15 +1031,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:55:00.514Z",
+        "checked_at": "2026-10-05T11:29:48.384Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-28T10:55:00.514Z",
+      "updated_at": "2026-10-05T11:29:48.384Z",
       "github": {
-        "stars": 4534,
+        "stars": 4939,
         "language": "TypeScript",
         "topics": [],
         "archived": false,
@@ -1091,13 +1091,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:55:00.742Z",
+        "checked_at": "2026-10-05T11:29:48.694Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.618Z",
       "last_seen": "2026-08-28T12:32:37.618Z",
-      "updated_at": "2026-09-28T10:55:00.742Z",
+      "updated_at": "2026-10-05T11:29:48.694Z",
       "github": {
         "stars": 2,
         "language": "Python",
@@ -1162,15 +1162,15 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.002Z",
+        "checked_at": "2026-10-05T11:29:48.938Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-09-28T10:55:01.002Z",
+      "updated_at": "2026-10-05T11:29:48.939Z",
       "github": {
-        "stars": 132,
+        "stars": 142,
         "language": "Python",
         "topics": [
           "agent-skills",
@@ -1182,7 +1182,7 @@
           "llm"
         ],
         "archived": false,
-        "pushed_at": "2026-09-27T10:02:18Z",
+        "pushed_at": "2026-10-04T03:15:29Z",
         "license": "MIT"
       }
     },
@@ -1220,13 +1220,13 @@
         "status": "alive",
         "code": null,
         "note": null,
-        "checked_at": "2026-09-28T10:55:01.198Z",
+        "checked_at": "2026-10-05T11:29:49.148Z",
         "final_url": null,
         "ms": null
       },
       "first_seen": "2026-08-28T12:32:37.619Z",
       "last_seen": "2026-08-28T12:32:37.619Z",
-      "updated_at": "2026-09-28T10:55:01.198Z",
+      "updated_at": "2026-10-05T11:29:49.148Z",
       "github": {
         "stars": 7,
         "language": "JavaScript",
@@ -1264,13 +1264,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.137Z",
+        "checked_at": "2026-10-05T11:29:50.696Z",
         "final_url": "https://gooey.jakubantalik.com/",
-        "ms": 5082
+        "ms": 476
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en",
       "image": "https://gooey.jakubantalik.com/og-image.jpg",
       "site_name": "Liquid Gooey"
@@ -1307,13 +1307,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.289Z",
+        "checked_at": "2026-10-05T11:29:50.774Z",
         "final_url": "https://heroui.pro/",
-        "ms": 231
+        "ms": 528
       },
       "first_seen": "2026-08-28T13:07:27.855Z",
       "last_seen": "2026-08-28T13:07:27.855Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en",
       "image": "https://heroui.pro/images/og.png"
     },
@@ -1350,13 +1350,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.360Z",
+        "checked_at": "2026-10-05T11:29:50.788Z",
         "final_url": "https://hugeicons.com/",
-        "ms": 464
+        "ms": 615
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en",
       "image": "https://hugeicons.com/og_preview.png"
     },
@@ -1385,13 +1385,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.417Z",
+        "checked_at": "2026-10-05T11:29:51.062Z",
         "final_url": "https://linearabilityextthreejs.pages.dev/",
-        "ms": 292
+        "ms": 120
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en"
     },
     {
@@ -1432,13 +1432,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.520Z",
+        "checked_at": "2026-10-05T11:29:51.172Z",
         "final_url": "https://loadmo.re/",
-        "ms": 665
+        "ms": 557
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en",
       "image": "https://loadmo.re/media/pages/home/332c07bf8f-1603905890/loadmore-opengraph.png"
     },
@@ -1467,13 +1467,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.709Z",
+        "checked_at": "2026-10-05T11:29:51.182Z",
         "final_url": "https://minimal.gallery/",
-        "ms": 877
+        "ms": 970
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en-US",
       "image": "https://21ef0880.delivery.rocketcdn.me/wp-content/themes/minimalgallery/assets/img/meta/og.jpg"
     },
@@ -1510,14 +1510,16 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:02.824Z",
+        "checked_at": "2026-10-05T11:29:51.302Z",
         "final_url": "https://mobbin.com/",
-        "ms": 439
+        "ms": 115
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
-      "image": "https://framerusercontent.com/assets/FE3uqmxi41SxsiiVq9JNJC1Pwc.png"
+      "updated_at": "2026-10-05T11:29:52.660Z",
+      "image": "https://cdn.sanity.io/images/7b5292cr/production/ad36b255f55774117dd68cfba7cfc447be19f5b5-1200x630.png?w=1200&h=630",
+      "site_name": "Mobbin",
+      "lang": "en"
     },
     {
       "key": "muz.li",
@@ -1557,13 +1559,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:03.185Z",
+        "checked_at": "2026-10-05T11:29:51.403Z",
         "final_url": "https://muz.li/",
-        "ms": 57
+        "ms": 69
       },
       "first_seen": "2026-08-28T12:32:36.989Z",
       "last_seen": "2026-08-28T12:32:36.989Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "site_name": "Muzli - Design inspiration hub",
       "lang": "en-US",
       "image": "https://muz.li/og.png"
@@ -1593,13 +1595,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:03.242Z",
+        "checked_at": "2026-10-05T11:29:51.417Z",
         "final_url": "https://onepagelove.com/",
-        "ms": 299
+        "ms": 235
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.660Z",
       "lang": "en-US",
       "image": "https://assets.onepagelove.com/cdn-cgi/image/width=1200,height=628,fit=cover,gravity=top,format=jpg,quality=85/wp-content/uploads/global/one-page-love-meta.jpg"
     },
@@ -1629,13 +1631,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:03.263Z",
+        "checked_at": "2026-10-05T11:29:51.472Z",
         "final_url": "https://oneworks.cloud/",
-        "ms": 243
+        "ms": 87
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "site_name": "One Works",
       "lang": "zh-CN",
       "image": "https://oneworks.cloud/_astro/social-card.Dsc2I79z.png"
@@ -1643,8 +1645,8 @@
     {
       "key": "rebrand.gallery",
       "url": "https://rebrand.gallery/",
-      "title": "Rebrand — A curated gallery of rebrands and visual identities",
-      "description": "Explore the best new design systems, identity launches, and rebrand reveal videos.",
+      "title": "Rebrand Gallery — Best Rebrands & Brand Identity Inspiration",
+      "description": "Watch rebrand reveal videos and study the logos, colors and typography behind the best new brand identities. Search by style, typeface, industry and studio.",
       "names": [
         "顶级品牌设计"
       ],
@@ -1673,15 +1675,16 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:03.541Z",
+        "checked_at": "2026-10-05T11:29:51.652Z",
         "final_url": "https://www.rebrand.gallery/",
-        "ms": 1011
+        "ms": 1007
       },
       "first_seen": "2026-08-28T12:32:37.282Z",
       "last_seen": "2026-08-28T12:32:37.282Z",
-      "updated_at": "2026-09-28T10:55:07.220Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "lang": "en",
-      "image": "https://www.rebrand.gallery/rebrand-og.jpg"
+      "image": "https://www.rebrand.gallery/rebrand-og.jpg",
+      "site_name": "Rebrand"
     },
     {
       "key": "styles.refero.design",
@@ -1708,13 +1711,13 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:03.592Z",
+        "checked_at": "2026-10-05T11:29:51.729Z",
         "final_url": "https://styles.refero.design/",
-        "ms": 1006
+        "ms": 719
       },
       "first_seen": "2026-08-28T12:32:36.128Z",
       "last_seen": "2026-08-28T12:32:36.128Z",
-      "updated_at": "2026-09-28T10:55:07.221Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "site_name": "Refero Styles",
       "lang": "en",
       "image": "https://styles.refero.design/opengraph-image.png"
@@ -1744,20 +1747,20 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:04.278Z",
+        "checked_at": "2026-10-05T11:29:52.013Z",
         "final_url": "https://thinking-logos.ozturkenes.com/",
-        "ms": 410
+        "ms": 167
       },
       "first_seen": "2026-08-28T12:32:36.129Z",
       "last_seen": "2026-08-28T12:32:36.129Z",
-      "updated_at": "2026-09-28T10:55:07.221Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "lang": "en"
     },
     {
       "key": "ui.watermelon.sh",
       "url": "https://ui.watermelon.sh/",
-      "title": "Watermelon UI — Premium React Components, Dashboards & Blocks",
-      "description": "Open-source React components, blocks, dashboards, templates, and showcases built for the community.",
+      "title": "Watermelon UI: Free React Components, Blocks & Dashboards",
+      "description": "Free, open-source React components, animations, blocks, and dashboards for Tailwind CSS and shadcn/ui. Copy the code or install with the shadcn CLI.",
       "names": [],
       "claims": [],
       "sections": [],
@@ -1785,16 +1788,16 @@
         "status": "alive",
         "code": 200,
         "note": null,
-        "checked_at": "2026-09-28T10:55:04.731Z",
+        "checked_at": "2026-10-05T11:29:52.448Z",
         "final_url": "https://ui.watermelon.sh/",
-        "ms": 112
+        "ms": 180
       },
       "first_seen": "2026-08-28T13:07:27.854Z",
       "last_seen": "2026-08-28T13:07:27.854Z",
-      "updated_at": "2026-09-28T10:55:07.221Z",
+      "updated_at": "2026-10-05T11:29:52.661Z",
       "site_name": "Watermelon UI",
       "lang": "en",
-      "image": "https://ui.watermelon.sh/og-image.avif"
+      "image": "https://ui.watermelon.sh/og/index.png"
     }
   ]
 }
